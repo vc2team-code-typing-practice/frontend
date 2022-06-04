@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 
+import './App.scss';
 import { authService } from './auth';
 import { loginSuccess } from './features/userSlice';
 import Home from './pages/Home';
