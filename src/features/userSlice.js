@@ -5,7 +5,7 @@ export const userSlice = createSlice({
 
   initialState: {
     isLoading: false,
-    isLogined: false,
+    isLoggedIn: false,
     name: null,
     email: null,
     uid: null,
@@ -17,7 +17,7 @@ export const userSlice = createSlice({
     },
     loginSuccess: (state, action) => {
       state.isLoading = false;
-      state.isLogined = true;
+      state.isLoggedIn = true;
       state.name = action.payload.displayName;
       state.email = action.payload.email;
       state.uid = action.payload.uid;
@@ -27,7 +27,7 @@ export const userSlice = createSlice({
     },
     logoutSuccess: (state) => {
       state.isLoading = false;
-      state.isLogined = false;
+      state.isLoggedIn = false;
       state.name = null;
       state.email = null;
       state.uid = null;
