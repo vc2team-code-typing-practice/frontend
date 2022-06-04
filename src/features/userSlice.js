@@ -12,18 +12,28 @@ export const userSlice = createSlice({
   },
 
   reducers: {
-    getUser: (state) => {
+    login: (state) => {
       state.isLoading = true;
     },
-    getUserSuccess: (state, action) => {
+    loginSuccess: (state, action) => {
       state.isLoading = false;
       state.isLogined = true;
       state.name = action.payload.displayName;
       state.email = action.payload.email;
       state.uid = action.payload.uid;
     },
+    logout: (state) => {
+      state.isLoading = true;
+    },
+    logoutSuccess: (state) => {
+      state.isLoading = false;
+      state.isLogined = false;
+      state.name = null;
+      state.email = null;
+      state.uid = null;
+    },
   },
 });
 
-export const { getUser, getUserSuccess } = userSlice.actions;
+export const { login, loginSuccess, logout, logoutSuccess } = userSlice.actions;
 export default userSlice.reducer;
