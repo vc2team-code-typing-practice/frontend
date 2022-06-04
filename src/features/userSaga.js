@@ -3,6 +3,7 @@ import { put, takeLatest, call } from 'redux-saga/effects';
 import { authService, firebaseInstance } from '../auth';
 
 import { login, loginSuccess, logout, logoutSuccess } from './userSlice';
+
 const provider = new firebaseInstance.auth.GoogleAuthProvider();
 
 function* loginSaga() {
@@ -20,6 +21,7 @@ function* logoutSaga() {
 
   yield put(logoutSuccess());
 }
+
 export function* watchLogin() {
   yield takeLatest(login, loginSaga);
 }
