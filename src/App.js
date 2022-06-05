@@ -6,8 +6,8 @@ import { Route, Routes } from 'react-router-dom';
 import { setAxios } from './api';
 import './App.scss';
 import { authService } from './auth';
+import Layout from './components/Layout';
 import { loginSuccess } from './features/userSlice';
-import Home from './pages/Home';
 
 function App() {
   const dispatch = useDispatch();
@@ -21,9 +21,7 @@ function App() {
 
   return (
     <div>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
+      <Layout />
     </div>
   );
 }
