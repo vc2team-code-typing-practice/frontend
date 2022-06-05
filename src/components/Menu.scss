@@ -1,27 +1,25 @@
 .menu {
   padding: 0;
+  a {
+    color: lighten(black, 20%);
+    text-decoration: none;
 
+    &:hover {
+      color: lighten(darkblue, 10%);
+      text-decoration: underline;
+    }
+
+    &:active {
+      color: darkblue;
+    }
+  }
   &__item {
     padding: 6px 20px;
     list-style-type: none;
     transition: background-color 200ms;
 
     &:hover {
-      background-color: darken(lightblue, 20%);
-    }
-
-    a {
-      color: lighten(black, 20%);
-      text-decoration: none;
-
-      &:hover {
-        color: lighten(darkblue, 10%);
-        text-decoration: underline;
-      }
-
-      &:active {
-        color: darkblue;
-      }
+      background-color: darken(#dff2fa, 20%);
     }
   }
 }
