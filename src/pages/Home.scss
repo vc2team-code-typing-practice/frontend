@@ -15,9 +15,14 @@ article {
   margin: 10px;
   background: deepskyblue;
   color: black;
+  &:hover {
+    background: darken(deepskyblue, 8%);
+    transition: all 0.3s ease;
+  }
+  &:active {
+    background: darken(deepskyblue, 25%);
+  }
 }
-
-/* Add your flexbox CSS below here */
 
 section {
   display: flex;
