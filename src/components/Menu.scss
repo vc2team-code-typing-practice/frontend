@@ -11,16 +11,16 @@
     }
 
     a {
-      color: lighten(red, 20%);
+      color: lighten(black, 20%);
       text-decoration: none;
 
       &:hover {
-        color: lighten(red, 10%);
+        color: lighten(darkblue, 10%);
         text-decoration: underline;
       }
 
       &:active {
-        color: red;
+        color: darkblue;
       }
     }
   }
