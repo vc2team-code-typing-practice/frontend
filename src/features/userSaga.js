@@ -1,5 +1,6 @@
 import { put, takeLatest, call } from 'redux-saga/effects';
 
+import { postAxios } from '../api';
 import { authService, firebaseInstance } from '../auth';
 
 import { login, loginSuccess, logout, logoutSuccess } from './userSlice';
@@ -10,7 +11,7 @@ function* loginSaga() {
   const data = yield call(() => {
     return authService.signInWithPopup(provider);
   });
-
+  yield postAxios(process.env.REACT_APP_SERVER_URL + '/auth/login', data.user);
   yield put(loginSuccess(data.user));
 }
 

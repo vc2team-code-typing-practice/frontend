@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 
+import { setAxios } from './api';
 import './App.scss';
 import { authService } from './auth';
 import { loginSuccess } from './features/userSlice';
@@ -14,6 +15,7 @@ function App() {
   useEffect(() => {
     authService.onAuthStateChanged((userAuth) => {
       userAuth && dispatch(loginSuccess(userAuth));
+      setAxios(userAuth);
     });
   }, []);
 
