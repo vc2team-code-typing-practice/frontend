@@ -2,15 +2,13 @@ import React from 'react';
 
 import './Button.scss';
 
-export default function Button(props) {
-  // eslint-disable-next-line react/prop-types
-  const { children, onClick } = props;
-
+// eslint-disable-next-line react/prop-types
+export default function Button({ children, onClick }) {
   return (
-    <>
-      <button className="btn btn-signIn" onClick={onClick}>
-        {children}
+    <div>
+      <button className="btn btn__content" onClick={onClick}>
+        <h3>{children}</h3>
       </button>
-    </>
+    </div>
   );
 }

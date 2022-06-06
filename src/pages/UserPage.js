@@ -32,7 +32,7 @@ export default function UserPage() {
     setSoundEffectsSetting(e.target.value === 'true');
   };
 
-  const hancleSettingSaveButtonClick = async () => {
+  const handleSettingSaveButtonClick = async () => {
     dispatch(
       changeSetting({ id, selectedLanguageSetting, soundEffectsSetting }),
     );
@@ -109,7 +109,7 @@ export default function UserPage() {
             Python
           </label>
         </div>
-        <button onClick={hancleSettingSaveButtonClick}>설정 저장하기</button>
+        <button onClick={handleSettingSaveButtonClick}>설정 저장하기</button>
       </div>
 
       <div>
