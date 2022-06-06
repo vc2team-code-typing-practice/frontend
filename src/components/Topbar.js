@@ -34,11 +34,13 @@ export default function Topbar() {
           </span>
         </div>
         <div className="topbar__right">
-          <Button onClick={handleMyPageButtonClick}>My Page</Button>
           {!isLoggedIn ? (
             <Button onClick={handleLoginButtonClick}>Google SignIn</Button>
           ) : (
-            <Button onClick={handleLogoutButtonClick}>Sign Out</Button>
+            <div>
+              <Button onClick={handleMyPageButtonClick}>My Page</Button>
+              <Button onClick={handleLogoutButtonClick}>Sign Out</Button>
+            </div>
           )}
         </div>
       </div>
