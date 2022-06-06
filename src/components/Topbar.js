@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DeveloperModeIcon from '@mui/icons-material/DeveloperMode';
+import { FaFileCode } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,7 +30,7 @@ export default function Topbar() {
       <div className="topbar__wrapper">
         <div className="topbar__left">
           <span className="topbar__logo" onClick={() => navigate('/')}>
-            <DeveloperModeIcon /> Code Typing Practice
+            <FaFileCode /> Code Typing Practice
           </span>
         </div>
         <div className="topbar__right">
