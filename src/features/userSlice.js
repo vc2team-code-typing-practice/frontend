@@ -9,6 +9,9 @@ export const userSlice = createSlice({
     name: null,
     email: null,
     uid: null,
+    soundEffects: null,
+    selectedLanguage: null,
+    hiscore: null,
   },
 
   reducers: {
@@ -18,9 +21,12 @@ export const userSlice = createSlice({
     loginSuccess: (state, action) => {
       state.isLoading = false;
       state.isLoggedIn = true;
-      state.name = action.payload.displayName;
+      state.name = action.payload.name;
       state.email = action.payload.email;
-      state.uid = action.payload.uid;
+      state.uid = action.payload._id;
+      state.soundEffects = action.payload.soundEffects;
+      state.selectedLanguage = action.payload.selectedLanguage;
+      state.hiscore = action.payload.hiscore;
     },
     logout: (state) => {
       state.isLoading = true;
@@ -31,9 +37,16 @@ export const userSlice = createSlice({
       state.name = null;
       state.email = null;
       state.uid = null;
+      state.soundEffects = null;
+      state.selectedLanguage = null;
+    },
+    changeSetting: (state, action) => {
+      state.soundEffects = action.payload.soundEffectsSetting;
+      state.selectedLanguage = action.payload.selectedLanguageSetting;
     },
   },
 });
 
-export const { login, loginSuccess, logout, logoutSuccess } = userSlice.actions;
+export const { login, loginSuccess, logout, logoutSuccess, changeSetting } =
+  userSlice.actions;
 export default userSlice.reducer;

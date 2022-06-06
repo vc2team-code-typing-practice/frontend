@@ -3,13 +3,17 @@ import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 import { all, fork } from 'redux-saga/effects';
 
-import { watchLogin, watchLogout } from '../features/userSaga';
+import {
+  watchLogin,
+  watchLogout,
+  watchChangeSetting,
+} from '../features/userSaga';
 import userSlice from '../features/userSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
 function* rootSaga() {
-  yield all([fork(watchLogin), fork(watchLogout)]);
+  yield all([fork(watchLogin), fork(watchLogout), fork(watchChangeSetting)]);
 }
 
 const createStore = () => {
