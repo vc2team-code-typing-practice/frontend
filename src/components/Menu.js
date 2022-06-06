@@ -1,7 +1,6 @@
 import React from 'react';
 
-import KeyboardIcon from '@mui/icons-material/Keyboard';
-import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
+import { FaKeyboard, FaHome } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 import './Menu.scss';
@@ -11,22 +10,22 @@ export default function Menu() {
     {
       path: '/',
       text: 'Home',
-      logo: <MapsHomeWorkIcon />,
+      logo: <FaHome />,
     },
     {
       path: '/word',
       text: 'Word',
-      logo: <KeyboardIcon />,
+      logo: <FaKeyboard />,
     },
     {
       path: '/sentence',
       text: 'Sentence',
-      logo: <KeyboardIcon />,
+      logo: <FaKeyboard />,
     },
     {
       path: '/paragraph',
       text: 'Paragraph',
-      logo: <KeyboardIcon />,
+      logo: <FaKeyboard />,
     },
   ];
 
@@ -36,8 +35,7 @@ export default function Menu() {
         {items.map((item) => (
           <Link key={item.path} to={item.path}>
             <li className="menu__item">
-              {item.logo}
-              {item.text}
+              {item.logo} {item.text}
             </li>
           </Link>
         ))}
