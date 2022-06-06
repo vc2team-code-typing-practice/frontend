@@ -1,9 +1,12 @@
 import React from 'react';
 
+import classNames from 'classnames/bind';
 import { FaKeyboard, FaHome } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-import './Menu.scss';
+import styles from './Menu.module.scss';
+
+const menu = classNames.bind(styles);
 
 export default function Menu() {
   const items = [
@@ -31,10 +34,10 @@ export default function Menu() {
 
   return (
     <div>
-      <ul className="menu">
+      <ul className={menu('menu')}>
         {items.map((item) => (
           <Link key={item.path} to={item.path}>
-            <li className="menu__item">
+            <li className={menu('menu__item')}>
               {item.logo} {item.text}
             </li>
           </Link>

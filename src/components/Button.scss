@@ -22,6 +22,7 @@ h3:hover:after {
   font-family: 'Poppins';
   font-size: 15px;
   cursor: pointer;
+  display: flex;
 
   &__content {
     @include button-bg(#dff2fa);

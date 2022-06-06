@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 
-import { useSelector } from 'react-redux';
+import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
 
+import Button from '../components/Button';
 import Modal from '../components/Modal';
 import ModalPortal from '../ModalPortal';
 
-import './Home.scss';
+import styles from './Home.module.scss';
+
+const home = classNames.bind(styles);
 
 export default function Home() {
   const navigate = useNavigate();
@@ -85,12 +88,12 @@ export default function Home() {
         <ModalPortal>
           <Modal
             message={
-              <div>
-                <button onClick={handleWordButtnoCLick}>낱말 연습</button>
-                <button onClick={handleSentenceButtnoCLick}>
+              <div className="selectPracticeLang">
+                <Button onClick={handleWordButtnoCLick}>낱말 연습</Button>
+                <Button onClick={handleSentenceButtnoCLick}>
                   짧은 글 연습
-                </button>
-                <button onClick={handleParagraphButtnoCLick}>긴 글 연습</button>
+                </Button>
+                <Button onClick={handleParagraphButtnoCLick}>긴 글 연습</Button>
               </div>
             }
             onCloseModal={setIsShowing}
