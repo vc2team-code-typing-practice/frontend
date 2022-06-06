@@ -1,14 +1,33 @@
 import React, { useState } from 'react';
 
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import Modal from '../components/Modal';
 import ModalPortal from '../ModalPortal';
 
 import './Home.scss';
 
 export default function Home() {
+  const navigate = useNavigate();
   const [isShowing, setIsShowing] = useState(false);
-  const openModal = () => {
+  const [language, setLanguage] = useState('');
+
+  const handleModalOpen = (lang, e) => {
+    setLanguage(lang);
     setIsShowing(true);
+  };
+
+  const handleWordButtnoCLick = () => {
+    navigate(`/practice/${language}/word`);
+  };
+
+  const handleSentenceButtnoCLick = () => {
+    navigate(`/practice/${language}/sentence`);
+  };
+
+  const handleParagraphButtnoCLick = () => {
+    navigate(`/practice/${language}/paragraph`);
   };
 
   return (
@@ -17,7 +36,11 @@ export default function Home() {
         <h1>Choose What You Want To Practice!</h1>
       </header>
       <section>
-        <article onClick={openModal}>
+        <article
+          onClick={(e) => {
+            handleModalOpen('C', e);
+          }}
+        >
           <h2>C</h2>
           <p>
             C언어는 현재 사용되고 있는 거의 모든 컴퓨터 시스템에서 사용할 수
@@ -27,7 +50,11 @@ export default function Home() {
             사용되는 프로그래밍 언어입니다.
           </p>
         </article>
-        <article>
+        <article
+          onClick={(e) => {
+            handleModalOpen('Python', e);
+          }}
+        >
           <h2>Python</h2>
           <p>
             파이썬은 1989년 귀도 반 로썸(Guido van Rossum)에 의해 개발된 고급
@@ -37,7 +64,11 @@ export default function Home() {
             대한민국 2015년 개정 교육과정에 포함되었습니다.
           </p>
         </article>
-        <article>
+        <article
+          onClick={(e) => {
+            handleModalOpen('JavaScript', e);
+          }}
+        >
           <h2>JavaScript</h2>
           <p>
             자바스크립트(JavaScript)는 객체(object) 기반의 스크립트 언어입니다.
@@ -52,7 +83,18 @@ export default function Home() {
       </section>
       {isShowing && (
         <ModalPortal>
-          <Modal message={'테스트입니다'} onCloseModal={setIsShowing} />
+          <Modal
+            message={
+              <div>
+                <button onClick={handleWordButtnoCLick}>낱말 연습</button>
+                <button onClick={handleSentenceButtnoCLick}>
+                  짧은 글 연습
+                </button>
+                <button onClick={handleParagraphButtnoCLick}>긴 글 연습</button>
+              </div>
+            }
+            onCloseModal={setIsShowing}
+          />
         </ModalPortal>
       )}
     </div>

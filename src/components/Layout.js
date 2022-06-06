@@ -3,6 +3,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import Home from '../pages/Home';
+import PracticePage from '../pages/PracticePage';
 import Userpage from '../pages/UserPage';
 
 import Menu from './Menu';
@@ -20,6 +21,10 @@ export default function Layout() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/users/:id" element={<Userpage />} />
+            <Route
+              path="/practice/:languages/:types"
+              element={<PracticePage />}
+            />
           </Routes>
         </main>
       </div>
