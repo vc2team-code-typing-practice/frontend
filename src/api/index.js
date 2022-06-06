@@ -16,3 +16,7 @@ export const getAxios = (url) => {
 export const postAxios = (url, data) => {
   return instance.post(url, data);
 };
+
+export const patchAxios = (url, data) => {
+  return instance.patch(url, data);
+};
