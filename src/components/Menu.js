@@ -34,12 +34,12 @@ export default function Menu() {
     <div>
       <ul className="menu">
         {items.map((item) => (
-          <li key={item.path} className="menu__item">
-            <Link to={item.path}>
+          <Link key={item.path} to={item.path}>
+            <li className="menu__item">
               {item.logo}
               {item.text}
-            </Link>
-          </li>
+            </li>
+          </Link>
         ))}
       </ul>
     </div>

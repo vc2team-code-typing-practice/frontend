@@ -1,21 +1,29 @@
 @mixin button-bg($bg) {
   background: $bg;
-  &:hover {
-    background: darken($bg, 8%);
-    transition: all 0.3s ease;
-  }
-  &:active {
-    background: darken($bg, 25%);
-  }
+}
+
+h3:after {
+  display: block;
+  content: '';
+  border-bottom: solid 2px gray;
+  transform: scaleX(0);
+  transition: transform 250ms ease-in-out;
+}
+h3:hover:after {
+  transform: scaleX(1);
 }
 
 .btn {
-  color: white;
+  color: gray;
   text-decoration: none;
   padding: 5px 10px;
   border-radius: 3px;
-}
+  border: none;
+  font-family: 'Poppins';
+  font-size: 15px;
+  cursor: pointer;
 
-.btn-signIn {
-  @include button-bg(#3498db);
+  &__content {
+    @include button-bg(#dff2fa);
+  }
 }
