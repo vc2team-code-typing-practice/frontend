@@ -13,7 +13,7 @@ export default function Modal({ message, onCloseModal }) {
         >
           X
         </button>
-        <p className="modal__content">{message}</p>
+        <div className="modal__content">{message}</div>
       </div>
     </div>
   );
