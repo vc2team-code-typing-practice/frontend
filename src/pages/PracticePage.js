@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
+
+import { getAxios } from '../api';
 
 export default function PracticePage() {
   const { languages, types } = useParams();
@@ -11,13 +12,9 @@ export default function PracticePage() {
 
   useEffect(() => {
     const getParagraph = async () => {
-      const response = await axios.get(
+      const response = await getAxios(
         process.env.REACT_APP_SERVER_URL + `/languages/${languages}`,
-        {
-          params: {
-            type: types,
-          },
-        },
+        { params: { type: types } },
       );
 
       setParagraphs(response.data);
