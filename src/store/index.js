@@ -7,13 +7,19 @@ import {
   watchLogin,
   watchLogout,
   watchChangeSetting,
+  watchLoadUserDbData,
 } from '../features/userSaga';
 import userSlice from '../features/userSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
 function* rootSaga() {
-  yield all([fork(watchLogin), fork(watchLogout), fork(watchChangeSetting)]);
+  yield all([
+    fork(watchLogin),
+    fork(watchLogout),
+    fork(watchChangeSetting),
+    fork(watchLoadUserDbData),
+  ]);
 }
 
 const createStore = () => {

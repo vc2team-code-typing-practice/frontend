@@ -6,14 +6,14 @@ import { setAxios } from './api';
 import './App.scss';
 import { authService } from './auth';
 import Layout from './components/Layout';
-import { login } from './features/userSlice';
+import { loadUserDbData } from './features/userSlice';
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     authService.onAuthStateChanged((userAuth) => {
-      userAuth && dispatch(login({ userAuth }));
+      userAuth && dispatch(loadUserDbData({ userAuth }));
       setAxios(userAuth);
     });
   }, []);

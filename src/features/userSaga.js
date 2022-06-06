@@ -1,4 +1,4 @@
-import { put, takeLatest, call } from 'redux-saga/effects';
+import { put, takeLatest, call, delay } from 'redux-saga/effects';
 
 import { postAxios, getAxios, patchAxios } from '../api';
 import { authService, firebaseInstance } from '../auth';
@@ -9,30 +9,37 @@ import {
   logout,
   logoutSuccess,
   changeSetting,
+  loadUserDbData,
+  loadUserDbDataSuccess,
 } from './userSlice';
 
 const provider = new firebaseInstance.auth.GoogleAuthProvider();
 
-function* loginSaga(action) {
-  if (action.payload) {
-    const userDbData = yield call(() => {
-      return getAxios(
-        process.env.REACT_APP_SERVER_URL +
-          '/users/' +
-          action.payload.userAuth.uid,
+function* loginSaga() {
+  const authData = yield call(() => {
+    provider.setCustomParameters({
+      prompt: 'select_account',
+    });
+    return authService.signInWithPopup(provider);
+  });
+
+  const userDbData = yield call(() => {
+    return getAxios(
+      process.env.REACT_APP_SERVER_URL + '/users/' + authData.user.uid,
+    );
+  });
+
+  if (userDbData.data) {
+    yield put(loginSuccess(userDbData.data));
+  } else {
+    yield call(() => {
+      postAxios(
+        process.env.REACT_APP_SERVER_URL + '/auth/login',
+        authData.user,
       );
     });
 
-    yield put(loginSuccess(userDbData.data));
-  } else {
-    const authData = yield call(() => {
-      return authService.signInWithPopup(provider);
-    });
-
-    yield postAxios(
-      process.env.REACT_APP_SERVER_URL + '/auth/login',
-      authData.user,
-    );
+    yield delay(3000);
 
     const userDbData = yield call(() => {
       return getAxios(
@@ -63,6 +70,18 @@ function* changeSettingSaga(action) {
   );
 }
 
+function* loadUserDbDataSaga(action) {
+  const userDbData = yield call(() => {
+    return getAxios(
+      process.env.REACT_APP_SERVER_URL +
+        '/users/' +
+        action.payload.userAuth.uid,
+    );
+  });
+
+  yield put(loadUserDbDataSuccess(userDbData.data));
+}
+
 export function* watchLogin() {
   yield takeLatest(login, loginSaga);
 }
@@ -73,4 +92,8 @@ export function* watchLogout() {
 
 export function* watchChangeSetting() {
   yield takeLatest(changeSetting, changeSettingSaga);
+}
+
+export function* watchLoadUserDbData() {
+  yield takeLatest(loadUserDbData, loadUserDbDataSaga);
 }
