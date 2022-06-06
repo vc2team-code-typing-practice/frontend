@@ -9,8 +9,8 @@ export const setAxios = async (user) => {
   instance.defaults.headers.common['authorization'] = token;
 };
 
-export const getAxios = (url) => {
-  return instance.get(url);
+export const getAxios = (url, config) => {
+  return instance.get(url, config);
 };
 
 export const postAxios = (url, data) => {
