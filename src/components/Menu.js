@@ -60,35 +60,39 @@ export default function Menu() {
 
   return (
     <div>
-      {isLoggedIn && (
-        <ul>
-          <li>{name}님 환영합니다</li>
-          <li>선택한 언어: {selectedLanguage}</li>
-        </ul>
-      )}
-      <hr />
-      {isPracticing ? (
-        <div className={menu('menu')}>
-          <div className={menu('menu__item')} onClick={handleModalOpen}>
-            {<FaHome />} {'홈으로 이동하기'}
-          </div>
+      {isLoggedIn ? (
+        <div>
+          <ul>
+            <li>{name}님 환영합니다</li>
+            <li>선택한 언어: {selectedLanguage}</li>
+          </ul>
+          <hr />
+          {isPracticing ? (
+            <div className={menu('menu')}>
+              <div className={menu('menu__item')} onClick={handleModalOpen}>
+                {<FaHome />} {'홈으로 이동하기'}
+              </div>
+            </div>
+          ) : (
+            <div>
+              <ul className={menu('menu')}>
+                {items.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    onClick={handleStartPracticeButtonClick}
+                  >
+                    <li className={menu('menu__item')}>
+                      {item.logo} {item.text}
+                    </li>
+                  </Link>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       ) : (
-        <div>
-          <ul className={menu('menu')}>
-            {items.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                onClick={handleStartPracticeButtonClick}
-              >
-                <li className={menu('menu__item')}>
-                  {item.logo} {item.text}
-                </li>
-              </Link>
-            ))}
-          </ul>
-        </div>
+        <div>로그인 해주십시오</div>
       )}
       {isShowing && (
         <ModalPortal>
