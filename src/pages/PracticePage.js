@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 
-import { getAxios } from '../api';
+import { axiosGetRequest } from '../api';
 
 export default function PracticePage() {
   const { languages, types } = useParams();
@@ -12,7 +12,7 @@ export default function PracticePage() {
 
   useEffect(() => {
     const getParagraph = async () => {
-      const response = await getAxios(
+      const response = await axiosGetRequest(
         process.env.REACT_APP_SERVER_URL + `/languages/${languages}`,
         { params: { type: types } },
       );
@@ -21,7 +21,7 @@ export default function PracticePage() {
     };
 
     getParagraph();
-  }, []);
+  }, [types]);
 
   return (
     <div>

@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 
 import classNames from 'classnames';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../components/Button';
 import Modal from '../components/Modal';
+import { startPractice } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
 
 import styles from './Home.module.scss';
-
 const home = classNames.bind(styles);
 
 export default function Home() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isShowing, setIsShowing] = useState(false);
   const [language, setLanguage] = useState('');
 
@@ -22,14 +24,17 @@ export default function Home() {
   };
 
   const handleWordButtnoCLick = () => {
+    dispatch(startPractice());
     navigate(`/practice/${language}/word`);
   };
 
   const handleSentenceButtnoCLick = () => {
+    dispatch(startPractice());
     navigate(`/practice/${language}/sentence`);
   };
 
   const handleParagraphButtnoCLick = () => {
+    dispatch(startPractice());
     navigate(`/practice/${language}/paragraph`);
   };
 

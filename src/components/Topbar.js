@@ -15,6 +15,8 @@ const topbar = classNames.bind(styles);
 export default function Topbar() {
   const userId = useSelector((state) => state.user.uid);
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const isPracticing = useSelector((state) => state.user.isPracticing);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -40,13 +42,15 @@ export default function Topbar() {
           </span>
         </div>
         <div className={topbar('topbar__right')}>
-          {!isLoggedIn ? (
-            <Button onClick={handleLoginButtonClick}>Google SignIn</Button>
-          ) : (
+          {isLoggedIn ? (
             <div className={topbar('topbar__right')}>
-              <Button onClick={handleMyPageButtonClick}>My Page</Button>
+              {!isPracticing && (
+                <Button onClick={handleMyPageButtonClick}>My Page</Button>
+              )}
               <Button onClick={handleLogoutButtonClick}>Sign Out</Button>
             </div>
+          ) : (
+            <Button onClick={handleLoginButtonClick}>Google SignIn</Button>
           )}
         </div>
       </div>
