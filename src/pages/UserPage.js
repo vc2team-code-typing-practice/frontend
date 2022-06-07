@@ -3,9 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
-import { setAxios, getAxios, patchAxios } from '../api';
-import { authService } from '../auth';
-import { loginSuccess, changeSetting } from '../features/userSlice';
+import { changeSetting } from '../features/userSlice';
 
 export default function UserPage() {
   const dispatch = useDispatch();
