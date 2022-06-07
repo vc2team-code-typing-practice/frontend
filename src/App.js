@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { setAxios } from './api';
 import './App.scss';
-import { authService } from './auth';
+import { checkAuthChanged } from './auth';
 import Layout from './components/Layout';
 import { loadUserDbData } from './features/userSlice';
 
@@ -12,10 +12,14 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    authService.onAuthStateChanged((userAuth) => {
+    const setInitialState = async () => {
+      const userAuth = await checkAuthChanged();
+
+      setAxios(await userAuth?.getIdToken());
       userAuth && dispatch(loadUserDbData({ userAuth }));
-      setAxios(userAuth);
-    });
+    };
+
+    setInitialState();
   }, []);
 
   return (

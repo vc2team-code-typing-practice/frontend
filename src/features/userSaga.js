@@ -1,6 +1,11 @@
 import { put, takeLatest, call, delay } from 'redux-saga/effects';
 
-import { axiosGetRequest, axiosPostRequest, axiosPatchRequest } from '../api';
+import {
+  axiosGetRequest,
+  axiosPostRequest,
+  axiosPatchRequest,
+  setAxios,
+} from '../api';
 import { authService, firebaseInstance } from '../auth';
 
 import {
@@ -20,7 +25,16 @@ function* loginSaga() {
     provider.setCustomParameters({
       prompt: 'select_account',
     });
+
     return authService.signInWithPopup(provider);
+  });
+
+  const token = yield call(() => {
+    return authData.user.getIdToken();
+  });
+
+  yield call(() => {
+    setAxios(token);
   });
 
   const userDbData = yield call(() => {
@@ -63,7 +77,6 @@ function* changeSettingSaga(action) {
   yield axiosPatchRequest(
     process.env.REACT_APP_SERVER_URL + '/users/' + action.payload.id,
     {
-      id: action.payload.id,
       selectedLanguage: action.payload.selectedLanguageSetting,
       soundEffects: action.payload.soundEffectsSetting,
     },
