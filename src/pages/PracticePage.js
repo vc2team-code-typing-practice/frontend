@@ -7,20 +7,20 @@ import { axiosGetRequest } from '../api';
 
 export default function PracticePage() {
   const { languages, types } = useParams();
-  const { isLoggedIn } = useSelector((state) => state.user);
-  const [paragraphs, setParagraphs] = useState();
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const [problems, setProblems] = useState();
 
   useEffect(() => {
-    const getParagraph = async () => {
+    const getProblems = async () => {
       const response = await axiosGetRequest(
         process.env.REACT_APP_SERVER_URL + `/languages/${languages}`,
         { params: { type: types } },
       );
 
-      setParagraphs(response.data);
+      setProblems(response.data);
     };
 
-    getParagraph();
+    isLoggedIn && getProblems();
   }, [types]);
 
   return (
@@ -29,7 +29,7 @@ export default function PracticePage() {
         <div>
           <h1>hello world</h1>
           <div>
-            {paragraphs?.map((list, index) => {
+            {problems?.map((list, index) => {
               return (
                 <div key={index}>
                   {list[languages]?.map((val, idx) => (
