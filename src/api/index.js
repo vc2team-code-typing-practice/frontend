@@ -9,14 +9,14 @@ export const setAxios = async (user) => {
   instance.defaults.headers.common['authorization'] = token;
 };
 
-export const getAxios = (url, config) => {
+export const axiosGetRequest = (url, config) => {
   return instance.get(url, config);
 };
 
-export const postAxios = (url, data) => {
+export const axiosPostRequest = (url, data) => {
   return instance.post(url, data);
 };
 
-export const patchAxios = (url, data) => {
+export const axiosPatchRequest = (url, data) => {
   return instance.patch(url, data);
 };
