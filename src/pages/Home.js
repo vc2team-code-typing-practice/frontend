@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import classNames from 'classnames';
+import classNames from 'classnames/bind';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 

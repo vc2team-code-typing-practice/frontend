@@ -5,6 +5,8 @@ import { useParams, Link } from 'react-router-dom';
 
 import { axiosGetRequest } from '../api';
 
+import WordPracticePage from './WordPracticePage';
+
 export default function PracticePage() {
   const { languages, types } = useParams();
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -27,21 +29,11 @@ export default function PracticePage() {
     <div>
       {isLoggedIn ? (
         <div>
-          <h1>hello world</h1>
-          <div>
-            {problems?.map((list, index) => {
-              return (
-                <div key={index}>
-                  {list[languages]?.map((val, idx) => (
-                    <div style={{ whiteSpace: 'pre-wrap' }} key={idx}>
-                      {val}
-                      <div>-------------------------</div>
-                    </div>
-                  ))}
-                </div>
-              );
-            })}
-          </div>
+          <WordPracticePage
+            words={problems}
+            type={types}
+            languages={languages}
+          />
         </div>
       ) : (
         <div>
