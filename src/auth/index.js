@@ -15,3 +15,15 @@ firebase.initializeApp(firebaseConfig);
 
 export const firebaseInstance = firebase;
 export const authService = firebase.auth();
+
+export const checkAuthChanged = () => {
+  return new Promise((resolve, reject) => {
+    try {
+      authService.onAuthStateChanged((userAuth) => {
+        resolve(userAuth);
+      });
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
