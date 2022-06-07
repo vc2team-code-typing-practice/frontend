@@ -6,6 +6,7 @@ export const userSlice = createSlice({
   initialState: {
     isLoading: false,
     isLoggedIn: false,
+    isPracticing: false,
     name: null,
     email: null,
     uid: null,
@@ -57,6 +58,12 @@ export const userSlice = createSlice({
       state.selectedLanguage = action.payload?.selectedLanguage;
       state.hiscore = action.payload?.hiscore;
     },
+    startPractice: (state) => {
+      state.isPracticing = true;
+    },
+    finishPractice: (state) => {
+      state.isPracticing = false;
+    },
   },
 });
 
@@ -68,5 +75,7 @@ export const {
   changeSetting,
   loadUserDbData,
   loadUserDbDataSuccess,
+  startPractice,
+  finishPractice,
 } = userSlice.actions;
 export default userSlice.reducer;

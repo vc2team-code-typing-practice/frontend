@@ -1,6 +1,6 @@
 import { put, takeLatest, call, delay } from 'redux-saga/effects';
 
-import { postAxios, getAxios, patchAxios } from '../api';
+import { axiosGetRequest, axiosPostRequest, axiosPatchRequest } from '../api';
 import { authService, firebaseInstance } from '../auth';
 
 import {
@@ -24,7 +24,7 @@ function* loginSaga() {
   });
 
   const userDbData = yield call(() => {
-    return getAxios(
+    return axiosGetRequest(
       process.env.REACT_APP_SERVER_URL + '/users/' + authData.user.uid,
     );
   });
@@ -33,7 +33,7 @@ function* loginSaga() {
     yield put(loginSuccess(userDbData.data));
   } else {
     yield call(() => {
-      postAxios(
+      axiosPostRequest(
         process.env.REACT_APP_SERVER_URL + '/auth/login',
         authData.user,
       );
@@ -42,7 +42,7 @@ function* loginSaga() {
     yield delay(3000);
 
     const userDbData = yield call(() => {
-      return getAxios(
+      return axiosGetRequest(
         process.env.REACT_APP_SERVER_URL + '/users/' + authData.user.uid,
       );
     });
@@ -60,7 +60,7 @@ function* logoutSaga() {
 }
 
 function* changeSettingSaga(action) {
-  yield patchAxios(
+  yield axiosPatchRequest(
     process.env.REACT_APP_SERVER_URL + '/users/' + action.payload.id,
     {
       id: action.payload.id,
@@ -72,7 +72,7 @@ function* changeSettingSaga(action) {
 
 function* loadUserDbDataSaga(action) {
   const userDbData = yield call(() => {
-    return getAxios(
+    return axiosGetRequest(
       process.env.REACT_APP_SERVER_URL +
         '/users/' +
         action.payload.userAuth.uid,
