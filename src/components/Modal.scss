@@ -12,9 +12,9 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
+    background-color: #dff2fa;
     border-radius: 15px;
-    box-shadow: 3px 3px 3px 3px whitesmoke;
+    box-shadow: 3px 3px 3px 3px gray;
     width: 300px;
     height: 300px;
   }
@@ -29,6 +29,7 @@
     border-radius: 50%;
     cursor: pointer;
     float: right;
+    background-color: ghostwhite;
     border: white;
   }
 }
