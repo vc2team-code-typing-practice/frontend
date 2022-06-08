@@ -1,11 +1,82 @@
+.container {
+  border: 2px solid black;
+  border-radius: 15px;
+  height: 80vh;
+  padding: 20px;
+}
 .section {
-  padding: 3rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  &__input {
+    border: 0;
+    border-radius: 15px;
+    background-color: rgb(233, 233, 233);
+    padding-left: 10px;
+    outline: none;
+    width: 50%;
+    height: 50px;
+    font-size: 25px;
+  }
 }
 
-.input {
-  width: 100%;
-  height: 100%;
-  font-size: 50px;
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  flex-direction: column;
+  &__logo {
+    font-size: 30px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__title {
+    font-size: 50px;
+    font-weight: bold;
+  }
+}
+
+.start {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  &__button {
+    border-radius: 15px;
+    background-color: #555555;
+    border: none;
+    color: white;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+  }
+  &__button:hover {
+    background-color: white;
+    color: #555555;
+    border: 2px solid #555555;
+  }
+}
+
+.words {
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  flex-direction: column;
+
+  &__word {
+    overflow: auto;
+  }
 }
 
 .span {
@@ -14,25 +85,11 @@
 }
 
 .correct {
-  color: blue;
+  background-color: blue;
+  color: white;
 }
 
 .wrong {
-  color: red;
-}
-
-.timer {
-  border: 1px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-  &__logo {
-    font-size: 30px;
-    font-weight: bold;
-  }
-  &__title {
-    font-size: 50px;
-    font-weight: bold;
-  }
+  background-color: red;
+  color: white;
 }

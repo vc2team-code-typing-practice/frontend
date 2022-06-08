@@ -3,13 +3,16 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames/bind';
 import { BiTimer } from 'react-icons/bi';
+import { useSelector } from 'react-redux';
 
 import styles from './WordPracticePage.module.scss';
 
 const cx = classNames.bind(styles);
-const SECONDS = 30;
+// 상수명 따로 관리 필요할 듯
+const SECONDS = 100;
 
-export default function WordPracticePage({ words, languages }) {
+export default function WordPracticePage({ languages }) {
+  const problems = useSelector((state) => state.problems.problem);
   const [countDown, setCountDown] = useState(SECONDS);
   const [currInput, setCurrInput] = useState([]);
   const [currWordIndex, setCurrWordIndex] = useState(0);
@@ -20,7 +23,7 @@ export default function WordPracticePage({ words, languages }) {
   const [status, setStatus] = useState('waiting');
   const textInput = useRef(null);
 
-  const wordlist = words?.[0];
+  const wordlist = problems?.[0];
   const selected = wordlist?.[languages];
 
   function start() {
@@ -107,51 +110,49 @@ export default function WordPracticePage({ words, languages }) {
   }, [status]);
 
   return (
-    <div>
+    <div className={cx('container')}>
       <div className={cx('timer')}>
-        <div className={cx('timer__title')}>
-          Word Practice
-          <div className={cx('timer__logo')}>
-            <BiTimer /> {countDown}
-          </div>
-        </div>
-      </div>
-
-      <div className={cx()}>
-        <div className={cx('section', 'section__control')}>
-          <input
-            ref={textInput}
-            disabled={status !== 'started'}
-            className={cx('input')}
-            onKeyDown={handleKeyDown}
-            type="text"
-            value={currInput}
-            onChange={(e) => setCurrInput(e.target.value)}
-          />
+        <div className={cx('timer__title')}>Word Practice</div>
+        <div className={cx('timer__logo')}>
+          <BiTimer /> {countDown}
         </div>
       </div>
 
       <div className={cx('section')}>
-        <button className={cx('button')} onClick={start}>
+        <input
+          ref={textInput}
+          disabled={status !== 'started'}
+          className={cx('section__input')}
+          onKeyDown={handleKeyDown}
+          type="text"
+          value={currInput}
+          onChange={(e) => setCurrInput(e.target.value)}
+        />
+      </div>
+
+      <div className={cx('start')}>
+        <button className={cx('start__button')} onClick={start}>
           Start
         </button>
       </div>
 
-      {status === 'started' &&
-        selected.map((word, i) => (
-          <span key={i} className={cx('span')}>
-            <span>
-              {word.split('').map((char, index) => (
-                <span key={index}>
-                  <span className={getCharClass(i, index, char)} key={index}>
-                    {char}
+      <div className={cx('words')}>
+        {status === 'started' &&
+          selected?.map((word, i) => (
+            <span key={i}>
+              <span className={cx('words__word')}>
+                {word.split('').map((char, index) => (
+                  <span key={index}>
+                    <span className={getCharClass(i, index, char)} key={index}>
+                      {char}
+                    </span>
                   </span>
-                </span>
-              ))}
+                ))}
+              </span>
+              <span> </span>
             </span>
-            <span> </span>
-          </span>
-        ))}
+          ))}
+      </div>
 
       {status === 'finished' && (
         <div className={cx('section')}>
