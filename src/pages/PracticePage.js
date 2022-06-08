@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 
 import { axiosGetRequest } from '../api';
+import { getProblemsList } from '../features/problemsSlice';
 
 import WordPracticePage from './WordPracticePage';
 
 export default function PracticePage() {
+  const dispatch = useDispatch();
   const { languages, types } = useParams();
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const [problems, setProblems] = useState();
 
   useEffect(() => {
     const getProblems = async () => {
@@ -19,21 +20,17 @@ export default function PracticePage() {
         { params: { type: types } },
       );
 
-      setProblems(response.data);
+      dispatch(getProblemsList(response.data));
     };
 
     isLoggedIn && getProblems();
-  }, [types]);
+  }, [types, isLoggedIn]);
 
   return (
     <div>
       {isLoggedIn ? (
         <div>
-          <WordPracticePage
-            words={problems}
-            type={types}
-            languages={languages}
-          />
+          <WordPracticePage type={types} languages={languages} />
         </div>
       ) : (
         <div>
