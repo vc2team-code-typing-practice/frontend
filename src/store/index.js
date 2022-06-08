@@ -9,6 +9,7 @@ import {
   watchLogout,
   watchChangeSetting,
   watchLoadUserDbData,
+  watchRefresh,
 } from '../features/userSaga';
 import userSlice from '../features/userSlice';
 
@@ -20,6 +21,7 @@ function* rootSaga() {
     fork(watchLogout),
     fork(watchChangeSetting),
     fork(watchLoadUserDbData),
+    fork(watchRefresh),
   ]);
 }
 
