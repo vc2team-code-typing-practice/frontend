@@ -4,7 +4,8 @@ export const userSlice = createSlice({
   name: 'user',
 
   initialState: {
-    isLoading: false,
+    isRefreshing: false,
+    isUserDataLoading: false,
     isLoggedIn: false,
     isPracticing: false,
     name: null,
@@ -17,10 +18,10 @@ export const userSlice = createSlice({
 
   reducers: {
     login: (state) => {
-      state.isLoading = true;
+      state.isUserDataLoading = true;
     },
     loginSuccess: (state, action) => {
-      state.isLoading = false;
+      state.isUserDataLoading = false;
       state.isLoggedIn = true;
       state.name = action.payload?.name;
       state.email = action.payload?.email;
@@ -30,10 +31,10 @@ export const userSlice = createSlice({
       state.hiscore = action.payload?.hiscore;
     },
     logout: (state) => {
-      state.isLoading = true;
+      state.isUserDataLoading = true;
     },
     logoutSuccess: (state) => {
-      state.isLoading = false;
+      state.isUserDataLoading = false;
       state.isLoggedIn = false;
       state.name = null;
       state.email = null;
@@ -41,15 +42,19 @@ export const userSlice = createSlice({
       state.soundEffects = null;
       state.selectedLanguage = null;
     },
+    loginFailure: (state) => {
+      state.isUserDataLoading = false;
+      state.isLoggedIn = false;
+    },
     changeSetting: (state, action) => {
       state.soundEffects = action.payload?.soundEffectsSetting;
       state.selectedLanguage = action.payload?.selectedLanguageSetting;
     },
     loadUserDbData: (state) => {
-      state.isLoading = true;
+      state.isUserDataLoading = true;
     },
     loadUserDbDataSuccess: (state, action) => {
-      state.isLoading = false;
+      state.isUserDataLoading = false;
       state.isLoggedIn = true;
       state.name = action.payload?.name;
       state.email = action.payload?.email;
@@ -64,12 +69,19 @@ export const userSlice = createSlice({
     finishPractice: (state) => {
       state.isPracticing = false;
     },
+    startRefresh: (state) => {
+      state.isRefreshing = true;
+    },
+    finishRefresh: (state) => {
+      state.isRefreshing = false;
+    },
   },
 });
 
 export const {
   login,
   loginSuccess,
+  loginFailure,
   logout,
   logoutSuccess,
   changeSetting,
@@ -77,5 +89,7 @@ export const {
   loadUserDbDataSuccess,
   startPractice,
   finishPractice,
+  startRefresh,
+  finishRefresh,
 } = userSlice.actions;
 export default userSlice.reducer;

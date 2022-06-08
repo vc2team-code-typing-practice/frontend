@@ -1,4 +1,4 @@
-import { put, takeLatest, call, delay } from 'redux-saga/effects';
+import { put, takeLatest, call, delay, take } from 'redux-saga/effects';
 
 import {
   axiosGetRequest,
@@ -6,54 +6,40 @@ import {
   axiosPatchRequest,
   setAxios,
 } from '../api';
-import { authService, firebaseInstance } from '../auth';
+import { authService, checkAuthChanged, firebaseInstance } from '../auth';
 
 import {
   login,
   loginSuccess,
+  loginFailure,
   logout,
   logoutSuccess,
   changeSetting,
   loadUserDbData,
   loadUserDbDataSuccess,
+  finishRefresh,
+  startRefresh,
 } from './userSlice';
 
 const provider = new firebaseInstance.auth.GoogleAuthProvider();
 
 function* loginSaga() {
-  const authData = yield call(() => {
-    provider.setCustomParameters({
-      prompt: 'select_account',
+  try {
+    const authData = yield call(() => {
+      provider.setCustomParameters({
+        prompt: 'select_account',
+      });
+
+      return authService.signInWithPopup(provider);
     });
 
-    return authService.signInWithPopup(provider);
-  });
+    const token = yield call(() => {
+      return authData.user.getIdToken();
+    });
 
-  const token = yield call(() => {
-    return authData.user.getIdToken();
-  });
-
-  yield call(() => {
-    setAxios(token);
-  });
-
-  const userDbData = yield call(() => {
-    return axiosGetRequest(
-      process.env.REACT_APP_SERVER_URL + '/users/' + authData.user.uid,
-    );
-  });
-
-  if (userDbData.data) {
-    yield put(loginSuccess(userDbData.data));
-  } else {
     yield call(() => {
-      axiosPostRequest(
-        process.env.REACT_APP_SERVER_URL + '/auth/login',
-        authData.user,
-      );
+      setAxios(token);
     });
-
-    yield delay(3000);
 
     const userDbData = yield call(() => {
       return axiosGetRequest(
@@ -61,7 +47,29 @@ function* loginSaga() {
       );
     });
 
-    yield put(loginSuccess(userDbData.data));
+    if (userDbData.data) {
+      yield put(loginSuccess(userDbData.data));
+    } else {
+      yield call(() => {
+        axiosPostRequest(
+          process.env.REACT_APP_SERVER_URL + '/auth/login',
+          authData.user,
+        );
+      });
+
+      yield delay(3000);
+
+      const userDbData = yield call(() => {
+        return axiosGetRequest(
+          process.env.REACT_APP_SERVER_URL + '/users/' + authData.user.uid,
+        );
+      });
+
+      yield put(loginSuccess(userDbData.data));
+    }
+  } catch (err) {
+    console.error(err);
+    return yield put(loginFailure());
   }
 }
 
@@ -86,13 +94,36 @@ function* changeSettingSaga(action) {
 function* loadUserDbDataSaga(action) {
   const userDbData = yield call(() => {
     return axiosGetRequest(
-      process.env.REACT_APP_SERVER_URL +
-        '/users/' +
-        action.payload.userAuth.uid,
+      process.env.REACT_APP_SERVER_URL + '/users/' + action.payload.uid,
     );
   });
 
   yield put(loadUserDbDataSuccess(userDbData.data));
+}
+
+function* refreshSaga() {
+  const userAuth = yield call(() => {
+    return checkAuthChanged();
+  });
+
+  const token = yield call(() => {
+    return userAuth?.getIdToken();
+  });
+
+  yield call(() => {
+    setAxios(token);
+  });
+
+  if (userAuth) {
+    yield put(loadUserDbData(userAuth));
+    yield take(loadUserDbDataSuccess);
+  }
+
+  yield put(finishRefresh());
+}
+
+export function* watchRefresh() {
+  yield takeLatest(startRefresh, refreshSaga);
 }
 
 export function* watchLogin() {
