@@ -14,12 +14,13 @@ import styles from './WordPracticePage.module.scss';
 
 const cx = classNames.bind(styles);
 
-export default function SentencePracticePage() {
+export default function SentencePracticePage({ selectedLanguage }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const sentenceList = useSelector((state) => state.problem.sentenceList);
   const name = useSelector((state) => state.user.name);
+  const numberProblems = useSelector((state) => state.user.numberProblems);
 
   const [question, setQuestion] = useState('');
   const [questionLength, setQuestionLength] = useState(0);
@@ -38,6 +39,7 @@ export default function SentencePracticePage() {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
 
   const [typingSpeed, setTypingSpeed] = useState(0);
+  const [totalTypingSpeed, setTotalTypingSpeed] = useState(0);
 
   const inputElement = useRef(null);
   const lapsedTime = useRef(0);
@@ -57,7 +59,12 @@ export default function SentencePracticePage() {
   }, []);
 
   useMemo(() => {
-    if (attemptCount === 10) {
+    if (attemptCount === numberProblems) {
+      console.log(selectedLanguage);
+      console.log(Math.floor(totalTypingSpeed / numberProblems));
+      console.log(
+        Math.round(((numberProblems - incorrectCount) / numberProblems) * 100),
+      );
       setIsShowing(true);
       setIsEnded(true);
     }
@@ -77,7 +84,6 @@ export default function SentencePracticePage() {
   const startTimer = () => {
     interval.current = setInterval(() => {
       lapsedTime.current += 1;
-      console.log(lapsedTime.current);
     }, 1000);
   };
 
@@ -90,12 +96,15 @@ export default function SentencePracticePage() {
     setQuestionLength(sentenceList[randomIndex]?.length);
     setCurrentInput('');
 
-    const currentSpeed =
+    let currentSpeed =
       ((correctkeyDownCount.current - backSpaceKeyDownCount.current) /
         lapsedTime.current) *
       60;
 
-    currentSpeed > 0 ? setTypingSpeed(currentSpeed) : setTypingSpeed(0);
+    currentSpeed = currentSpeed > 0 ? currentSpeed : 0;
+
+    setTypingSpeed(currentSpeed);
+    setTotalTypingSpeed((acc) => acc + currentSpeed);
 
     lapsedTime.current = 0;
     correctkeyDownCount.current = 0;
@@ -104,12 +113,12 @@ export default function SentencePracticePage() {
 
   const checkAnswer = (answer) => {
     if (question === answer.trim()) {
-      setCorrectCount(correctCount + 1);
+      setCorrectCount((prev) => prev + 1);
     } else {
-      setInCorrectCount(incorrectCount + 1);
+      setInCorrectCount((prev) => prev + 1);
     }
 
-    setAttemptCount(attemptCount + 1);
+    setAttemptCount((prev) => prev + 1);
 
     nextQuestion();
     setQuestionIndex(0);
@@ -124,12 +133,12 @@ export default function SentencePracticePage() {
     }
 
     if (keyCode === keyBoardButton.spaceBar) {
-      setQuestionIndex(questionIndex + 1);
-      setCurrentInputIndex(currentInputIndex + 1);
+      setQuestionIndex((prev) => prev + 1);
+      setCurrentInputIndex((prev) => prev + 1);
     } else if (keyCode === keyBoardButton.backSpace) {
       if (questionIndex > 0) {
-        setQuestionIndex(questionIndex - 1);
-        setCurrentInputIndex(currentInputIndex - 1);
+        setQuestionIndex((prev) => prev - 1);
+        setCurrentInputIndex((prev) => prev - 1);
         backSpaceKeyDownCount.current += 1;
       }
     } else if (
@@ -142,10 +151,11 @@ export default function SentencePracticePage() {
       return;
     } else if (keyCode === keyBoardButton.enter) {
       nextQuestion();
-      setInCorrectCount(incorrectCount + 1);
+      setInCorrectCount((prev) => prev + 1);
+      setAttemptCount((prev) => prev + 1);
     } else {
-      setQuestionIndex(questionIndex + 1);
-      setCurrentInputIndex(currentInputIndex + 1);
+      setQuestionIndex((prev) => prev + 1);
+      setCurrentInputIndex((prev) => prev + 1);
     }
 
     if (question[questionIndex] === key) {
@@ -193,13 +203,16 @@ export default function SentencePracticePage() {
       <p>틀린 횟수{incorrectCount}</p>
       <p>도전 횟수{attemptCount}</p>
       <p>현재 타자{typingSpeed}</p>
-
+      <p>누적 {totalTypingSpeed}</p>
       <div className={cx('section')}>
         <div className="columns">
           <div className="">
             <div className="">Accuracy :</div>
             <p className="">
-              {Math.round(((10 - incorrectCount) / 10) * 100)} %
+              {Math.round(
+                ((numberProblems - incorrectCount) / numberProblems) * 100,
+              )}{' '}
+              %
             </p>
           </div>
         </div>
@@ -215,9 +228,16 @@ export default function SentencePracticePage() {
                 <h1>문장 연습 결과</h1>
                 <p>{name} 님의 연습 결과</p>
                 <p>
-                  정확도: {Math.round(((10 - incorrectCount) / 10) * 100)} %
+                  정확도:{' '}
+                  {Math.round(
+                    ((numberProblems - incorrectCount) / numberProblems) * 100,
+                  )}{' '}
+                  %
                 </p>
-                <p>평균 타자속도(아직구현안됨): {typingSpeed} 타 / 분</p>
+                <p>
+                  평균 타자속도: {Math.floor(totalTypingSpeed / numberProblems)}{' '}
+                  타 / 분
+                </p>
                 <Button onClick={handleButtonClick}>홈으로 이동하기</Button>
               </div>
             }

@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'classnames/bind';
@@ -21,6 +20,7 @@ export default function WordPracticePage() {
 
   const wordList = useSelector((state) => state.problem.wordList);
   const name = useSelector((state) => state.user.name);
+  const numberProblems = useSelector((state) => state.user.numberProblems);
 
   const [question, setQuestion] = useState('');
   const [questionLength, setQuestionLength] = useState(0);
@@ -45,7 +45,7 @@ export default function WordPracticePage() {
   }, [wordList]);
 
   useMemo(() => {
-    if (attemptCount === 10) {
+    if (attemptCount === numberProblems) {
       setIsShowing(true);
       setIsEnded(true);
     }
@@ -56,6 +56,10 @@ export default function WordPracticePage() {
     backSpace: 8,
     shift: 16,
     enter: 13,
+    arrowLeft: 37,
+    arrowUp: 38,
+    arrowRight: 39,
+    arrowDown: 40,
   };
 
   const nextQuestion = () => {
@@ -67,12 +71,12 @@ export default function WordPracticePage() {
 
   const checkAnswer = (answer) => {
     if (question === answer.trim()) {
-      setCorrectCount(correctCount + 1);
+      setCorrectCount((prev) => prev + 1);
     } else {
-      setInCorrectCount(incorrectCount + 1);
+      setInCorrectCount((prev) => prev + 1);
     }
 
-    setAttemptCount(attemptCount + 1);
+    setAttemptCount((prev) => prev + 1);
 
     nextQuestion();
     setQuestionIndex(0);
@@ -82,12 +86,12 @@ export default function WordPracticePage() {
 
   const handleKeyDown = ({ keyCode }) => {
     if (keyCode === keyBoardButton.spaceBar) {
-      setQuestionIndex(questionIndex + 1);
-      setCurrentInputIndex(currentInputIndex + 1);
+      setQuestionIndex((prev) => prev + 1);
+      setCurrentInputIndex((prev) => prev + 1);
     } else if (keyCode === keyBoardButton.backSpace) {
       if (questionIndex > 0) {
-        setQuestionIndex(questionIndex - 1);
-        setCurrentInputIndex(currentInputIndex - 1);
+        setQuestionIndex((prev) => prev - 1);
+        setCurrentInputIndex((prev) => prev - 1);
       }
     } else if (
       keyCode === keyBoardButton.shift ||
@@ -99,10 +103,11 @@ export default function WordPracticePage() {
       return;
     } else if (keyCode === keyBoardButton.enter) {
       nextQuestion();
-      setInCorrectCount(incorrectCount + 1);
+      setInCorrectCount((prev) => prev + 1);
+      setAttemptCount((prev) => prev + 1);
     } else {
-      setQuestionIndex(questionIndex + 1);
-      setCurrentInputIndex(currentInputIndex + 1);
+      setQuestionIndex((prev) => prev + 1);
+      setCurrentInputIndex((prev) => prev + 1);
     }
   };
 
@@ -149,7 +154,10 @@ export default function WordPracticePage() {
           <div className="">
             <div className="">Accuracy :</div>
             <p className="">
-              {Math.round(((10 - incorrectCount) / 10) * 100)} %
+              {Math.round(
+                ((numberProblems - incorrectCount) / numberProblems) * 100,
+              )}{' '}
+              %
             </p>
           </div>
         </div>
@@ -165,7 +173,11 @@ export default function WordPracticePage() {
                 <h1>낱말 연습 결과</h1>
                 <p>{name} 님의 연습 결과</p>
                 <p>
-                  정확도: {Math.round(((10 - incorrectCount) / 10) * 100)} %
+                  정확도:{' '}
+                  {Math.round(
+                    ((numberProblems - incorrectCount) / numberProblems) * 100,
+                  )}{' '}
+                  %
                 </p>
                 <Button onClick={handleButtonClick}>홈으로 이동하기</Button>
               </div>
