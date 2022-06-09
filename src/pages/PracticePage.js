@@ -3,8 +3,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 
-import { getWordList } from '../features/problemSlice';
+import { getSentenceList, getWordList } from '../features/problemSlice';
 
+import SentencePracticePage from './SentencePracticePage';
 import WordPracticePage from './WordPracticePage';
 
 export default function PracticePage() {
@@ -13,18 +14,19 @@ export default function PracticePage() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
   useEffect(() => {
-    const getProblems = () => {
+    isLoggedIn &&
+      types === 'word' &&
       dispatch(getWordList({ languages, types }));
-    };
-
-    isLoggedIn && getProblems();
+    isLoggedIn &&
+      types === 'sentence' &&
+      dispatch(getSentenceList({ languages, types }));
   }, [types, languages]);
 
   return (
     <div>
       {isLoggedIn ? (
         <div>
-          <WordPracticePage />
+          {types === 'word' ? <WordPracticePage /> : <SentencePracticePage />}
         </div>
       ) : (
         <div>
