@@ -3,7 +3,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 import { all, fork } from 'redux-saga/effects';
 
-import problemsSlice from '../features/problemsSlice';
+import { watchGetWordList } from '../features/problemSaga';
+import problemSlice from '../features/problemSlice';
 import {
   watchLogin,
   watchLogout,
@@ -22,6 +23,7 @@ function* rootSaga() {
     fork(watchChangeSetting),
     fork(watchLoadUserDbData),
     fork(watchRefresh),
+    fork(watchGetWordList),
   ]);
 }
 
@@ -29,7 +31,7 @@ const createStore = () => {
   const store = configureStore({
     reducer: {
       user: userSlice,
-      problems: problemsSlice,
+      problem: problemSlice,
     },
     devTools: true,
     middleware: [sagaMiddleware, logger],
