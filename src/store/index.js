@@ -3,7 +3,10 @@ import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 import { all, fork } from 'redux-saga/effects';
 
-import { watchGetWordList } from '../features/problemSaga';
+import {
+  watchGetSentenceList,
+  watchGetWordList,
+} from '../features/problemSaga';
 import problemSlice from '../features/problemSlice';
 import {
   watchLogin,
@@ -24,6 +27,7 @@ function* rootSaga() {
     fork(watchLoadUserDbData),
     fork(watchRefresh),
     fork(watchGetWordList),
+    fork(watchGetSentenceList),
   ]);
 }
 

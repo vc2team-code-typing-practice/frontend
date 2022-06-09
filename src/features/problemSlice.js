@@ -6,6 +6,7 @@ export const problemsSlice = createSlice({
   initialState: {
     isLoading: false,
     wordList: [],
+    sentenceList: [],
   },
 
   reducers: {
@@ -16,9 +17,21 @@ export const problemsSlice = createSlice({
       state.isLoading = false;
       state.wordList = [...action.payload];
     },
+    getSentenceList: (state) => {
+      state.isLoading = true;
+    },
+    getSentenceListSucces: (state, action) => {
+      state.isLoading = false;
+      state.sentenceList = [...action.payload];
+    },
   },
 });
 
-export const { getWordList, getWordListSuccess } = problemsSlice.actions;
+export const {
+  getWordList,
+  getWordListSuccess,
+  getSentenceList,
+  getSentenceListSucces,
+} = problemsSlice.actions;
 
 export default problemsSlice.reducer;
