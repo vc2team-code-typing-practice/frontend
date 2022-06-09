@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../components/Button';
+import Keyboard from '../components/Keyboard';
 import Modal from '../components/Modal';
 import { finishPractice } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
@@ -20,7 +21,6 @@ export default function WordPracticePage() {
 
   const wordList = useSelector((state) => state.problem.wordList);
   const name = useSelector((state) => state.user.name);
-  const isPracticing = useSelector((state) => state.user.isPracticing);
 
   const [question, setQuestion] = useState('');
   const [questionLength, setQuestionLength] = useState(0);
@@ -37,10 +37,11 @@ export default function WordPracticePage() {
   const [isShowing, setIsShowing] = useState(false);
   const [isEnded, setIsEnded] = useState(false);
 
-  const textInput = useRef(null);
+  const inputElement = useRef(null);
 
   useEffect(() => {
     nextQuestion();
+    inputElement.current.focus();
   }, [wordList]);
 
   useMemo(() => {
@@ -88,7 +89,13 @@ export default function WordPracticePage() {
         setQuestionIndex(questionIndex - 1);
         setCurrentInputIndex(currentInputIndex - 1);
       }
-    } else if (keyCode === keyBoardButton.shift) {
+    } else if (
+      keyCode === keyBoardButton.shift ||
+      keyCode === keyBoardButton.arrowLeft ||
+      keyCode === keyBoardButton.arrowDown ||
+      keyCode === keyBoardButton.arrowRight ||
+      keyCode === keyBoardButton.arrowUp
+    ) {
       return;
     } else if (keyCode === keyBoardButton.enter) {
       nextQuestion();
@@ -124,7 +131,7 @@ export default function WordPracticePage() {
 
       <div className={cx('section')}>
         <input
-          ref={textInput}
+          ref={inputElement}
           className={cx('section__input')}
           onKeyDown={handleKeyDown}
           type="text"
@@ -147,6 +154,9 @@ export default function WordPracticePage() {
           </div>
         </div>
       </div>
+
+      <Keyboard />
+
       {isShowing && (
         <ModalPortal>
           <Modal
