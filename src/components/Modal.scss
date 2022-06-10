@@ -12,9 +12,9 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #dff2fa;
+    background-color: #5c49a7;
     border-radius: 15px;
-    box-shadow: 3px 3px 3px 3px gray;
+    box-shadow: 5px 5px 15px 5px #000000;
     width: 400px;
     height: 400px;
   }
@@ -29,7 +29,7 @@
     border-radius: 50%;
     cursor: pointer;
     float: right;
-    background-color: ghostwhite;
+    background-color: #b9a8c9;
     border: white;
   }
 }

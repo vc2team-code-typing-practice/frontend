@@ -40,16 +40,6 @@
     background-color: #333;
     color: #fff;
   }
-  .remove {
-    animation: keys_animation 0.5s forwards;
-  }
-
-  @keyframes keys_animation {
-    0% {
-      background-color: #333;
-      color: #fff;
-    }
-  }
 
   .backspace_key {
     width: 120px;
@@ -73,6 +63,10 @@
 
   .shift_key {
     width: 120px;
+  }
+
+  .shift_right {
+    width: 190px;
   }
 
   .space_key {

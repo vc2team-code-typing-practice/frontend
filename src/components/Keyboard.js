@@ -7,8 +7,22 @@ import styles from './Keyboard.module.scss';
 const cx = classNames.bind(styles);
 
 export default function Keyboard() {
-  const typingKeyboard = ({ keyCode }) => {
-    const key = document.querySelector(`div[data-key="${keyCode}"]`);
+  const typingKeyboard = ({ keyCode, location }) => {
+    let key = document.querySelector(`div[data-key="${keyCode}"]`);
+
+    if (
+      keyCode === null ||
+      keyCode === 229 ||
+      keyCode === 37 ||
+      keyCode === 38 ||
+      keyCode === 39 ||
+      keyCode === 40
+    )
+      return;
+
+    if (keyCode === 16) {
+      key = document.querySelector(`div[data-location="${location}"]`);
+    }
 
     key.classList.add(cx('active'));
 
@@ -115,13 +129,13 @@ export default function Keyboard() {
                 P
               </div>
               <div className={cx('keyboard__keys')} data-key={219}>
-                {'{'}
+                {'[ {'}
               </div>
               <div className={cx('keyboard__keys')} data-key={221}>
-                {'}'}
+                {'] }'}
               </div>
               <div className={cx('keyboard__keys', 'slash_key')} data-key={220}>
-                \|
+                \ |
               </div>
             </div>
             <div className={cx('keyboard__row')}>
@@ -159,7 +173,7 @@ export default function Keyboard() {
                 L
               </div>
               <div className={cx('keyboard__keys')} data-key={186}>
-                ;
+                : ;
               </div>
               <div className={cx('keyboard__keys')} data-key={222}>
                 {'"'}
@@ -172,6 +186,7 @@ export default function Keyboard() {
               <div
                 className={cx('keyboard__keys', 'shift_key', 'shift_left')}
                 data-key={16}
+                data-location={1}
               >
                 Shift
               </div>
@@ -197,22 +212,18 @@ export default function Keyboard() {
                 M
               </div>
               <div className={cx('keyboard__keys')} data-key={188}>
-                {' '}
-                {','}{' '}
+                {', <'}
               </div>
               <div className={cx('keyboard__keys')} data-key={190}>
-                {' '}
-                {'.'}
+                {'. >'}
               </div>
               <div className={cx('keyboard__keys')} data-key={191}>
-                /
-              </div>
-              <div className={cx('keyboard__keys')} data-key={191}>
-                ?
+                {'/ ?'}
               </div>
               <div
                 className={cx('keyboard__keys', 'shift_key', 'shift_right')}
                 data-key={16}
+                data-location={2}
               >
                 Shift
               </div>

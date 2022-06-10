@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import classNames from 'classnames/bind';
+import { BiLogIn } from 'react-icons/bi';
 import { FaKeyboard, FaHome } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -12,7 +13,7 @@ import Button from './Button';
 import styles from './Menu.module.scss';
 import Modal from './Modal';
 
-const menu = classNames.bind(styles);
+const cx = classNames.bind(styles);
 
 export default function Menu() {
   const dispatch = useDispatch();
@@ -61,28 +62,31 @@ export default function Menu() {
   return (
     <div>
       {isLoggedIn ? (
-        <div>
-          <ul>
-            <li>{name}님 환영합니다</li>
-            <li>선택한 언어: {selectedLanguage}</li>
+        <div className={cx('userInfo')}>
+          <ul className={cx('userInfo__List')}>
+            <li className={cx('userInfo__name')}>{name}님 환영합니다</li>
+            <li className={cx('userInfo__lang')}>
+              선택한 언어: {selectedLanguage}
+            </li>
           </ul>
-          <hr />
           {isPracticing ? (
-            <div className={menu('menu')}>
-              <div className={menu('menu__item')} onClick={handleModalOpen}>
-                {<FaHome />} {'홈으로 이동하기'}
+            <div className={cx('menu')}>
+              <div className={cx('menu__item')} onClick={handleModalOpen}>
+                <div className={cx('message')}>
+                  <FaHome /> 홈으로 이동하기
+                </div>
               </div>
             </div>
           ) : (
             <div>
-              <ul className={menu('menu')}>
+              <ul className={cx('menu')}>
                 {items.map((item) => (
                   <Link
                     key={item.path}
                     to={item.path}
                     onClick={handleStartPracticeButtonClick}
                   >
-                    <li className={menu('menu__item')}>
+                    <li className={cx('menu__item')}>
                       {item.logo} {item.text}
                     </li>
                   </Link>
@@ -92,7 +96,9 @@ export default function Menu() {
           )}
         </div>
       ) : (
-        <div>로그인 해주십시오</div>
+        <div className={cx('message')}>
+          <BiLogIn /> 로그인 해주십시오
+        </div>
       )}
       {isShowing && (
         <ModalPortal>

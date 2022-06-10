@@ -1,16 +1,16 @@
 .topbar {
   &__wrapper {
-    height: 80px;
+    height: 100px;
     padding: 0 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #dff2fa;
+    background-color: #5c49a7;
   }
   &__logo {
     font-weight: bold;
     font-size: 30px;
-    color: darkblue;
+    color: whitesmoke;
     cursor: pointer;
   }
   &__right {
