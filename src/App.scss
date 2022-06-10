@@ -19,8 +19,9 @@ body {
   display: flex;
   overflow-y: auto;
   &__sidebar {
-    flex: 0 0 240px;
-    background-color: #dff2fa;
+    flex: 0 0 230px;
+    background-color: #5c49a7;
+    height: 100vh;
   }
 
   &__content {

@@ -1,25 +1,47 @@
 .menu {
   padding: 0;
   a {
-    color: lighten(black, 20%);
+    color: lighten(whitesmoke, 20%);
     text-decoration: none;
+    font-size: large;
 
     &:hover {
-      color: lighten(darkblue, 10%);
+      color: lighten(whitesmoke, 10%);
       text-decoration: underline;
     }
 
     &:active {
-      color: darkblue;
+      color: #5c49a7;
     }
   }
   &__item {
-    padding: 6px 20px;
+    padding: 20px 20px;
     list-style-type: none;
     transition: background-color 200ms;
 
     &:hover {
-      background-color: darken(#dff2fa, 20%);
+      background-color: darken(#5c49a7, 20%);
     }
+  }
+}
+
+.message {
+  padding: 20px 20px;
+  color: whitesmoke;
+  font-size: large;
+  font-weight: bold;
+}
+
+.userInfo {
+  &__List {
+    padding: 20px 20px;
+    color: whitesmoke;
+    background: #452e5d;
+    border-top: 1px solid whitesmoke;
+    border-bottom: 1px solid whitesmoke;
+  }
+  &__name {
+    font-weight: bold;
+    font-size: larger;
   }
 }
