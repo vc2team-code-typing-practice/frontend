@@ -20,7 +20,7 @@ export default function PracticePage() {
     isLoggedIn &&
       types === 'sentence' &&
       dispatch(getSentenceList({ languages, types }));
-  }, [types, languages]);
+  }, [types, languages, isLoggedIn]);
 
   return (
     <div>

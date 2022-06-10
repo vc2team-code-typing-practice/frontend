@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from 'react';
 
+import classNames from 'classnames/bind';
+import { AiFillSound } from 'react-icons/ai';
+import { FaUserAlt, FaCaretRight } from 'react-icons/fa';
+import { IoSettings } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
 import { changeSetting, loadUserRecord } from '../features/userSlice';
+
+import styles from './UserPage.module.scss';
+
+const cx = classNames.bind(styles);
 
 export default function UserPage() {
   const dispatch = useDispatch();
@@ -55,43 +63,51 @@ export default function UserPage() {
   return (
     <div>
       {isLoggedIn ? (
-        <div>
-          <div>
-            <h3>{name} 님의 정보</h3>
-            <hr />
-            <p>최고 점수 : {hiscore}</p>
-            <p>평균 타수 : </p>
-            <p>평균 정확도 : </p>
+        <div className={cx('userpage')}>
+          <div className={cx('userpage__info')}>
+            <ul className={cx('userpage__info__title')}>
+              <FaUserAlt /> {name} 님의 정보
+              <hr />
+              <li className={cx('userpage__info__item')}>
+                <FaCaretRight /> 최고 점수 : {hiscore} 점
+              </li>
+              <li className={cx('userpage__info__item')}>
+                <FaCaretRight /> 평균 타수 :{' '}
+              </li>
+              <li className={cx('userpage__info__item')}>
+                <FaCaretRight /> 평균 정확도 :{' '}
+              </li>
+            </ul>
           </div>
 
-          <div>
-            <h3>환경 설정</h3>
-            <hr />
-
-            <div>
-              <p>효과음 출력</p>
-              <label>
-                <input
-                  type="radio"
-                  name="soundEffects"
-                  value="true"
-                  onChange={handleSoundRadioButtonClick}
-                  checked={soundEffectsSetting === true}
-                />
-                ON
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="soundEffects"
-                  value="false"
-                  onChange={handleSoundRadioButtonClick}
-                  checked={soundEffectsSetting === false}
-                />
-                OFF
-              </label>
-            </div>
-
+          <div className={cx('userpage__setting')}>
+            <ul className={cx('userpage__setting__title')}>
+              <IoSettings /> 환경 설정
+              <hr />
+              <li className={cx('userpage__setting__item')}>
+                <AiFillSound /> 효과음 출력
+                <label>
+                  <input
+                    type="radio"
+                    name="soundEffects"
+                    value="true"
+                    onChange={handleSoundRadioButtonClick}
+                    checked={soundEffectsSetting === true}
+                  />
+                  ON
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="soundEffects"
+                    value="false"
+                    onChange={handleSoundRadioButtonClick}
+                    checked={soundEffectsSetting === false}
+                  />
+                  OFF
+                </label>
+              </li>
+            </ul>
             <div>
               <p>언어 설정</p>
               <label>

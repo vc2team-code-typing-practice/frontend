@@ -1,26 +1,27 @@
-header {
-  background: purple;
+.home {
+  background: #8878ad;
   height: 100px;
-}
-
-h1 {
-  text-align: center;
-  color: white;
-  line-height: 100px;
-  margin: 0;
+  &__header {
+    text-align: center;
+    color: white;
+    line-height: 100px;
+    margin: 0;
+    font-size: 32px;
+    font-weight: bold;
+  }
 }
 
 article {
   padding: 10px;
   margin: 10px;
-  background: deepskyblue;
+  background: #b9a8c9;
   color: black;
   &:hover {
-    background: darken(deepskyblue, 8%);
+    background: darken(#b9a8c9, 8%);
     transition: all 0.3s ease;
   }
   &:active {
-    background: darken(deepskyblue, 25%);
+    background: darken(#b9a8c9, 25%);
   }
 }
 
