@@ -1,13 +1,24 @@
 import React, { useEffect } from 'react';
 
 import classNames from 'classnames/bind';
+import { useSelector } from 'react-redux';
+
+import keyboard from '../audios/keyboard.mp3';
 
 import styles from './Keyboard.module.scss';
 
 const cx = classNames.bind(styles);
 
 export default function Keyboard() {
+  const isTurnedOn = useSelector((state) => state.user.soundEffects);
+
   const typingKeyboard = ({ keyCode, location }) => {
+    const sound = new Audio(keyboard);
+
+    if (isTurnedOn) {
+      sound.play();
+    }
+
     let key = document.querySelector(`div[data-key="${keyCode}"]`);
 
     if (
@@ -235,12 +246,12 @@ export default function Keyboard() {
               >
                 Ctrl
               </div>
-              <div className={cx('keyboard__keys', 'win_key')} data-key={18}>
+              <div className={cx('keyboard__keys', 'win_key')} data-key={91}>
                 Win
               </div>
               <div
                 className={cx('keyboard__keys', 'alt_key', 'alt_left')}
-                data-key={91}
+                data-key={18}
               >
                 Alt
               </div>
