@@ -14,6 +14,7 @@ export const userSlice = createSlice({
     soundEffects: null,
     selectedLanguage: null,
     hiscore: null,
+    numberProblems: null,
   },
 
   reducers: {
@@ -29,6 +30,7 @@ export const userSlice = createSlice({
       state.soundEffects = action.payload?.soundEffects;
       state.selectedLanguage = action.payload?.selectedLanguage;
       state.hiscore = action.payload?.hiscore;
+      state.numberProblems = action.payload?.numberProblems;
     },
     logout: (state) => {
       state.isUserDataLoading = true;
@@ -41,6 +43,7 @@ export const userSlice = createSlice({
       state.uid = null;
       state.soundEffects = null;
       state.selectedLanguage = null;
+      state.numberProblems = null;
     },
     loginFailure: (state) => {
       state.isUserDataLoading = false;
@@ -49,6 +52,7 @@ export const userSlice = createSlice({
     changeSetting: (state, action) => {
       state.soundEffects = action.payload?.soundEffectsSetting;
       state.selectedLanguage = action.payload?.selectedLanguageSetting;
+      state.numberProblems = action.payload?.numberProblemsSetting;
     },
     loadUserDbData: (state) => {
       state.isUserDataLoading = true;
@@ -62,6 +66,7 @@ export const userSlice = createSlice({
       state.soundEffects = action.payload?.soundEffects;
       state.selectedLanguage = action.payload?.selectedLanguage;
       state.hiscore = action.payload?.hiscore;
+      state.numberProblems = action.payload?.numberProblems;
     },
     startPractice: (state) => {
       state.isPracticing = true;

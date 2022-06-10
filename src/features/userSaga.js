@@ -87,6 +87,7 @@ function* changeSettingSaga(action) {
     {
       selectedLanguage: action.payload.selectedLanguageSetting,
       soundEffects: action.payload.soundEffectsSetting,
+      numberProblems: action.payload.numberProblemsSetting,
     },
   );
 }
