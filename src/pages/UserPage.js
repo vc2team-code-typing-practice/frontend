@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
-import { changeSetting } from '../features/userSlice';
+import { changeSetting, loadUserRecord } from '../features/userSlice';
 
 export default function UserPage() {
   const dispatch = useDispatch();
@@ -15,13 +15,15 @@ export default function UserPage() {
   const selectedLanguage = useSelector((state) => state.user.selectedLanguage);
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const numberProblems = useSelector((state) => state.user.numberProblems);
+  const history = useSelector((state) => state.user.history);
 
-  const [userData, setUserData] = useState('');
+  const [userRecord, setUserRecord] = useState([]);
   const [selectedLanguageSetting, setSelectedLanguageSetting] = useState('C');
   const [soundEffectsSetting, setSoundEffectsSetting] = useState(true);
   const [numberProblemsSetting, setNumberProblemsSetting] = useState(10);
 
   useEffect(() => {
+    selectedLanguage && dispatch(loadUserRecord({ id, selectedLanguage }));
     setSoundEffectsSetting(soundEffects);
     setSelectedLanguageSetting(selectedLanguage);
     setNumberProblemsSetting(numberProblems);
@@ -166,16 +168,14 @@ export default function UserPage() {
           <div>
             <h3>기록</h3>
             <hr />
-            {userData &&
-              userData.languageRecord?.map((list) =>
-                list.language === selectedLanguage ? (
-                  <>
-                    <div>{list.language.updatedAt}</div>
-                    <div>{list.language.maxTypingSpeed}</div>
-                    <div>{list.language.accuracy}</div>
-                  </>
-                ) : null,
-              )}
+            {history &&
+              history.map((data, index) => (
+                <div key={index}>
+                  {' '}
+                  {data.time.replace('T', ' ')}: 타속: {data.typingSpeed}{' '}
+                  정확도: {data.accuracy}%
+                </div>
+              ))}
           </div>
 
           <div>

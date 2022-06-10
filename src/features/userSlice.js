@@ -6,6 +6,7 @@ export const userSlice = createSlice({
   initialState: {
     isRefreshing: false,
     isUserDataLoading: false,
+    isUserRecordLoading: false,
     isLoggedIn: false,
     isPracticing: false,
     name: null,
@@ -15,6 +16,7 @@ export const userSlice = createSlice({
     selectedLanguage: null,
     hiscore: null,
     numberProblems: null,
+    history: [],
   },
 
   reducers: {
@@ -80,6 +82,23 @@ export const userSlice = createSlice({
     finishRefresh: (state) => {
       state.isRefreshing = false;
     },
+    loadUserRecord: (state) => {
+      state.isUserRecordLoading = true;
+    },
+    loadUserRecordSuccess: (state, action) => {
+      state.isUserRecordLoading = false;
+      state.history = action.payload;
+    },
+    updateUserRecord: (state, action) => {
+      state.history = [
+        ...state.history,
+        {
+          typingSpeed: action.payload.typingSpeed,
+          time: action.payload.time,
+          accuracy: action.payload.accuracy,
+        },
+      ];
+    },
   },
 });
 
@@ -96,5 +115,8 @@ export const {
   finishPractice,
   startRefresh,
   finishRefresh,
+  loadUserRecord,
+  loadUserRecordSuccess,
+  updateUserRecord,
 } = userSlice.actions;
 export default userSlice.reducer;
