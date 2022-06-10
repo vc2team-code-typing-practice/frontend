@@ -14,6 +14,8 @@ import {
   watchChangeSetting,
   watchLoadUserDbData,
   watchRefresh,
+  watchLoadUserRecord,
+  watchupdateUserRecord,
 } from '../features/userSaga';
 import userSlice from '../features/userSlice';
 
@@ -28,6 +30,8 @@ function* rootSaga() {
     fork(watchRefresh),
     fork(watchGetWordList),
     fork(watchGetSentenceList),
+    fork(watchupdateUserRecord),
+    fork(watchLoadUserRecord),
   ]);
 }
 

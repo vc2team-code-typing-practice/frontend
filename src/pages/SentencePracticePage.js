@@ -1,13 +1,14 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'classnames/bind';
+import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../components/Button';
 import Keyboard from '../components/Keyboard';
 import Modal from '../components/Modal';
-import { finishPractice } from '../features/userSlice';
+import { finishPractice, updateUserRecord } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
 
 import styles from './WordPracticePage.module.scss';
@@ -18,9 +19,10 @@ export default function SentencePracticePage({ selectedLanguage }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const sentenceList = useSelector((state) => state.problem.sentenceList);
+  const uid = useSelector((state) => state.user.uid);
   const name = useSelector((state) => state.user.name);
   const numberProblems = useSelector((state) => state.user.numberProblems);
+  const sentenceList = useSelector((state) => state.problem.sentenceList);
 
   const [question, setQuestion] = useState('');
   const [questionLength, setQuestionLength] = useState(0);
@@ -60,10 +62,16 @@ export default function SentencePracticePage({ selectedLanguage }) {
 
   useMemo(() => {
     if (attemptCount === numberProblems) {
-      console.log(selectedLanguage);
-      console.log(Math.floor(totalTypingSpeed / numberProblems));
-      console.log(
-        Math.round(((numberProblems - incorrectCount) / numberProblems) * 100),
+      dispatch(
+        updateUserRecord({
+          uid: uid,
+          language: selectedLanguage,
+          accuracy: Math.round(
+            ((numberProblems - incorrectCount) / numberProblems) * 100,
+          ),
+          typingSpeed: Math.floor(totalTypingSpeed / numberProblems),
+          time: dayjs().format('YYYY.MM.DDTHH:mm'),
+        }),
       );
       setIsShowing(true);
       setIsEnded(true);
@@ -84,7 +92,7 @@ export default function SentencePracticePage({ selectedLanguage }) {
   const startTimer = () => {
     interval.current = setInterval(() => {
       lapsedTime.current += 1;
-    }, 1000);
+    }, 100);
   };
 
   const nextQuestion = () => {
@@ -99,7 +107,7 @@ export default function SentencePracticePage({ selectedLanguage }) {
     let currentSpeed =
       ((correctkeyDownCount.current - backSpaceKeyDownCount.current) /
         lapsedTime.current) *
-      60;
+      600;
 
     currentSpeed = currentSpeed > 0 ? currentSpeed : 0;
 
@@ -203,7 +211,6 @@ export default function SentencePracticePage({ selectedLanguage }) {
       <p>틀린 횟수{incorrectCount}</p>
       <p>도전 횟수{attemptCount}</p>
       <p>현재 타자{typingSpeed}</p>
-      <p>누적 {totalTypingSpeed}</p>
       <div className={cx('section')}>
         <div className="columns">
           <div className="">

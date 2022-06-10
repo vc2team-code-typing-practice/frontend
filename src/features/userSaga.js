@@ -19,6 +19,9 @@ import {
   loadUserDbDataSuccess,
   finishRefresh,
   startRefresh,
+  loadUserRecord,
+  loadUserRecordSuccess,
+  updateUserRecord,
 } from './userSlice';
 
 const provider = new firebaseInstance.auth.GoogleAuthProvider();
@@ -123,6 +126,35 @@ function* refreshSaga() {
   yield put(finishRefresh());
 }
 
+function* loadUserRecordSaga(action) {
+  const userRecord = yield call(() => {
+    return axiosGetRequest(
+      process.env.REACT_APP_SERVER_URL +
+        '/users/' +
+        action.payload.id +
+        '/record/' +
+        action.payload.selectedLanguage,
+    );
+  });
+
+  yield put(loadUserRecordSuccess(userRecord.data));
+}
+
+function* updateUserRecordSaga(action) {
+  yield axiosPatchRequest(
+    process.env.REACT_APP_SERVER_URL +
+      '/users/' +
+      action.payload.uid +
+      '/record/' +
+      action.payload.language,
+    {
+      typingSpeed: action.payload.typingSpeed,
+      accuracy: action.payload.accuracy,
+      time: action.payload.time,
+    },
+  );
+}
+
 export function* watchRefresh() {
   yield takeLatest(startRefresh, refreshSaga);
 }
@@ -141,4 +173,11 @@ export function* watchChangeSetting() {
 
 export function* watchLoadUserDbData() {
   yield takeLatest(loadUserDbData, loadUserDbDataSaga);
+}
+
+export function* watchLoadUserRecord() {
+  yield takeLatest(loadUserRecord, loadUserRecordSaga);
+}
+export function* watchupdateUserRecord() {
+  yield takeLatest(updateUserRecord, updateUserRecordSaga);
 }
