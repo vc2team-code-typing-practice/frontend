@@ -3,8 +3,13 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 
-import { getSentenceList, getWordList } from '../features/problemSlice';
+import {
+  getParagraphList,
+  getSentenceList,
+  getWordList,
+} from '../features/problemSlice';
 
+import ParagraphPracticePage from './ParagraphPracticePage';
 import SentencePracticePage from './SentencePracticePage';
 import WordPracticePage from './WordPracticePage';
 
@@ -20,17 +25,20 @@ export default function PracticePage() {
     isLoggedIn &&
       types === 'sentence' &&
       dispatch(getSentenceList({ languages, types }));
+    isLoggedIn &&
+      types === 'paragraph' &&
+      dispatch(getParagraphList({ languages, types }));
   }, [types, languages, isLoggedIn]);
 
   return (
     <div>
       {isLoggedIn ? (
         <div>
-          {types === 'word' ? (
-            <WordPracticePage />
-          ) : (
-            <SentencePracticePage selectedLanguage={languages} />
-          )}
+          {(types === 'word' && <WordPracticePage />) ||
+            (types === 'sentence' && <SentencePracticePage />) ||
+            (types === 'paragraph' && (
+              <ParagraphPracticePage languages={languages} />
+            ))}
         </div>
       ) : (
         <div>

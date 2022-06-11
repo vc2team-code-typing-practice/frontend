@@ -4,6 +4,7 @@ import logger from 'redux-logger';
 import { all, fork } from 'redux-saga/effects';
 
 import {
+  watchGetParagraphList,
   watchGetSentenceList,
   watchGetWordList,
 } from '../features/problemSaga';
@@ -30,6 +31,7 @@ function* rootSaga() {
     fork(watchRefresh),
     fork(watchGetWordList),
     fork(watchGetSentenceList),
+    fork(watchGetParagraphList),
     fork(watchupdateUserRecord),
     fork(watchLoadUserRecord),
   ]);
