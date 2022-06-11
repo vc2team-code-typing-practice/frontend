@@ -10,6 +10,7 @@ import Keyboard from '../components/Keyboard';
 import Modal from '../components/Modal';
 import { finishPractice, updateUserRecord } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
+import getCharacterClass from '../utils/getCharacterClass';
 
 import styles from './WordPracticePage.module.scss';
 
@@ -190,10 +191,14 @@ export default function SentencePracticePage({ selectedLanguage }) {
       <h1>문장 연습</h1>
       <div>
         {question?.split('').map((character, index) => (
-          <span key={index}> {character} </span>
+          <span
+            key={index}
+            className={getCharacterClass(currentInput, index, character)}
+          >
+            {character}
+          </span>
         ))}
       </div>
-      <div>{question}</div>
 
       <div className={cx('section')}>
         <input

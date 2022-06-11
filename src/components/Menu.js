@@ -104,13 +104,15 @@ export default function Menu() {
         <ModalPortal>
           <Modal
             message={
-              <div>
-                <p>정말로 게임을종료하시겠습니까?</p>
-                <p>진행상황은 저장되지 않습니다.</p>
-                <Button onClick={handleGoBackHomeButtonClick}>예</Button>
-                <Button onClick={handleResumePracticeButtonClick}>
-                  아니오
-                </Button>
+              <div className={cx('gameover')}>
+                <p>
+                  정말로 연습을 종료하시겠습니까? <br />
+                  진행상황은 저장되지 않습니다.
+                </p>
+                <div className={cx('gameover__btn')}>
+                  <Button onClick={handleGoBackHomeButtonClick}>Yes</Button>
+                  <Button onClick={handleResumePracticeButtonClick}>No</Button>
+                </div>
               </div>
             }
             onCloseModal={setIsShowing}

@@ -19,7 +19,7 @@ body {
   display: flex;
   overflow-y: auto;
   &__sidebar {
-    flex: 0 0 230px;
+    flex: 0 0 240px;
     background-color: #5c49a7;
     height: 100vh;
   }
@@ -35,4 +35,14 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.correct {
+  background-color: blue;
+  color: white;
+}
+
+.wrong {
+  background-color: red;
+  color: white;
 }

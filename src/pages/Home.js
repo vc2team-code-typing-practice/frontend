@@ -10,7 +10,7 @@ import { startPractice } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
 
 import styles from './Home.module.scss';
-const home = classNames.bind(styles);
+const cx = classNames.bind(styles);
 
 export default function Home() {
   const navigate = useNavigate();
@@ -39,9 +39,9 @@ export default function Home() {
   };
 
   return (
-    <div>
-      <header>
-        <h1>Choose What You Want To Practice!</h1>
+    <div className={cx('home')}>
+      <header className={cx('home__header')}>
+        Choose What You Want To Practice!
       </header>
       <section>
         <article

@@ -4,11 +4,14 @@ import classNames from 'classnames/bind';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import correct from '../audios/correct.mp3';
+import wrong from '../audios/wrong.mp3';
 import Button from '../components/Button';
 import Keyboard from '../components/Keyboard';
 import Modal from '../components/Modal';
 import { finishPractice } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
+import getCharacterClass from '../utils/getCharacterClass';
 
 import styles from './WordPracticePage.module.scss';
 
@@ -19,6 +22,7 @@ export default function WordPracticePage() {
   const dispatch = useDispatch();
 
   const wordList = useSelector((state) => state.problem.wordList);
+  const isTurnedOn = useSelector((state) => state.user.soundEffects);
   const name = useSelector((state) => state.user.name);
   const numberProblems = useSelector((state) => state.user.numberProblems);
 
@@ -71,8 +75,18 @@ export default function WordPracticePage() {
 
   const checkAnswer = (answer) => {
     if (question === answer.trim()) {
+      if (isTurnedOn) {
+        const correctSound = new Audio(correct);
+        correctSound.play();
+      }
+
       setCorrectCount((prev) => prev + 1);
     } else {
+      if (isTurnedOn) {
+        const wrongSound = new Audio(wrong);
+        wrongSound.play();
+      }
+
       setInCorrectCount((prev) => prev + 1);
     }
 
@@ -127,11 +141,21 @@ export default function WordPracticePage() {
 
   return (
     <div className={cx('container')}>
-      <h1>낱말 연습</h1>
-      <div>
-        {question?.split('').map((character, index) => (
-          <span key={index}> {character} </span>
-        ))}
+      <div className={cx('container__title')}>
+        <h3>낱말 연습</h3>
+      </div>
+
+      <div className={cx('question')}>
+        <span className={cx('question__character')}>
+          {question?.split('').map((character, index) => (
+            <span
+              key={index}
+              className={getCharacterClass(currentInput, index, character)}
+            >
+              {character}
+            </span>
+          ))}
+        </span>
       </div>
 
       <div className={cx('section')}>
@@ -145,22 +169,22 @@ export default function WordPracticePage() {
           disabled={isEnded}
         />
       </div>
-      <p>맞은 횟수{correctCount}</p>
-      <p>틀린 횟수{incorrectCount}</p>
-      <p>도전 횟수{attemptCount}</p>
 
-      <div className={cx('section')}>
-        <div className="columns">
+      <div className={cx('result')}>
+        {/* <div className="columns"> */}
+        <div className={cx('result__data')}>
+          <div className="">정확도</div>
           <div className="">
-            <div className="">Accuracy :</div>
-            <p className="">
-              {Math.round(
-                ((numberProblems - incorrectCount) / numberProblems) * 100,
-              )}{' '}
-              %
-            </p>
+            {Math.round(
+              ((numberProblems - incorrectCount) / numberProblems) * 100,
+            )}
+            %
           </div>
+          <div>맞은 횟수{correctCount}</div>
+          <div>틀린 횟수{incorrectCount}</div>
+          <div>도전 횟수{attemptCount}</div>
         </div>
+        {/* </div> */}
       </div>
 
       <Keyboard />
@@ -173,10 +197,10 @@ export default function WordPracticePage() {
                 <h1>낱말 연습 결과</h1>
                 <p>{name} 님의 연습 결과</p>
                 <p>
-                  정확도:{' '}
+                  정확도:
                   {Math.round(
                     ((numberProblems - incorrectCount) / numberProblems) * 100,
-                  )}{' '}
+                  )}
                   %
                 </p>
                 <Button onClick={handleButtonClick}>홈으로 이동하기</Button>
