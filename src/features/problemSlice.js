@@ -7,6 +7,9 @@ export const problemsSlice = createSlice({
     isLoading: false,
     wordList: [],
     sentenceList: [],
+    paragraphCList: [],
+    paragraphJavaScriptList: [],
+    paragraphPythonList: [],
   },
 
   reducers: {
@@ -24,6 +27,15 @@ export const problemsSlice = createSlice({
       state.isLoading = false;
       state.sentenceList = [...action.payload];
     },
+    getParagraphList: (state) => {
+      state.isLoading = true;
+    },
+    getParagraphListSuccess: (state, action) => {
+      state.isLoading = false;
+      state.paragraphCList = [...action.payload[0]['C']];
+      state.paragraphJavaScriptList = [...action.payload[1]['JavaScript']];
+      state.paragraphPythonList = [...action.payload[2]['Python']];
+    },
   },
 });
 
@@ -32,6 +44,8 @@ export const {
   getWordListSuccess,
   getSentenceList,
   getSentenceListSucces,
+  getParagraphList,
+  getParagraphListSuccess,
 } = problemsSlice.actions;
 
 export default problemsSlice.reducer;
