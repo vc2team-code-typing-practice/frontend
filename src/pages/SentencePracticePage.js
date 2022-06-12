@@ -45,6 +45,8 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
   const [sentenceAccracy, setSentenceAccracy] = useState(0);
   const [sentenceAccracySum, setSentenceAccracySum] = useState(0);
 
+  const [score, setScore] = useState(0);
+
   const inputElement = useRef(null);
   const lapsedTime = useRef(0);
   const correctkeyDownCount = useRef(0);
@@ -72,6 +74,7 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
           accuracy: Math.floor((sentenceAccracySum / numberProblems) * 100),
           typingSpeed: Math.floor(typingSpeedSum / numberProblems),
           time: dayjs().format('YYYY.MM.DDTHH:mm'),
+          score,
         }),
       );
       setIsShowing(true);
@@ -110,6 +113,10 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
 
     setCurrentInput('');
     setCurrentInputIndex(0);
+
+    if (sentenceAccracy === 1) {
+      setScore((prev) => prev + 3);
+    }
 
     setSentenceAccracySum((prev) => prev + sentenceAccracy);
     setTypingSpeedSum((prev) => prev + typingSpeed);
@@ -216,7 +223,7 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
         %
       </p>
       <p>진행도: {Math.floor((attemptCount / numberProblems) * 100)} %</p>
-
+      <p>획득점수: {score} 점</p>
       <Keyboard />
 
       {isShowing && (
@@ -231,6 +238,7 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
                   {Math.floor((sentenceAccracySum / numberProblems) * 100)} %
                 </p>
                 <p>타수: {Math.floor(typingSpeedSum / numberProblems)} 타</p>
+                <p>획득점수: {score} 점</p>
                 <Button onClick={handleButtonClick}>홈으로 이동하기</Button>
               </div>
             }
