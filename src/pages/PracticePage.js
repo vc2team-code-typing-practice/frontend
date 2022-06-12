@@ -35,7 +35,9 @@ export default function PracticePage() {
       {isLoggedIn ? (
         <div>
           {(types === 'word' && <WordPracticePage />) ||
-            (types === 'sentence' && <SentencePracticePage />) ||
+            (types === 'sentence' && (
+              <SentencePracticePage selectedLanguage={languages} type={types} />
+            )) ||
             (types === 'paragraph' && (
               <ParagraphPracticePage languages={languages} />
             ))}

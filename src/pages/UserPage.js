@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import classNames from 'classnames/bind';
 import { AiFillSound } from 'react-icons/ai';
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
 import { changeSetting, loadUserRecord } from '../features/userSlice';
+import { typeToKoreanName } from '../utils/constants';
 
 import styles from './UserPage.module.scss';
 
@@ -25,17 +26,20 @@ export default function UserPage() {
   const numberProblems = useSelector((state) => state.user.numberProblems);
   const history = useSelector((state) => state.user.history);
 
-  const [userRecord, setUserRecord] = useState([]);
-  const [selectedLanguageSetting, setSelectedLanguageSetting] = useState('C');
-  const [soundEffectsSetting, setSoundEffectsSetting] = useState(true);
-  const [numberProblemsSetting, setNumberProblemsSetting] = useState(10);
+  const [selectedLanguageSetting, setSelectedLanguageSetting] = useState(null);
+  const [soundEffectsSetting, setSoundEffectsSetting] = useState(null);
+  const [numberProblemsSetting, setNumberProblemsSetting] = useState(null);
 
   useEffect(() => {
-    selectedLanguage && dispatch(loadUserRecord({ id, selectedLanguage }));
     setSoundEffectsSetting(soundEffects);
     setSelectedLanguageSetting(selectedLanguage);
     setNumberProblemsSetting(numberProblems);
   }, [soundEffects, selectedLanguage, numberProblems]);
+
+  useMemo(() => {
+    selectedLanguageSetting &&
+      dispatch(loadUserRecord({ id, selectedLanguageSetting }));
+  }, [selectedLanguageSetting]);
 
   const handleLanguageRadioButtonClick = (e) => {
     setSelectedLanguageSetting(e.target.value);
@@ -69,13 +73,13 @@ export default function UserPage() {
               <FaUserAlt /> {name} 님의 정보
               <hr />
               <li className={cx('userpage__info__item')}>
-                <FaCaretRight /> 최고 점수 : {hiscore} 점
+                <FaCaretRight /> {selectedLanguageSetting} 점수: {hiscore} 점
               </li>
               <li className={cx('userpage__info__item')}>
-                <FaCaretRight /> 평균 타수 :{' '}
+                <FaCaretRight /> {selectedLanguageSetting} 평균 타수: 타
               </li>
               <li className={cx('userpage__info__item')}>
-                <FaCaretRight /> 평균 정확도 :{' '}
+                <FaCaretRight /> {selectedLanguageSetting} 평균 정확도: %
               </li>
             </ul>
           </div>
@@ -184,14 +188,12 @@ export default function UserPage() {
           <div>
             <h3>기록</h3>
             <hr />
-            {history &&
-              history.map((data, index) => (
-                <div key={index}>
-                  {' '}
-                  {data.time.replace('T', ' ')}: 타속: {data.typingSpeed}{' '}
-                  정확도: {data.accuracy}%
-                </div>
-              ))}
+            {history.map((data, index) => (
+              <div key={index}>
+                {typeToKoreanName[data.type]} {data.time?.replace('T', ' ')}{' '}
+                타속: {data.typingSpeed} 정확도: {data.accuracy}%
+              </div>
+            ))}
           </div>
 
           <div>

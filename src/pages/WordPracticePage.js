@@ -11,6 +11,7 @@ import Keyboard from '../components/Keyboard';
 import Modal from '../components/Modal';
 import { finishPractice } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
+import { keyboardButton, prohibitedKeyCodeList } from '../utils/constants';
 import getCharacterClass from '../utils/getCharacterClass';
 
 import styles from './WordPracticePage.module.scss';
@@ -40,34 +41,39 @@ export default function WordPracticePage() {
 
   const [isShowing, setIsShowing] = useState(false);
   const [isEnded, setIsEnded] = useState(false);
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
 
   const inputElement = useRef(null);
+  const lapsedTime = useRef(0);
+  const interval = useRef(null);
 
   useEffect(() => {
     nextQuestion();
     inputElement.current.focus();
   }, [wordList]);
 
+  useEffect(() => {
+    return () => {
+      clearInterval(interval.current);
+    };
+  }, []);
+
   useMemo(() => {
     if (attemptCount === numberProblems) {
+      clearInterval(interval.current);
       setIsShowing(true);
       setIsEnded(true);
     }
   }, [attemptCount]);
 
-  const keyBoardButton = {
-    spaceBar: 32,
-    backSpace: 8,
-    shift: 16,
-    enter: 13,
-    arrowLeft: 37,
-    arrowUp: 38,
-    arrowRight: 39,
-    arrowDown: 40,
+  const startTimer = () => {
+    interval.current = setInterval(() => {
+      lapsedTime.current += 1;
+    }, 1000);
   };
 
   const nextQuestion = () => {
-    const randomIndex = Math.floor(Math.random() * 10) % wordList.length;
+    const randomIndex = Math.floor(Math.random() * 1000) % wordList.length;
     setQuestion(wordList[randomIndex]);
     setQuestionLength(wordList[randomIndex]?.length);
     setCurrentInput('');
@@ -98,27 +104,30 @@ export default function WordPracticePage() {
     setCurrentInput('');
   };
 
-  const handleKeyDown = ({ keyCode }) => {
-    if (keyCode === keyBoardButton.spaceBar) {
+  const handleKeyDown = (event) => {
+    if (
+      prohibitedKeyCodeList.includes(event.keyCode) ||
+      event.keyCode === keyboardButton.enter
+    ) {
+      event.preventDefault();
+      return;
+    }
+
+    if (!isTimerRunning) {
+      startTimer();
+      setIsTimerRunning(true);
+    }
+
+    if (event.keyCode === keyboardButton.spacebar) {
       setQuestionIndex((prev) => prev + 1);
       setCurrentInputIndex((prev) => prev + 1);
-    } else if (keyCode === keyBoardButton.backSpace) {
+    } else if (event.keyCode === keyboardButton.backspace) {
       if (questionIndex > 0) {
         setQuestionIndex((prev) => prev - 1);
         setCurrentInputIndex((prev) => prev - 1);
       }
-    } else if (
-      keyCode === keyBoardButton.shift ||
-      keyCode === keyBoardButton.arrowLeft ||
-      keyCode === keyBoardButton.arrowDown ||
-      keyCode === keyBoardButton.arrowRight ||
-      keyCode === keyBoardButton.arrowUp
-    ) {
+    } else if (event.keyCode === keyboardButton.shift) {
       return;
-    } else if (keyCode === keyBoardButton.enter) {
-      nextQuestion();
-      setInCorrectCount((prev) => prev + 1);
-      setAttemptCount((prev) => prev + 1);
     } else {
       setQuestionIndex((prev) => prev + 1);
       setCurrentInputIndex((prev) => prev + 1);
@@ -171,20 +180,17 @@ export default function WordPracticePage() {
       </div>
 
       <div className={cx('result')}>
-        {/* <div className="columns"> */}
         <div className={cx('result__data')}>
-          <div className="">정확도</div>
-          <div className="">
-            {Math.round(
-              ((numberProblems - incorrectCount) / numberProblems) * 100,
-            )}
+          <p>
+            정확도:{' '}
+            {correctCount / attemptCount
+              ? Math.floor((correctCount / attemptCount) * 100)
+              : 0}{' '}
             %
-          </div>
-          <div>맞은 횟수{correctCount}</div>
-          <div>틀린 횟수{incorrectCount}</div>
-          <div>도전 횟수{attemptCount}</div>
+          </p>
+          <p>오타수: {incorrectCount} 개</p>
+          <p>진행도: {Math.floor((attemptCount / numberProblems) * 100)} %</p>
         </div>
-        {/* </div> */}
       </div>
 
       <Keyboard />
@@ -195,13 +201,14 @@ export default function WordPracticePage() {
             message={
               <div>
                 <h1>낱말 연습 결과</h1>
-                <p>{name} 님의 연습 결과</p>
+                <p>{name} 님의 기록은</p>
                 <p>
-                  정확도:
-                  {Math.round(
-                    ((numberProblems - incorrectCount) / numberProblems) * 100,
-                  )}
-                  %
+                  정확도: {Math.round((correctCount / numberProblems) * 100)} %
+                </p>
+                <p>오타수: {incorrectCount} 개</p>
+                <p>
+                  소요시간: {Math.floor(lapsedTime.current / 60)} 분{' '}
+                  {lapsedTime.current % 60} 초
                 </p>
                 <Button onClick={handleButtonClick}>홈으로 이동하기</Button>
               </div>
