@@ -1,35 +1,71 @@
 .userpage {
-  &__info {
-    &__title {
-      display: block;
-      font-size: 1.17em;
-      margin-top: 1em;
-      margin-bottom: 1em;
-      margin-left: 0;
-      margin-right: 0;
-      font-weight: bold;
+  &__title {
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    &__logo {
+      padding-right: 10px;
+      position: relative;
+      top: 3px;
+    }
+
+    &__user {
+      padding-right: 5px;
+    }
+
+    &__content {
+      font-size: 25px;
+      font-weight: normal;
+    }
+  }
+
+  &__data {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    border: 0;
+    border-radius: 15px;
+    background-color: white;
+    &__logo {
+      position: relative;
+      top: 3px;
     }
     &__item {
-      padding-top: 5px;
-      padding-left: 10px;
-      font-weight: normal;
+      margin-bottom: 3px;
+    }
+    &__title {
+      font-weight: bold;
     }
   }
 
   &__setting {
-    &__title {
-      display: block;
-      font-size: 1.17em;
-      margin-top: 1em;
-      margin-left: 0;
-      margin-right: 0;
-      font-weight: bold;
-    }
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    border: 0;
+    border-radius: 15px;
+    background-color: white;
 
     &__item {
-      padding-top: 5px;
-      padding-left: 10px;
-      font-weight: normal;
+      margin: 10px;
+    }
+
+    &__logo {
+      position: relative;
+      top: 2px;
+    }
+    &__title {
+      font-weight: bold;
+      // margin-left: 10px;
+      font-size: 20px;
+      margin-right: 10px;
     }
   }
+}
+
+label {
+  margin-right: 10px;
 }

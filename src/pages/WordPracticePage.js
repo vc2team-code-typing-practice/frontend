@@ -154,6 +154,30 @@ export default function WordPracticePage() {
         <h3>낱말 연습</h3>
       </div>
 
+      <div className={cx('result')}>
+        <ul className={cx('result__data')}>
+          <li className={cx('result__list')}>
+            <span className={cx('data_name')}>정확도</span>
+            <span className={cx('data')}>
+              {correctCount / attemptCount
+                ? Math.floor((correctCount / attemptCount) * 100)
+                : 0}{' '}
+              %
+            </span>
+          </li>
+          <li className={cx('result__list')}>
+            <span className={cx('data_name')}>오타수</span>
+            <span className={cx('data')}>{incorrectCount} 개</span>
+          </li>
+          <li className={cx('result__list')}>
+            <span className={cx('data_name')}>진행도</span>
+            <span className={cx('data')}>
+              {Math.floor((attemptCount / numberProblems) * 100)} %
+            </span>
+          </li>
+        </ul>
+      </div>
+
       <div className={cx('question')}>
         <span className={cx('question__character')}>
           {question?.split('').map((character, index) => (
@@ -177,20 +201,6 @@ export default function WordPracticePage() {
           onChange={handleChange}
           disabled={isEnded}
         />
-      </div>
-
-      <div className={cx('result')}>
-        <div className={cx('result__data')}>
-          <p>
-            정확도:{' '}
-            {correctCount / attemptCount
-              ? Math.floor((correctCount / attemptCount) * 100)
-              : 0}{' '}
-            %
-          </p>
-          <p>오타수: {incorrectCount} 개</p>
-          <p>진행도: {Math.floor((attemptCount / numberProblems) * 100)} %</p>
-        </div>
       </div>
 
       <Keyboard />

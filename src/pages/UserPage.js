@@ -3,6 +3,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames/bind';
 import { AiFillSound } from 'react-icons/ai';
 import { FaUserAlt, FaCaretRight } from 'react-icons/fa';
+import { GrLanguage } from 'react-icons/gr';
+import { HiDocumentText } from 'react-icons/hi';
 import { IoSettings } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
@@ -68,52 +70,87 @@ export default function UserPage() {
     <div>
       {isLoggedIn ? (
         <div className={cx('userpage')}>
-          <div className={cx('userpage__info')}>
-            <ul className={cx('userpage__info__title')}>
-              <FaUserAlt /> {name} 님의 정보
-              <hr />
-              <li className={cx('userpage__info__item')}>
-                <FaCaretRight /> {selectedLanguageSetting} 점수: {hiscore} 점
-              </li>
-              <li className={cx('userpage__info__item')}>
-                <FaCaretRight /> {selectedLanguageSetting} 평균 타수: 타
-              </li>
-              <li className={cx('userpage__info__item')}>
-                <FaCaretRight /> {selectedLanguageSetting} 평균 정확도: %
-              </li>
-            </ul>
+          <div className={cx('userpage__title')}>
+            <span className={cx('userpage__title__logo')}>
+              <FaUserAlt />
+            </span>
+            <span className={cx('userpage__title__user')}>{name}</span>
+            <span className={cx('userpage__title__content')}> 님의 정보</span>
+          </div>
+          {/* 유저 점수 정보 칸 */}
+          <ul className={cx('userpage__data')}>
+            <li className={cx('userpage__data__item')}>
+              <span className={cx('userpage__data__logo')}>
+                <FaCaretRight />
+              </span>
+              <span className={cx('userpage__data__title')}>
+                {selectedLanguageSetting} 점수 :
+              </span>
+              <span className={cx('userpage__data__content')}> {hiscore}</span>
+            </li>
+            <li className={cx('userpage__data__item')}>
+              <span className={cx('userpage__data__logo')}>
+                <FaCaretRight />
+              </span>
+              <span className={cx('userpage__data__title')}>
+                {selectedLanguageSetting} 평균 타수 :
+              </span>
+              <span className={cx('userpage__data__content')}> 타</span>
+            </li>
+            <li className={cx('userpage__data__item')}>
+              <span className={cx('userpage__data__logo')}>
+                <FaCaretRight />
+              </span>
+              <span className={cx('userpage__data__title')}>
+                {selectedLanguageSetting} 평균 정확도 :
+              </span>
+              <span className={cx('userpage__data__content')}> %</span>
+            </li>
+          </ul>
+          {/* 환경 설정 칸 */}
+          <div className={cx('userpage__title')}>
+            <span className={cx('userpage__title__logo')}>
+              <IoSettings />
+            </span>
+            <span>환경설정</span>
           </div>
 
-          <div className={cx('userpage__setting')}>
-            <ul className={cx('userpage__setting__title')}>
-              <IoSettings /> 환경 설정
-              <hr />
-              <li className={cx('userpage__setting__item')}>
-                <AiFillSound /> 효과음 출력
-                <label>
-                  <input
-                    type="radio"
-                    name="soundEffects"
-                    value="true"
-                    onChange={handleSoundRadioButtonClick}
-                    checked={soundEffectsSetting === true}
-                  />
-                  ON
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="soundEffects"
-                    value="false"
-                    onChange={handleSoundRadioButtonClick}
-                    checked={soundEffectsSetting === false}
-                  />
-                  OFF
-                </label>
-              </li>
-            </ul>
-            <div>
-              <p>언어 설정</p>
+          <ul className={cx('userpage__setting')}>
+            <li className={cx('userpage__setting__item')}>
+              <div className={cx('userpage__setting__title')}>
+                <span className={cx('userpage__setting__logo')}>
+                  <AiFillSound />
+                </span>
+                <span>효과음 출력</span>
+              </div>
+              <label>
+                <input
+                  type="radio"
+                  name="soundEffects"
+                  value="true"
+                  onChange={handleSoundRadioButtonClick}
+                  checked={soundEffectsSetting === true}
+                />
+                ON
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="soundEffects"
+                  value="false"
+                  onChange={handleSoundRadioButtonClick}
+                  checked={soundEffectsSetting === false}
+                />
+                OFF
+              </label>
+            </li>
+            <li className={cx('userpage__setting__item')}>
+              <div className={cx('userpage__setting__title')}>
+                <span className={cx('userpage__setting__logo')}>
+                  <GrLanguage />
+                </span>
+                <span>언어 설정</span>
+              </div>
               <label>
                 <input
                   type="radio"
@@ -144,10 +181,16 @@ export default function UserPage() {
                 />{' '}
                 Python
               </label>
-            </div>
+            </li>
 
-            <div>
-              <p>문제 개수 설정</p>
+            <li className={cx('userpage__setting__item')}>
+              <div className={cx('userpage__setting__title')}>
+                <span className={cx('userpage__setting__logo')}>
+                  <HiDocumentText />
+                </span>
+                <span>문제 개수 설정</span>
+              </div>
+
               <label>
                 <input
                   type="radio"
@@ -178,13 +221,13 @@ export default function UserPage() {
                 />{' '}
                 40개
               </label>
-            </div>
-
-            <button onClick={handleSettingSaveButtonClick}>
-              설정 저장하기
-            </button>
-          </div>
-
+            </li>
+            <li>
+              <button onClick={handleSettingSaveButtonClick}>
+                설정 저장하기
+              </button>
+            </li>
+          </ul>
           <div>
             <h3>기록</h3>
             <hr />
