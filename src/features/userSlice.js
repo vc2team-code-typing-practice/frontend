@@ -93,6 +93,7 @@ export const userSlice = createSlice({
       state.history = [
         ...state.history,
         {
+          type: action.payload.type,
           typingSpeed: action.payload.typingSpeed,
           time: action.payload.time,
           accuracy: action.payload.accuracy,

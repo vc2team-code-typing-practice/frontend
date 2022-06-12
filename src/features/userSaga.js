@@ -133,7 +133,7 @@ function* loadUserRecordSaga(action) {
         '/users/' +
         action.payload.id +
         '/record/' +
-        action.payload.selectedLanguage,
+        action.payload.selectedLanguageSetting,
     );
   });
 
@@ -151,6 +151,7 @@ function* updateUserRecordSaga(action) {
       typingSpeed: action.payload.typingSpeed,
       accuracy: action.payload.accuracy,
       time: action.payload.time,
+      type: action.payload.type,
     },
   );
 }
