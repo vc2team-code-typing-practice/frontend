@@ -18,25 +18,27 @@ const cx = classNames.bind(styles);
 export default function Menu() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const name = useSelector((state) => state.user.name);
   const isPracticing = useSelector((state) => state.user.isPracticing);
   const selectedLanguage = useSelector((state) => state.user.selectedLanguage);
+
   const [isShowing, setIsShowing] = useState(false);
   const items = [
     {
       path: `/practice/${selectedLanguage}/word`,
-      text: '낱말 연습',
+      text: `${selectedLanguage} 낱말 연습`,
       logo: <FaKeyboard />,
     },
     {
       path: `/practice/${selectedLanguage}/sentence`,
-      text: '짧은 글 연습',
+      text: `${selectedLanguage} 짧은 글 연습`,
       logo: <FaKeyboard />,
     },
     {
       path: `/practice/${selectedLanguage}/paragraph`,
-      text: '긴 글 연습',
+      text: `${selectedLanguage} 긴 글 연습`,
       logo: <FaKeyboard />,
     },
   ];
@@ -65,9 +67,6 @@ export default function Menu() {
         <div className={cx('userInfo')}>
           <ul className={cx('userInfo__List')}>
             <li className={cx('userInfo__name')}>{name}님 환영합니다</li>
-            <li className={cx('userInfo__lang')}>
-              선택한 언어: {selectedLanguage}
-            </li>
           </ul>
           {isPracticing ? (
             <div className={cx('menu')}>
