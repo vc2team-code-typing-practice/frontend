@@ -183,7 +183,7 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
 
   return (
     <div className={cx('container')}>
-      <h1>문장 연습</h1>
+      <h3>짧은 글 연습</h3>
       <div>
         {question?.split('').map((character, index) => (
           <span
