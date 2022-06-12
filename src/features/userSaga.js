@@ -152,6 +152,7 @@ function* updateUserRecordSaga(action) {
       accuracy: action.payload.accuracy,
       time: action.payload.time,
       type: action.payload.type,
+      score: action.payload.score,
     },
   );
 }

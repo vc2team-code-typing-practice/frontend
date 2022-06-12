@@ -90,6 +90,7 @@ export const userSlice = createSlice({
       state.history = action.payload;
     },
     updateUserRecord: (state, action) => {
+      state.hiscore += action.payload.score;
       state.history = [
         ...state.history,
         {

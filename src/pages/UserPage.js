@@ -83,19 +83,31 @@ export default function UserPage() {
               <span className={cx('userpage__data__logo')}>
                 <FaCaretRight />
               </span>
-              <span className={cx('userpage__data__title')}>
-                {selectedLanguageSetting} 점수 :
+              <span className={cx('userpage__data__title')}> 총 점수:</span>
+              <span className={cx('userpage__data__content')}>
+                {' '}
+                {hiscore} 점
               </span>
-              <span className={cx('userpage__data__content')}> {hiscore}</span>
             </li>
             <li className={cx('userpage__data__item')}>
               <span className={cx('userpage__data__logo')}>
                 <FaCaretRight />
               </span>
               <span className={cx('userpage__data__title')}>
-                {selectedLanguageSetting} 평균 타수 :
+                {selectedLanguageSetting} 평균 타수:
               </span>
-              <span className={cx('userpage__data__content')}> 타</span>
+              <span className={cx('userpage__data__content')}>
+                {' '}
+                {Math.floor(
+                  history.reduce((accumulator, current, index, array) => {
+                    if (index === array.length - 1) {
+                      return (accumulator + current.typingSpeed) / array.length;
+                    }
+                    return accumulator + current.typingSpeed;
+                  }, 0),
+                )}
+                타
+              </span>
             </li>
             <li className={cx('userpage__data__item')}>
               <span className={cx('userpage__data__logo')}>
@@ -104,7 +116,18 @@ export default function UserPage() {
               <span className={cx('userpage__data__title')}>
                 {selectedLanguageSetting} 평균 정확도 :
               </span>
-              <span className={cx('userpage__data__content')}> %</span>
+              <span className={cx('userpage__data__content')}>
+                {' '}
+                {Math.floor(
+                  history.reduce((accumulator, current, index, array) => {
+                    if (index === array.length - 1) {
+                      return (accumulator + current.accuracy) / array.length;
+                    }
+                    return accumulator + current.accuracy;
+                  }, 0),
+                )}
+                %
+              </span>
             </li>
           </ul>
           {/* 환경 설정 칸 */}
