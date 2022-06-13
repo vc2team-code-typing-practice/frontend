@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import { useSelector } from 'react-redux';
 
 import keyboard from '../audios/keyboard.mp3';
+import { keyboardButton } from '../utils/constants';
 
 import styles from './Keyboard.module.scss';
 
@@ -23,22 +24,26 @@ export default function Keyboard({ isGameEnd }) {
 
     if (
       keyCode === null ||
-      keyCode === 27 ||
-      keyCode === 229 ||
-      keyCode === 37 ||
-      keyCode === 38 ||
-      keyCode === 39 ||
-      keyCode === 40 ||
-      keyCode === 96 ||
-      keyCode === 97 ||
-      keyCode === 98 ||
-      keyCode === 99 ||
-      keyCode === 100 ||
-      keyCode === 101 ||
-      keyCode === 102 ||
-      keyCode === 103 ||
-      keyCode === 104 ||
-      keyCode === 105
+      keyCode === keyboardButton.esc ||
+      keyCode === keyboardButton.koreanLanguage ||
+      keyCode === keyboardButton.arrowLeft ||
+      keyCode === keyboardButton.arrowUp ||
+      keyCode === keyboardButton.arrowRight ||
+      keyCode === keyboardButton.arrowDown ||
+      keyCode === keyboardButton.numPad0 ||
+      keyCode === keyboardButton.numPad1 ||
+      keyCode === keyboardButton.numPad2 ||
+      keyCode === keyboardButton.numPad3 ||
+      keyCode === keyboardButton.numPad4 ||
+      keyCode === keyboardButton.numPad5 ||
+      keyCode === keyboardButton.numPad6 ||
+      keyCode === keyboardButton.numPad7 ||
+      keyCode === keyboardButton.numPad8 ||
+      keyCode === keyboardButton.numPad9 ||
+      keyCode === keyboardButton.numPadStar ||
+      keyCode === keyboardButton.numPadPlus ||
+      keyCode === keyboardButton.numPadBlack ||
+      keyCode === keyboardButton.numPadMinus
     )
       return;
 

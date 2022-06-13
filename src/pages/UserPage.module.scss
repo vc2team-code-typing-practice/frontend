@@ -83,7 +83,8 @@
   border: 0;
   border-radius: 15px;
   background-color: white;
-
+  height: 215px;
+  overflow: auto;
   &__content {
     padding: 7px;
   }

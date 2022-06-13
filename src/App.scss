@@ -11,7 +11,7 @@
 
 body {
   font-family: 'Poppins', 'sans-serif';
-  // overflow: hidden;
+  overflow: auto;
   background: rgb(240, 244, 248);
 }
 
@@ -38,13 +38,13 @@ body {
 }
 
 .correct {
-  // background-color: blue;
-  // color: white;
   color: #1fbd83;
 }
 
 .wrong {
-  // background-color: red;
-  // color: white;
   color: hotpink;
+}
+
+.currentSpan {
+  border-bottom: 5px solid lightseagreen;
 }

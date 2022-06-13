@@ -267,36 +267,39 @@ export default function UserPage() {
             </div>
 
             <div className={cx('history')}>
-              {history?.map((data, index) => {
-                let className;
-                {
-                  className =
-                    typeToKoreanName[data.type] === '짧은 글'
-                      ? 'sentence'
-                      : 'pragraph';
-                }
+              {history
+                ?.slice()
+                .sort((a, b) => new Date(b.time) - new Date(a.time))
+                .map((data, index) => {
+                  let className;
+                  {
+                    className =
+                      typeToKoreanName[data.type] === '짧은 글'
+                        ? 'sentence'
+                        : 'pragraph';
+                  }
 
-                return (
-                  <div key={index} className={cx('history__content')}>
-                    <span className={cx('history__content', `${className}`)}>
-                      {typeToKoreanName[data.type]}
-                    </span>
-                    <span className={cx('history__data')}>
-                      {data.time?.replace('T', ' ')} <FaRegHandPointRight />
-                    </span>
-                    <span className={cx('history__data')}>
-                      <span className={cx('history__data__title')}>
-                        타속 : {data.typingSpeed}
+                  return (
+                    <div key={index} className={cx('history__content')}>
+                      <span className={cx('history__content', `${className}`)}>
+                        {typeToKoreanName[data.type]}
                       </span>
-                    </span>
-                    <span className={cx('history__data')}>
-                      <span className={cx('history__data__title')}>
-                        정확도 : {data.accuracy}%
+                      <span className={cx('history__data')}>
+                        {data.time?.replace('T', ' ')} <FaRegHandPointRight />
                       </span>
-                    </span>
-                  </div>
-                );
-              })}
+                      <span className={cx('history__data')}>
+                        <span className={cx('history__data__title')}>
+                          타속 : {data.typingSpeed}
+                        </span>
+                      </span>
+                      <span className={cx('history__data')}>
+                        <span className={cx('history__data__title')}>
+                          정확도 : {data.accuracy}%
+                        </span>
+                      </span>
+                    </div>
+                  );
+                })}
             </div>
           </div>
 
