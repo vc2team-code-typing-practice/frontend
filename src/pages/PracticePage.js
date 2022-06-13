@@ -39,7 +39,10 @@ export default function PracticePage() {
               <SentencePracticePage selectedLanguage={languages} type={types} />
             )) ||
             (types === 'paragraph' && (
-              <ParagraphPracticePage languages={languages} />
+              <ParagraphPracticePage
+                selectedLanguage={languages}
+                type={types}
+              />
             ))}
         </div>
       ) : (
