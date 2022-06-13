@@ -9,13 +9,13 @@ import styles from './Keyboard.module.scss';
 
 const cx = classNames.bind(styles);
 
-export default function Keyboard() {
+export default function Keyboard({ isGameEnd }) {
   const isTurnedOn = useSelector((state) => state.user.soundEffects);
 
   const typingKeyboard = ({ keyCode, location }) => {
     const sound = new Audio(keyboard);
 
-    if (isTurnedOn) {
+    if (!isGameEnd && isTurnedOn) {
       sound.play();
     }
 
@@ -23,11 +23,22 @@ export default function Keyboard() {
 
     if (
       keyCode === null ||
+      keyCode === 27 ||
       keyCode === 229 ||
       keyCode === 37 ||
       keyCode === 38 ||
       keyCode === 39 ||
-      keyCode === 40
+      keyCode === 40 ||
+      keyCode === 96 ||
+      keyCode === 97 ||
+      keyCode === 98 ||
+      keyCode === 99 ||
+      keyCode === 100 ||
+      keyCode === 101 ||
+      keyCode === 102 ||
+      keyCode === 103 ||
+      keyCode === 104 ||
+      keyCode === 105
     )
       return;
 
@@ -43,7 +54,7 @@ export default function Keyboard() {
   };
 
   useEffect(() => {
-    window.addEventListener('keydown', typingKeyboard);
+    !isGameEnd && window.addEventListener('keydown', typingKeyboard);
 
     return () => window.removeEventListener('keydown', typingKeyboard);
   }, [typingKeyboard]);

@@ -122,7 +122,11 @@ export default function WordPracticePage() {
       setQuestionIndex((prev) => prev + 1);
       setCurrentInputIndex((prev) => prev + 1);
     } else if (event.keyCode === keyboardButton.backspace) {
+      currentQuestionId.classList.remove(cx('currentSpan'));
+      // currentQuestionId.classList.add(cx('currentSpan'));
+
       if (questionIndex > 0) {
+        // currentQuestionId.classList.add(cx('currentSpan'));
         setQuestionIndex((prev) => prev - 1);
         setCurrentInputIndex((prev) => prev - 1);
       }
@@ -147,6 +151,17 @@ export default function WordPracticePage() {
     dispatch(finishPractice());
     navigate('/');
   };
+  const currentQuestionId = document.getElementById(questionIndex);
+  console.log('현재 단어 인덱스', questionIndex);
+  console.log('캐릭터인덱스::', currentQuestionId);
+
+  useEffect(() => {
+    currentQuestionId?.classList.add(cx('currentSpan'));
+  }, [questionIndex]);
+
+  console.log(questionIndex);
+  // const currentCh_span = document.getElementById(`${this.state.currentIndex}`);
+  // currentCh_span.classList.add('current');
 
   return (
     <div className={cx('container')}>
@@ -183,6 +198,7 @@ export default function WordPracticePage() {
           {question?.split('').map((character, index) => (
             <span
               key={index}
+              id={index}
               className={getCharacterClass(currentInput, index, character)}
             >
               {character}
@@ -203,7 +219,7 @@ export default function WordPracticePage() {
         />
       </div>
 
-      <Keyboard />
+      <Keyboard isGameEnd={isEnded} />
 
       {isShowing && (
         <ModalPortal>
