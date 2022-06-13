@@ -73,7 +73,7 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
           language: selectedLanguage,
           accuracy: Math.floor((sentenceAccracySum / numberProblems) * 100),
           typingSpeed: Math.floor(typingSpeedSum / numberProblems),
-          time: dayjs().format('YYYY.MM.DDTHH:mm'),
+          time: dayjs().format('YYYY-MM-DDTHH:mm'),
           score,
         }),
       );

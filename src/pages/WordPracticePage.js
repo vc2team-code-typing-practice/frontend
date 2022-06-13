@@ -47,6 +47,18 @@ export default function WordPracticePage() {
   const lapsedTime = useRef(0);
   const interval = useRef(null);
 
+  let currentQuestionId = document.getElementById(questionIndex);
+
+  useEffect(() => {
+    currentQuestionId = document.getElementById(questionIndex);
+
+    currentQuestionId?.classList.add(cx('currentSpan'));
+
+    return () => {
+      currentQuestionId?.classList.remove(cx('currentSpan'));
+    };
+  }, [questionIndex]);
+
   useEffect(() => {
     nextQuestion();
     inputElement.current.focus();
@@ -75,6 +87,7 @@ export default function WordPracticePage() {
   const nextQuestion = () => {
     const randomIndex = Math.floor(Math.random() * 1000) % wordList.length;
     setQuestion(wordList[randomIndex]);
+    setQuestionIndex(0);
     setQuestionLength(wordList[randomIndex]?.length);
     setCurrentInput('');
   };
@@ -123,10 +136,8 @@ export default function WordPracticePage() {
       setCurrentInputIndex((prev) => prev + 1);
     } else if (event.keyCode === keyboardButton.backspace) {
       currentQuestionId.classList.remove(cx('currentSpan'));
-      // currentQuestionId.classList.add(cx('currentSpan'));
 
       if (questionIndex > 0) {
-        // currentQuestionId.classList.add(cx('currentSpan'));
         setQuestionIndex((prev) => prev - 1);
         setCurrentInputIndex((prev) => prev - 1);
       }
@@ -135,6 +146,7 @@ export default function WordPracticePage() {
     } else {
       setQuestionIndex((prev) => prev + 1);
       setCurrentInputIndex((prev) => prev + 1);
+      currentQuestionId?.classList.add('current');
     }
   };
 
@@ -151,17 +163,6 @@ export default function WordPracticePage() {
     dispatch(finishPractice());
     navigate('/');
   };
-  const currentQuestionId = document.getElementById(questionIndex);
-  console.log('현재 단어 인덱스', questionIndex);
-  console.log('캐릭터인덱스::', currentQuestionId);
-
-  useEffect(() => {
-    currentQuestionId?.classList.add(cx('currentSpan'));
-  }, [questionIndex]);
-
-  console.log(questionIndex);
-  // const currentCh_span = document.getElementById(`${this.state.currentIndex}`);
-  // currentCh_span.classList.add('current');
 
   return (
     <div className={cx('container')}>
@@ -225,18 +226,23 @@ export default function WordPracticePage() {
         <ModalPortal>
           <Modal
             message={
-              <div>
-                <h1>낱말 연습 결과</h1>
-                <p>{name} 님의 기록은</p>
-                <p>
-                  정확도: {Math.round((correctCount / numberProblems) * 100)} %
-                </p>
-                <p>오타수: {incorrectCount} 개</p>
-                <p>
-                  소요시간: {Math.floor(lapsedTime.current / 60)} 분{' '}
-                  {lapsedTime.current % 60} 초
-                </p>
-                <Button onClick={handleButtonClick}>홈으로 이동하기</Button>
+              <div className={cx('practice_result')}>
+                <h1 className={cx('practice_result__title')}>낱말 연습 결과</h1>
+                <div className={cx('practice_result__content')}>
+                  <p>{name} 님의 기록은</p>
+                  <p>
+                    정확도 : {Math.round((correctCount / numberProblems) * 100)}{' '}
+                    %
+                  </p>
+                  <p>오타수 : {incorrectCount} 개</p>
+                  <p>
+                    소요시간 : {Math.floor(lapsedTime.current / 60)} 분{' '}
+                    {lapsedTime.current % 60} 초
+                  </p>
+                </div>
+                <div className={cx('practice_result__button')}>
+                  <Button onClick={handleButtonClick}>홈으로 이동하기</Button>
+                </div>
               </div>
             }
             onCloseModal={setIsShowing}

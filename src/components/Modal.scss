@@ -36,3 +36,20 @@
     border: white;
   }
 }
+
+.practice_result {
+  position: relative;
+  bottom: 30px;
+  &__content {
+    background: white;
+    color: black;
+    width: 60%;
+    margin: 0 auto;
+    margin-top: 10px;
+    border-radius: 15px;
+    padding: 10px;
+  }
+  &__button {
+    display: inline-block;
+  }
+}

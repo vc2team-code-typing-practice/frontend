@@ -2,7 +2,6 @@ import React from 'react';
 
 import './Button.scss';
 
-// eslint-disable-next-line react/prop-types
 export default function Button({ children, onClick }) {
   return (
     <div>
