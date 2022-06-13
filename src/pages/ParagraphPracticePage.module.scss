@@ -1,0 +1,51 @@
+.container {
+  padding: 50px;
+  border: 2px solid black;
+  border-radius: 15px;
+
+  &__title {
+    font-size: 30px;
+  }
+}
+
+.question {
+  padding: 20px;
+  margin: 0px 20px 30px 20px;
+  border: 2px solid black;
+  border-radius: 10px;
+  background-color: white;
+  font-size: 20px;
+  box-shadow: 3px 3px rgba(126, 130, 143, 0.8);
+  white-space: pre-wrap;
+
+  span {
+    padding: 1px;
+  }
+}
+
+.section {
+  margin: 0px 500px;
+
+  &__input {
+    width: 100%;
+    border: 0;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    outline: none;
+  }
+}
+
+.result {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 20px;
+  margin: 20px;
+  font-size: 20px;
+
+  &__dataname {
+    margin: 20px;
+    font-size: 25px;
+    font-weight: bold;
+  }
+}
