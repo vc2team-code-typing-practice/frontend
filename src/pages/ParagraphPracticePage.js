@@ -1,36 +1,52 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 
-import { useSelector } from 'react-redux';
+import dayjs from 'dayjs';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../components/Button';
 import Keyboard from '../components/Keyboard';
 import Modal from '../components/Modal';
+import { updateUserRecord } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
+import {
+  keyboardButton,
+  prohibitedParagraphKeyCodeList,
+} from '../utils/constants';
 import getCharacterClass from '../utils/getCharacterClass';
 
-import styles from './WordPracticePage.module.scss';
-
-export default function ParagraphPracticePage({ languages }) {
+export default function ParagraphPracticePage({ selectedLanguage, type }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  const uid = useSelector((state) => state.user.uid);
+  const numberProblems = useSelector((state) => state.user.numberProblems);
   const paragraphList = useSelector((state) => {
-    if (languages === 'C') return state.problem.paragraphCList;
-    if (languages === 'JavaScript') {
+    if (selectedLanguage === 'C') return state.problem.paragraphCList;
+    if (selectedLanguage === 'JavaScript') {
       return state.problem.paragraphJavaScriptList;
     }
-    if (languages === 'Python') return state.problem.paragraphPythonList;
+    if (selectedLanguage === 'Python') return state.problem.paragraphPythonList;
   });
   const name = useSelector((state) => state.user.name);
 
   const [question, setQuestion] = useState('');
   const [currentInput, setCurrentInput] = useState('');
 
+  const [attemptCount, setAttemptCount] = useState(0);
+
+  const [paragraphAccuracy, setParagraphAccuracy] = useState(0);
+  const [paragraphAccuracySum, setParagraphAccuracySum] = useState(0);
+
+  const [typingSpeed, setTypingSpeed] = useState(0);
+  const [typingSpeedSum, setTypingSpeedSum] = useState(0);
+
   const [correctWordCount, setCorrectWordCount] = useState(0);
   const [incorrectWordCount, setIncorrectWordCount] = useState(0);
 
-  const [second, setSecond] = useState(0);
-  const [typingSpeed, setTypingSpeed] = useState(0);
+  const [score, setScore] = useState(0);
+  const [currentInputIndex, setCurrentInputIndex] = useState(0);
+  const [previousInputIndex, setPreviousInputIndex] = useState(0);
 
   const [isStarted, setIsStarted] = useState(false);
   const [isEnded, setIsEnded] = useState(false);
@@ -39,13 +55,11 @@ export default function ParagraphPracticePage({ languages }) {
   const inputElement = useRef(null);
   const interval = useRef(null);
   const lapsedTime = useRef(0);
-
-  const keyBoardButton = {
-    tab: 9,
-  };
+  const correctkeyDownCount = useRef(0);
 
   useEffect(() => {
-    nextQuestion();
+    paragraphList?.length && nextQuestion();
+    inputElement.current.focus();
   }, [paragraphList]);
 
   useEffect(() => {
@@ -54,22 +68,60 @@ export default function ParagraphPracticePage({ languages }) {
     };
   }, []);
 
+  useMemo(() => {
+    if (attemptCount === numberProblems) {
+      dispatch(
+        updateUserRecord({
+          uid,
+          type,
+          language: selectedLanguage,
+          accuracy: Math.floor(paragraphAccuracySum / numberProblems),
+          typingSpeed: Math.floor(typingSpeedSum / numberProblems),
+          time: dayjs().format('YYYY.MM.DDTHH:mm'),
+          score,
+        }),
+      );
+
+      setIsShowingModal(true);
+      setIsEnded(true);
+    }
+  }, [attemptCount]);
+
+  useMemo(() => {
+    if (currentInput) {
+      setParagraphAccuracy(
+        (correctWordCount / (correctWordCount + incorrectWordCount)) * 100,
+      );
+    }
+  }, [currentInput]);
+
+  const increaseAttemptCount = () => {
+    setAttemptCount((prev) => prev + 1);
+  };
+
   const nextQuestion = () => {
-    const randomIndex = Math.floor(Math.random() * 10) % paragraphList.length;
+    const randomIndex = Math.floor(Math.random() * 1000) % paragraphList.length;
     setQuestion(paragraphList[randomIndex]);
 
     setCurrentInput('');
 
-    setSecond(0);
-    setTypingSpeed(0);
-
     setCorrectWordCount(0);
     setIncorrectWordCount(0);
+
+    setParagraphAccuracySum((prev) => prev + paragraphAccuracy);
+    setTypingSpeedSum((prev) => prev + typingSpeed);
+
+    setParagraphAccuracy(0);
+    setTypingSpeed(0);
+
+    setCurrentInputIndex(0);
+    setPreviousInputIndex(0);
 
     setIsStarted(false);
     setIsEnded(false);
 
     lapsedTime.current = 0;
+    correctkeyDownCount.current = 0;
   };
 
   const startTimer = () => {
@@ -78,17 +130,35 @@ export default function ParagraphPracticePage({ languages }) {
 
       interval.current = setInterval(() => {
         lapsedTime.current += 1;
-        setSecond((previousSecond) => previousSecond + 1);
-      }, 1000);
+
+        let currentSpeed =
+          (correctkeyDownCount.current / lapsedTime.current) * 600;
+
+        currentSpeed = currentSpeed > 0 ? currentSpeed : 0;
+
+        setTypingSpeed(currentSpeed);
+      }, 100);
     }
   };
 
   const finishPractice = (userInput) => {
     if (userInput.length === question.length) {
-      clearInterval(interval.current);
+      if (
+        userInput.slice(previousInputIndex, currentInputIndex) ===
+        question.slice(previousInputIndex, currentInputIndex)
+      ) {
+        setScore((prev) => prev + 3);
 
-      setIsEnded(true);
-      setIsShowingModal(true);
+        clearInterval(interval.current);
+
+        increaseAttemptCount();
+        nextQuestion();
+      } else {
+        clearInterval(interval.current);
+
+        increaseAttemptCount();
+        nextQuestion();
+      }
     }
   };
 
@@ -105,48 +175,104 @@ export default function ParagraphPracticePage({ languages }) {
       .split('')
       .filter((value, index) => value !== text[index]).length;
 
+    correctkeyDownCount.current = correctText;
+
     setCorrectWordCount(correctText);
     setIncorrectWordCount(incorrectText);
   };
 
   const handleChange = (e) => {
-    startTimer();
+    if (e.target.value === 'ㅁ' || e.target.value === 'ㅊ') {
+      return;
+    }
 
-    finishPractice(e.target.value);
+    startTimer();
 
     setCurrentInput(e.target.value);
     checkCorrectWords(e.target.value);
 
-    setTypingSpeed(correctWordCount / (second / 60));
+    finishPractice(e.target.value);
   };
 
   const handleKeyDown = (e) => {
-    if (e.keyCode === keyBoardButton.tab) {
+    if (e.keyCode === keyboardButton.koreanLanguage) {
       e.preventDefault();
 
-      setCurrentInput(e.target.value + '\t');
+      return;
+    } else if (prohibitedParagraphKeyCodeList.includes(e.keyCode)) {
+      e.preventDefault();
+
+      return;
+    } else if (e.keyCode === keyboardButton.tab) {
+      e.preventDefault();
+
+      setCurrentInput(e.target.value + '  ');
+      setCurrentInputIndex(currentInputIndex + 2);
+    } else if (e.keyCode === keyboardButton.enter) {
+      if (currentInputIndex === 0) {
+        e.preventDefault();
+
+        return;
+      } else if (
+        currentInput.slice(previousInputIndex, currentInputIndex) ===
+        question.slice(previousInputIndex, currentInputIndex)
+      ) {
+        setPreviousInputIndex(currentInputIndex);
+        setCurrentInputIndex(currentInputIndex + 1);
+        setScore((prev) => prev + 3);
+      } else {
+        setPreviousInputIndex(currentInputIndex);
+        setCurrentInputIndex(currentInputIndex + 1);
+      }
+    } else if (e.keyCode === keyboardButton.backspace) {
+      if (previousInputIndex === 0) {
+        if (currentInputIndex === 0) {
+          e.preventDefault();
+
+          return;
+        } else {
+          setCurrentInputIndex(currentInputIndex - 1);
+        }
+      } else {
+        if (previousInputIndex + 1 === currentInputIndex) {
+          e.preventDefault();
+
+          return;
+        } else {
+          setCurrentInputIndex(currentInputIndex - 1);
+        }
+      }
+    } else if (e.keyCode === keyboardButton.shift) {
+      e.preventDefault();
+
+      return;
+    } else {
+      setCurrentInputIndex(currentInputIndex + 1);
     }
   };
 
   const handleButtonClick = () => {
     setIsShowingModal(false);
-
     navigate('/');
   };
 
   return (
     <div>
       <div>
+        <h3>긴 글 연습</h3>
+      </div>
+      <div>
         {question?.split('').map((character, index) => (
           <span
             key={index}
             className={getCharacterClass(currentInput, index, character)}
-            style={{ whiteSpace: 'pre-wrap' }}
+            style={{ whiteSpace: 'pre-wrap', fontSize: '20px' }}
           >
             {character}
           </span>
         ))}
       </div>
+
       <div>
         <textarea
           ref={inputElement}
@@ -154,26 +280,30 @@ export default function ParagraphPracticePage({ languages }) {
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           readOnly={isEnded}
-          style={{ width: '100%', height: '100px' }}
         />
       </div>
+
       <div>
-        <div>
-          {correctWordCount !== 0 && second !== 0 && (
-            <div>{Math.round(typingSpeed)} wpm</div>
-          )}
-        </div>
+        <p>
+          타수:{' '}
+          {lapsedTime.current !== 0 ? <>{Math.round(typingSpeed)} 타/분</> : 0}
+        </p>
         <p>맞은 횟수{correctWordCount}</p>
         <p>틀린 횟수{incorrectWordCount}</p>
-        {correctWordCount !== 0 && incorrectWordCount !== 0 && (
-          <p>
-            Accuracy:
-            {Math.round(
+        <p>
+          현재 정확도:{' '}
+          {correctWordCount !== 0 &&
+            Math.round(
               (correctWordCount / (correctWordCount + incorrectWordCount)) *
                 100,
             )}
-          </p>
-        )}
+        </p>
+        <p>
+          누적 정확도:{' '}
+          {attemptCount ? Math.floor(paragraphAccuracySum / attemptCount) : 0} %
+        </p>
+        <p>진행도: {Math.floor((attemptCount / numberProblems) * 100)} %</p>
+        <p>획득점수: {score} 점</p>
       </div>
 
       <Keyboard />
@@ -186,15 +316,12 @@ export default function ParagraphPracticePage({ languages }) {
                 <h1>문장 연습 결과</h1>
                 <p>{name} 님의 연습 결과</p>
                 <p>
-                  정확도:{' '}
-                  {Math.round(
-                    (correctWordCount /
-                      (correctWordCount + incorrectWordCount)) *
-                      100,
-                  )}
-                  %
+                  정확도: {Math.floor(paragraphAccuracySum / numberProblems)} %
                 </p>
-                <p>평균 타자속도: {Math.floor(typingSpeed)} 타 / 분</p>
+                <p>
+                  타수: {Math.floor(typingSpeedSum / numberProblems)}타 / 분
+                </p>
+                <p>획득점수: {score} 점</p>
                 <Button onClick={handleButtonClick}>홈으로 이동하기</Button>
               </div>
             }
