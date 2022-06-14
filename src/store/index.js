@@ -11,6 +11,7 @@ import {
 import problemSlice from '../features/problemSlice';
 import {
   watchLogin,
+  watchAnonymousLogin,
   watchLogout,
   watchChangeSetting,
   watchLoadUserDbData,
@@ -25,6 +26,7 @@ const sagaMiddleware = createSagaMiddleware();
 function* rootSaga() {
   yield all([
     fork(watchLogin),
+    fork(watchAnonymousLogin),
     fork(watchLogout),
     fork(watchChangeSetting),
     fork(watchLoadUserDbData),

@@ -22,6 +22,7 @@ import {
   loadUserRecord,
   loadUserRecordSuccess,
   updateUserRecord,
+  anonymousLogin,
 } from './userSlice';
 
 const provider = new firebaseInstance.auth.GoogleAuthProvider();
@@ -74,6 +75,20 @@ function* loginSaga() {
     console.error(err);
     return yield put(loginFailure());
   }
+}
+
+function* anonymousLoginSaga() {
+  const setting = {
+    name: 'anonymous',
+    email: 'anonymous@anonymous.com',
+    uid: 'anonymous',
+    soundEffects: true,
+    selectedLanguage: 'JavaScript',
+    hiscore: 0,
+    numberProblems: 10,
+  };
+
+  yield put(loginSuccess(setting));
 }
 
 function* logoutSaga() {
@@ -163,6 +178,10 @@ export function* watchRefresh() {
 
 export function* watchLogin() {
   yield takeLatest(login, loginSaga);
+}
+
+export function* watchAnonymousLogin() {
+  yield takeLatest(anonymousLogin, anonymousLoginSaga);
 }
 
 export function* watchLogout() {

@@ -28,6 +28,7 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
   const name = useSelector((state) => state.user.name);
   const numberProblems = useSelector((state) => state.user.numberProblems);
   const paragraphList = useSelector((state) => state.problem.paragraphList);
+  const isAnonymousUser = useSelector((state) => state.user.isAnonymousUser);
 
   const [question, setQuestion] = useState('');
 
@@ -70,21 +71,23 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
 
   useMemo(() => {
     if (attemptCount === numberProblems) {
-      dispatch(
-        updateUserRecord({
-          uid,
-          type,
-          language: selectedLanguage,
-          accuracy: Math.floor(paragraphAccuracySum / numberProblems),
-          typingSpeed: Math.floor(typingSpeedSum / numberProblems),
-          time: dayjs().format('YYYY-MM-DDTHH:mm'),
-          score,
-        }),
-      );
+      if (!isAnonymousUser) {
+        dispatch(
+          updateUserRecord({
+            uid,
+            type,
+            language: selectedLanguage,
+            accuracy: Math.floor(paragraphAccuracySum / numberProblems),
+            typingSpeed: Math.floor(typingSpeedSum / numberProblems),
+            time: dayjs().format('YYYY-MM-DDTHH:mm'),
+            score,
+          }),
+        );
+      }
       setIsShowingModal(true);
       setIsEnded(true);
     }
-  }, [attemptCount]);
+  }, [attemptCount, isAnonymousUser]);
 
   useMemo(() => {
     if (currentInput) {

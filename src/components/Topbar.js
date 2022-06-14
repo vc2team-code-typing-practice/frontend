@@ -5,7 +5,7 @@ import { FaFileCode } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { login, logout } from '../features/userSlice';
+import { login, logout, anonymousLogin } from '../features/userSlice';
 
 import Button from './Button';
 import Spinner from './Spinner';
@@ -21,6 +21,7 @@ export default function Topbar() {
     (state) => state.user.isUserDataLoading,
   );
   const isRefreshing = useSelector((state) => state.user.isRefreshing);
+  const isAnonymousUser = useSelector((state) => state.user.isAnonymousUser);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -28,6 +29,11 @@ export default function Topbar() {
   const handleLoginButtonClick = () => {
     dispatch(login());
   };
+
+  const handleAnonymousLoginButtonClick = () => {
+    dispatch(anonymousLogin());
+  };
+
   const handleLogoutButtonClick = () => {
     dispatch(logout());
   };
@@ -51,13 +57,18 @@ export default function Topbar() {
             <Spinner />
           ) : isLoggedIn ? (
             <div className={topbar('topbar__right')}>
-              {!isPracticing && (
+              {!isPracticing && !isAnonymousUser && (
                 <Button onClick={handleMyPageButtonClick}>My Page</Button>
               )}
               <Button onClick={handleLogoutButtonClick}>Sign Out</Button>
             </div>
           ) : (
-            <Button onClick={handleLoginButtonClick}>Google SignIn</Button>
+            <div>
+              <Button onClick={handleLoginButtonClick}>Google SignIn</Button>
+              <Button onClick={handleAnonymousLoginButtonClick}>
+                익명 로그인하기
+              </Button>
+            </div>
           )}
         </div>
       </div>

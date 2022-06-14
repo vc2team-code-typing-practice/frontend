@@ -28,6 +28,7 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
   const numberProblems = useSelector((state) => state.user.numberProblems);
   const isTurnedOn = useSelector((state) => state.user.soundEffects);
   const sentenceList = useSelector((state) => state.problem.sentenceList);
+  const isAnonymousUser = useSelector((state) => state.user.isAnonymousUser);
 
   const [question, setQuestion] = useState('');
   const [questionLength, setQuestionLength] = useState(0);
@@ -81,21 +82,23 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
 
   useMemo(() => {
     if (attemptCount === numberProblems) {
-      dispatch(
-        updateUserRecord({
-          uid,
-          type,
-          language: selectedLanguage,
-          accuracy: Math.floor((sentenceAccracySum / numberProblems) * 100),
-          typingSpeed: Math.floor(typingSpeedSum / numberProblems),
-          time: dayjs().format('YYYY-MM-DDTHH:mm'),
-          score,
-        }),
-      );
+      if (!isAnonymousUser) {
+        dispatch(
+          updateUserRecord({
+            uid,
+            type,
+            language: selectedLanguage,
+            accuracy: Math.floor((sentenceAccracySum / numberProblems) * 100),
+            typingSpeed: Math.floor(typingSpeedSum / numberProblems),
+            time: dayjs().format('YYYY-MM-DDTHH:mm'),
+            score,
+          }),
+        );
+      }
       setIsShowingModal(true);
       setIsEnded(true);
     }
-  }, [attemptCount]);
+  }, [attemptCount, isAnonymousUser]);
 
   useMemo(() => {
     if (currentInputIndex) {
