@@ -276,7 +276,7 @@ export default function UserPage() {
                     className =
                       typeToKoreanName[data.type] === '짧은 글'
                         ? 'sentence'
-                        : 'pragraph';
+                        : 'paragraph';
                   }
 
                   return (

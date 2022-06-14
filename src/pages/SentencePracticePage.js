@@ -35,7 +35,7 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
 
   const [attemptCount, setAttemptCount] = useState(0);
 
-  const [isShowing, setIsShowing] = useState(false);
+  const [isShowingModal, setIsShowingModal] = useState(false);
   const [isEnded, setIsEnded] = useState(false);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
 
@@ -77,7 +77,7 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
           score,
         }),
       );
-      setIsShowing(true);
+      setIsShowingModal(true);
       setIsEnded(true);
     }
   }, [attemptCount]);
@@ -183,7 +183,7 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
   };
 
   const handleButtonClick = () => {
-    setIsShowing(false);
+    setIsShowingModal(false);
     dispatch(finishPractice());
     navigate('/');
   };
@@ -226,7 +226,7 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
       <p>획득점수: {score} 점</p>
       <Keyboard />
 
-      {isShowing && (
+      {isShowingModal && (
         <ModalPortal>
           <Modal
             message={
@@ -242,7 +242,7 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
                 <Button onClick={handleButtonClick}>홈으로 이동하기</Button>
               </div>
             }
-            onCloseModal={setIsShowing}
+            onCloseModal={setIsShowingModal}
           />
         </ModalPortal>
       )}

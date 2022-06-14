@@ -17,48 +17,57 @@ import {
 import getCharacterClass from '../utils/getCharacterClass';
 
 import styles from './ParagraphPracticePage.module.scss';
+
 const cx = classNames.bind(styles);
+
 export default function ParagraphPracticePage({ selectedLanguage, type }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const uid = useSelector((state) => state.user.uid);
-  const numberProblems = useSelector((state) => state.user.numberProblems);
-  const paragraphList = useSelector((state) => {
-    if (selectedLanguage === 'C') return state.problem.paragraphCList;
-    if (selectedLanguage === 'JavaScript') {
-      return state.problem.paragraphJavaScriptList;
-    }
-    if (selectedLanguage === 'Python') return state.problem.paragraphPythonList;
-  });
   const name = useSelector((state) => state.user.name);
+  const numberProblems = useSelector((state) => state.user.numberProblems);
+  const paragraphList = useSelector((state) => state.problem.paragraphList);
+
   const [question, setQuestion] = useState('');
+
   const [currentInput, setCurrentInput] = useState('');
-  const [attemptCount, setAttemptCount] = useState(0);
-  const [paragraphAccuracy, setParagraphAccuracy] = useState(0);
-  const [paragraphAccuracySum, setParagraphAccuracySum] = useState(0);
-  const [typingSpeed, setTypingSpeed] = useState(0);
-  const [typingSpeedSum, setTypingSpeedSum] = useState(0);
-  const [correctWordCount, setCorrectWordCount] = useState(0);
-  const [incorrectWordCount, setIncorrectWordCount] = useState(0);
-  const [score, setScore] = useState(0);
   const [currentInputIndex, setCurrentInputIndex] = useState(0);
   const [previousInputIndex, setPreviousInputIndex] = useState(0);
+
+  const [attemptCount, setAttemptCount] = useState(0);
+
+  const [paragraphAccuracy, setParagraphAccuracy] = useState(0);
+  const [paragraphAccuracySum, setParagraphAccuracySum] = useState(0);
+
+  const [typingSpeed, setTypingSpeed] = useState(0);
+  const [typingSpeedSum, setTypingSpeedSum] = useState(0);
+
+  const [correctWordCount, setCorrectWordCount] = useState(0);
+  const [incorrectWordCount, setIncorrectWordCount] = useState(0);
+
+  const [score, setScore] = useState(0);
+
   const [isStarted, setIsStarted] = useState(false);
   const [isEnded, setIsEnded] = useState(false);
   const [isShowingModal, setIsShowingModal] = useState(false);
+
   const inputElement = useRef(null);
   const interval = useRef(null);
   const lapsedTime = useRef(0);
   const correctkeyDownCount = useRef(0);
+
   useEffect(() => {
     paragraphList?.length && nextQuestion();
     inputElement.current.focus();
   }, [paragraphList]);
+
   useEffect(() => {
     return () => {
       clearInterval(interval.current);
     };
   }, []);
+
   useMemo(() => {
     if (attemptCount === numberProblems) {
       dispatch(
@@ -68,7 +77,7 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
           language: selectedLanguage,
           accuracy: Math.floor(paragraphAccuracySum / numberProblems),
           typingSpeed: Math.floor(typingSpeedSum / numberProblems),
-          time: dayjs().format('YYYY.MM.DDTHH:mm'),
+          time: dayjs().format('YYYY-MM-DDTHH:mm'),
           score,
         }),
       );
@@ -76,6 +85,7 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
       setIsEnded(true);
     }
   }, [attemptCount]);
+
   useMemo(() => {
     if (currentInput) {
       setParagraphAccuracy(
@@ -83,9 +93,11 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
       );
     }
   }, [currentInput]);
+
   const increaseAttemptCount = () => {
     setAttemptCount((prev) => prev + 1);
   };
+
   const nextQuestion = () => {
     const randomIndex = Math.floor(Math.random() * 1000) % paragraphList.length;
     setQuestion(paragraphList[randomIndex]);
@@ -103,6 +115,7 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
     lapsedTime.current = 0;
     correctkeyDownCount.current = 0;
   };
+
   const startTimer = () => {
     if (!isStarted) {
       setIsStarted(true);
@@ -115,6 +128,7 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
       }, 100);
     }
   };
+
   const finishPractice = (userInput) => {
     if (userInput.length === question.length) {
       if (
@@ -132,6 +146,7 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
       }
     }
   };
+
   const checkCorrectWords = (currentInput) => {
     const text = question?.replace(' ', '');
     const correctText = currentInput
@@ -146,6 +161,7 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
     setCorrectWordCount(correctText);
     setIncorrectWordCount(incorrectText);
   };
+
   const handleChange = (e) => {
     if (e.target.value === 'ㅁ' || e.target.value === 'ㅊ') {
       return;
@@ -155,6 +171,7 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
     checkCorrectWords(e.target.value);
     finishPractice(e.target.value);
   };
+
   const handleKeyDown = (e) => {
     if (e.keyCode === keyboardButton.koreanLanguage) {
       e.preventDefault();
@@ -203,10 +220,12 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
       setCurrentInputIndex(currentInputIndex + 1);
     }
   };
+
   const handleButtonClick = () => {
     setIsShowingModal(false);
     navigate('/');
   };
+
   return (
     <div className={cx('container')}>
       <div className={cx('container__title')}>
