@@ -7,9 +7,7 @@ export const problemsSlice = createSlice({
     isLoading: false,
     wordList: [],
     sentenceList: [],
-    paragraphCList: [],
-    paragraphJavaScriptList: [],
-    paragraphPythonList: [],
+    paragraphList: [],
   },
 
   reducers: {
@@ -32,9 +30,7 @@ export const problemsSlice = createSlice({
     },
     getParagraphListSuccess: (state, action) => {
       state.isLoading = false;
-      state.paragraphCList = [...action.payload[0]['C']];
-      state.paragraphJavaScriptList = [...action.payload[1]['JavaScript']];
-      state.paragraphPythonList = [...action.payload[2]['Python']];
+      state.paragraphList = [...action.payload];
     },
   },
 });

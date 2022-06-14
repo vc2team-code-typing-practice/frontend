@@ -39,7 +39,7 @@ export default function WordPracticePage() {
 
   const [attemptCount, setAttemptCount] = useState(0);
 
-  const [isShowing, setIsShowing] = useState(false);
+  const [isShowingModal, setIsShowingModal] = useState(false);
   const [isEnded, setIsEnded] = useState(false);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
 
@@ -73,7 +73,7 @@ export default function WordPracticePage() {
   useMemo(() => {
     if (attemptCount === numberProblems) {
       clearInterval(interval.current);
-      setIsShowing(true);
+      setIsShowingModal(true);
       setIsEnded(true);
     }
   }, [attemptCount]);
@@ -159,7 +159,7 @@ export default function WordPracticePage() {
   };
 
   const handleButtonClick = () => {
-    setIsShowing(false);
+    setIsShowingModal(false);
     dispatch(finishPractice());
     navigate('/');
   };
@@ -222,7 +222,7 @@ export default function WordPracticePage() {
 
       <Keyboard isGameEnd={isEnded} />
 
-      {isShowing && (
+      {isShowingModal && (
         <ModalPortal>
           <Modal
             message={
@@ -245,7 +245,7 @@ export default function WordPracticePage() {
                 </div>
               </div>
             }
-            onCloseModal={setIsShowing}
+            onCloseModal={setIsShowingModal}
           />
         </ModalPortal>
       )}

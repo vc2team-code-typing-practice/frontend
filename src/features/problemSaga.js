@@ -1,4 +1,4 @@
-import { put, takeLatest, call, delay, take } from 'redux-saga/effects';
+import { put, takeLatest, call } from 'redux-saga/effects';
 
 import { axiosGetRequest } from '../api';
 
@@ -24,7 +24,15 @@ function* getWordListSaga(action) {
     );
   });
 
-  yield put(getWordListSuccess(result.data[0][language]));
+  const data = [];
+
+  yield call(() => {
+    result.data.map((element) => {
+      data.push(element.content);
+    });
+  });
+
+  yield put(getWordListSuccess(data));
 }
 
 function* getSentenceListSaga(action) {
@@ -40,7 +48,15 @@ function* getSentenceListSaga(action) {
     );
   });
 
-  yield put(getSentenceListSucces(result.data[0][language]));
+  const data = [];
+
+  yield call(() => {
+    result.data.map((element) => {
+      data.push(element.content);
+    });
+  });
+
+  yield put(getSentenceListSucces(data));
 }
 
 function* getParagraphListSaga(action) {
@@ -56,7 +72,15 @@ function* getParagraphListSaga(action) {
     );
   });
 
-  yield put(getParagraphListSuccess(result.data));
+  const data = [];
+
+  yield call(() => {
+    result.data.map((element) => {
+      data.push(element.content);
+    });
+  });
+
+  yield put(getParagraphListSuccess(data));
 }
 
 export function* watchGetWordList() {
