@@ -9,6 +9,7 @@ export const userSlice = createSlice({
     isUserRecordLoading: false,
     isLoggedIn: false,
     isPracticing: false,
+    isAnonymousUser: false,
     name: null,
     email: null,
     uid: null,
@@ -23,6 +24,10 @@ export const userSlice = createSlice({
     login: (state) => {
       state.isUserDataLoading = true;
     },
+    anonymousLogin: (state) => {
+      state.isUserDataLoading = true;
+      state.isAnonymousUser = true;
+    },
     loginSuccess: (state, action) => {
       state.isUserDataLoading = false;
       state.isLoggedIn = true;
@@ -36,6 +41,7 @@ export const userSlice = createSlice({
     },
     logout: (state) => {
       state.isUserDataLoading = true;
+      state.isAnonymousUser = false;
     },
     logoutSuccess: (state) => {
       state.isUserDataLoading = false;
@@ -106,6 +112,7 @@ export const userSlice = createSlice({
 
 export const {
   login,
+  anonymousLogin,
   loginSuccess,
   loginFailure,
   logout,
