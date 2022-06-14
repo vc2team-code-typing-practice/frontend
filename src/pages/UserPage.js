@@ -194,21 +194,21 @@ export default function UserPage() {
                 <input
                   type="radio"
                   name="selectedLanguage"
-                  value="JavaScript"
-                  onChange={handleLanguageRadioButtonClick}
-                  checked={selectedLanguageSetting === 'JavaScript'}
-                />{' '}
-                JavaScript
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="selectedLanguage"
                   value="Python"
                   onChange={handleLanguageRadioButtonClick}
                   checked={selectedLanguageSetting === 'Python'}
                 />{' '}
                 Python
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="selectedLanguage"
+                  value="JavaScript"
+                  onChange={handleLanguageRadioButtonClick}
+                  checked={selectedLanguageSetting === 'JavaScript'}
+                />{' '}
+                JavaScript
               </label>
             </li>
 

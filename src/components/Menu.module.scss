@@ -41,6 +41,9 @@
     border-bottom: 1px solid whitesmoke;
   }
   &__name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-weight: bold;
     font-size: larger;
   }

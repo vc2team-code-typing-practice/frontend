@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Serif&family=Secular+One&display=swap');
+
 .container {
   border: 2px solid black;
   border-radius: 15px;
   padding: 20px;
+  position: relative;
+  top: 80px;
   &__title {
     padding: 0.25em 0.5em;
     color: black;
@@ -16,13 +20,28 @@
   align-items: center;
   justify-content: center;
   padding: 5px;
+  font-family: 'Noto Serif', serif;
   &__character {
     border: 0;
     border-radius: 15px;
     background-color: white;
     outline: none;
-    width: 50%;
+    padding-left: 10px;
+    padding-right: 10px;
     height: 60px;
+    width: 60%;
+    font-size: 40px;
+    font-weight: bold;
+  }
+  &__sentence_character {
+    border: 0;
+    border-radius: 15px;
+    background-color: white;
+    outline: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 60px;
+    width: auto;
     font-size: 40px;
     font-weight: bold;
   }
@@ -35,6 +54,7 @@
   padding: 5px;
   padding-bottom: 20px;
   &__input {
+    font-family: 'Noto Serif', serif;
     border: 0;
     border-radius: 15px;
     background-color: rgb(233, 233, 233);
