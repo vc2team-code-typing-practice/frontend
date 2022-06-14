@@ -229,13 +229,17 @@ export default function WordPracticePage() {
               <div className={cx('practice_result')}>
                 <h1 className={cx('practice_result__title')}>낱말 연습 결과</h1>
                 <div className={cx('practice_result__content')}>
-                  <p>{name} 님의 기록은</p>
-                  <p>
+                  <p className={cx('practice_result__content__item')}>
+                    {name} 님의 기록은
+                  </p>
+                  <p className={cx('practice_result__content__item')}>
                     정확도 : {Math.round((correctCount / numberProblems) * 100)}{' '}
                     %
                   </p>
-                  <p>오타수 : {incorrectCount} 개</p>
-                  <p>
+                  <p className={cx('practice_result__content__item')}>
+                    오타수 : {incorrectCount} 개
+                  </p>
+                  <p className={cx('practice_result__content__item')}>
                     소요시간 : {Math.floor(lapsedTime.current / 60)} 분{' '}
                     {lapsedTime.current % 60} 초
                   </p>
