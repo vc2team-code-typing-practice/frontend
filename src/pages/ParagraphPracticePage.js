@@ -10,6 +10,7 @@ import Keyboard from '../components/Keyboard';
 import Modal from '../components/Modal';
 import { updateUserRecord } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
+import checkKoreanInput from '../utils/checkKoreanInput';
 import {
   keyboardButton,
   prohibitedParagraphKeyCodeList,
@@ -34,7 +35,6 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
 
   const [currentInput, setCurrentInput] = useState('');
   const [currentInputIndex, setCurrentInputIndex] = useState(0);
-  const [previousInputIndex, setPreviousInputIndex] = useState(0);
 
   const [attemptCount, setAttemptCount] = useState(0);
 
@@ -46,7 +46,6 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
 
   const [correctWordCount, setCorrectWordCount] = useState(0);
   const [incorrectWordCount, setIncorrectWordCount] = useState(0);
-
   const [score, setScore] = useState(0);
 
   const [isStarted, setIsStarted] = useState(false);
@@ -57,6 +56,18 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
   const interval = useRef(null);
   const lapsedTime = useRef(0);
   const correctkeyDownCount = useRef(0);
+
+  let currentQuestionId = document.getElementById(currentInputIndex);
+
+  useEffect(() => {
+    currentQuestionId = document.getElementById(currentInputIndex);
+
+    currentQuestionId?.classList.add(cx('currentSpan'));
+
+    return () => {
+      currentQuestionId?.classList.remove(cx('currentSpan'));
+    };
+  }, [currentInputIndex, currentQuestionId]);
 
   useEffect(() => {
     paragraphList?.length && nextQuestion();
@@ -84,6 +95,7 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
           }),
         );
       }
+
       setIsShowingModal(true);
       setIsEnded(true);
     }
@@ -112,9 +124,10 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
     setParagraphAccuracy(0);
     setTypingSpeed(0);
     setCurrentInputIndex(0);
-    setPreviousInputIndex(0);
+
     setIsStarted(false);
     setIsEnded(false);
+
     lapsedTime.current = 0;
     correctkeyDownCount.current = 0;
   };
@@ -122,11 +135,15 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
   const startTimer = () => {
     if (!isStarted) {
       setIsStarted(true);
+
       interval.current = setInterval(() => {
         lapsedTime.current += 1;
+
         let currentSpeed =
           (correctkeyDownCount.current / lapsedTime.current) * 600;
+
         currentSpeed = currentSpeed > 0 ? currentSpeed : 0;
+
         setTypingSpeed(currentSpeed);
       }, 100);
     }
@@ -134,11 +151,9 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
 
   const finishPractice = (userInput) => {
     if (userInput.length === question.length) {
-      if (
-        userInput.slice(previousInputIndex, currentInputIndex) ===
-        question.slice(previousInputIndex, currentInputIndex)
-      ) {
-        setScore((prev) => prev + 3);
+      if (paragraphAccuracy >= 100) {
+        setScore((prev) => prev + 10);
+
         clearInterval(interval.current);
         increaseAttemptCount();
         nextQuestion();
@@ -152,23 +167,29 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
 
   const checkCorrectWords = (currentInput) => {
     const text = question?.replace(' ', '');
+
     const correctText = currentInput
       .replace(' ', '')
       .split('')
       .filter((value, index) => value === text[index]).length;
+
     const incorrectText = currentInput
       .replace(' ', '')
       .split('')
       .filter((value, index) => value !== text[index]).length;
     correctkeyDownCount.current = correctText;
+
     setCorrectWordCount(correctText);
     setIncorrectWordCount(incorrectText);
   };
 
   const handleChange = (e) => {
-    if (e.target.value === 'ㅁ' || e.target.value === 'ㅊ') {
+    if (checkKoreanInput(e.target.value)) {
+      alert('영문키로 바꾸세요!');
+
       return;
     }
+
     startTimer();
     setCurrentInput(e.target.value);
     checkCorrectWords(e.target.value);
@@ -176,56 +197,45 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
   };
 
   const handleKeyDown = (e) => {
-    if (e.keyCode === keyboardButton.koreanLanguage) {
-      e.preventDefault();
+    if (checkKoreanInput(e.key)) {
       return;
     } else if (prohibitedParagraphKeyCodeList.includes(e.keyCode)) {
       e.preventDefault();
+
       return;
     } else if (e.keyCode === keyboardButton.tab) {
       e.preventDefault();
+
       setCurrentInput(e.target.value + '  ');
       setCurrentInputIndex(currentInputIndex + 2);
     } else if (e.keyCode === keyboardButton.enter) {
       if (currentInputIndex === 0) {
         e.preventDefault();
+
         return;
-      } else if (
-        currentInput.slice(previousInputIndex, currentInputIndex) ===
-        question.slice(previousInputIndex, currentInputIndex)
-      ) {
-        setPreviousInputIndex(currentInputIndex);
-        setCurrentInputIndex(currentInputIndex + 1);
-        setScore((prev) => prev + 3);
       } else {
-        setPreviousInputIndex(currentInputIndex);
         setCurrentInputIndex(currentInputIndex + 1);
+        currentQuestionId?.classList.add('current');
       }
     } else if (e.keyCode === keyboardButton.backspace) {
-      if (previousInputIndex === 0) {
-        if (currentInputIndex === 0) {
-          e.preventDefault();
-          return;
-        } else {
-          setCurrentInputIndex(currentInputIndex - 1);
-        }
+      if (currentInputIndex === 0) {
+        e.preventDefault();
+        return;
       } else {
-        if (previousInputIndex + 1 === currentInputIndex) {
-          e.preventDefault();
-          return;
-        } else {
-          setCurrentInputIndex(currentInputIndex - 1);
-        }
+        setCurrentInputIndex(currentInputIndex - 1);
+        currentQuestionId.classList.remove(cx('currentSpan'));
       }
     } else if (e.keyCode === keyboardButton.shift) {
       return;
     } else {
       setCurrentInputIndex(currentInputIndex + 1);
+      currentQuestionId?.classList.add('current');
     }
   };
 
   const handleButtonClick = () => {
     setIsShowingModal(false);
+    dispatch(finishPractice());
     navigate('/');
   };
 
@@ -238,6 +248,7 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
         {question?.split('').map((character, index) => (
           <span
             key={index}
+            id={index}
             className={getCharacterClass(currentInput, index, character)}
           >
             {character}
@@ -246,7 +257,7 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
       </div>
       <div className={cx('section')}>
         <textarea
-          className={cx('section__input')}
+          className={cx('section__textarea')}
           ref={inputElement}
           value={currentInput}
           onChange={handleChange}
@@ -257,23 +268,28 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
       <div className={cx('result')}>
         <p>
           <span className={cx('result__dataname')}>타수: </span>
-          {lapsedTime.current !== 0 ? <>{Math.round(typingSpeed)} 타/분</> : 0}
+          <span className={cx('result__data')}>
+            {lapsedTime.current !== 0 ? (
+              <>{Math.round(typingSpeed)} 타/분</>
+            ) : (
+              0
+            )}
+          </span>
         </p>
         <p>
-          <span className={cx('result__dataname')}>맞은 횟수: </span>
-          {correctWordCount}
-        </p>
-        <p>
-          <span className={cx('result__dataname')}>틀린 횟수: </span>
-          {incorrectWordCount}
+          <span className={cx('result__dataname')}>획득점수: </span>
+          <span className={cx('result__data')}>{score} 점</span>
         </p>
         <p>
           <span className={cx('result__dataname')}>현재 정확도: </span>
-          {correctWordCount !== 0 &&
-            Math.round(
-              (correctWordCount / (correctWordCount + incorrectWordCount)) *
-                100,
-            )}
+          <span className={cx('result__data')}>
+            {correctWordCount !== 0 &&
+              Math.round(
+                (correctWordCount / (correctWordCount + incorrectWordCount)) *
+                  100,
+              )}
+            %
+          </span>
         </p>
         <p>
           <span className={cx('result__dataname')}>누적 정확도: </span>
@@ -283,12 +299,10 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
           <span className={cx('result__dataname')}>진행도: </span>
           {Math.floor((attemptCount / numberProblems) * 100)} %
         </p>
-        <p>
-          <span className={cx('result__dataname')}>획득점수: </span>
-          {score} 점
-        </p>
       </div>
+
       <Keyboard />
+
       {isShowingModal && (
         <ModalPortal>
           <Modal
