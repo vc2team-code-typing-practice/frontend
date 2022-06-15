@@ -86,6 +86,7 @@ function* anonymousLoginSaga() {
     selectedLanguage: 'JavaScript',
     hiscore: 0,
     numberProblems: 10,
+    isColorWeaknessUser: false,
   };
 
   yield put(loginSuccess(setting));
@@ -106,6 +107,7 @@ function* changeSettingSaga(action) {
       selectedLanguage: action.payload.selectedLanguageSetting,
       soundEffects: action.payload.soundEffectsSetting,
       numberProblems: action.payload.numberProblemsSetting,
+      isColorWeaknessUser: action.payload.colorWeaknessSetting,
     },
   );
 }
