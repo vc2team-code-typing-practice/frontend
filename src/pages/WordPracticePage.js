@@ -11,6 +11,7 @@ import Keyboard from '../components/Keyboard';
 import Modal from '../components/Modal';
 import { finishPractice } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
+import checkKoreanInput from '../utils/checkKoreanInput';
 import { keyboardButton, prohibitedKeyCodeList } from '../utils/constants';
 import getCharacterClass from '../utils/getCharacterClass';
 
@@ -118,6 +119,10 @@ export default function WordPracticePage() {
   };
 
   const handleKeyDown = (event) => {
+    if (checkKoreanInput(event.key)) {
+      return;
+    }
+
     if (
       prohibitedKeyCodeList.includes(event.keyCode) ||
       event.keyCode === keyboardButton.enter
@@ -151,6 +156,11 @@ export default function WordPracticePage() {
   };
 
   const handleChange = (e) => {
+    if (checkKoreanInput(event.target.value)) {
+      alert('영문키로 바꾸세요!');
+      return;
+    }
+
     setCurrentInput(e.target.value);
 
     if (currentInputIndex >= questionLength) {
