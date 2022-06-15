@@ -66,7 +66,9 @@ export default function Menu() {
       {isLoggedIn ? (
         <div className={cx('userInfo')}>
           <ul className={cx('userInfo__List')}>
-            <li className={cx('userInfo__name')}>{name}님 환영합니다</li>
+            <li className={cx('userInfo__name')}>
+              {name}님 {'\n 환영합니다'}
+            </li>
           </ul>
           {isPracticing ? (
             <div className={cx('menu')}>
