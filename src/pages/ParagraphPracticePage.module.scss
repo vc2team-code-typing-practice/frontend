@@ -1,17 +1,21 @@
+$border-color: 2px solid black;
+
 .container {
-  padding: 50px;
-  border: 2px solid black;
+  padding: 20px;
+  border: $border-color;
   border-radius: 15px;
 
   &__title {
-    font-size: 30px;
+    padding: 0.25em 0.5em;
+    border-left: solid 10px blue;
+    font-size: 20px;
   }
 }
 
 .question {
   padding: 20px;
-  margin: 0px 20px 30px 20px;
-  border: 2px solid black;
+  margin: 20px;
+  border: $border-color;
   border-radius: 10px;
   background-color: white;
   font-size: 20px;
@@ -24,13 +28,14 @@
 }
 
 .section {
-  margin: 0px 500px;
+  margin: 0px 20px;
 
-  &__input {
+  &__textarea {
     width: 100%;
     border: 0;
     border-radius: 10px;
     background-color: rgb(255, 255, 255);
+    font-size: 30px;
     outline: none;
   }
 }
@@ -41,11 +46,17 @@
   justify-content: center;
   padding: 20px;
   margin: 20px;
+  border: $border-color;
+  border-radius: 10px;
   font-size: 20px;
 
   &__dataname {
     margin: 20px;
     font-size: 25px;
     font-weight: bold;
+  }
+
+  &__data {
+    margin-right: 10px;
   }
 }
