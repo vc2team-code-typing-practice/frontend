@@ -183,49 +183,49 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
     setIncorrectWordCount(incorrectText);
   };
 
-  const handleChange = (e) => {
-    if (checkKoreanInput(e.target.value)) {
+  const handleChange = (event) => {
+    if (checkKoreanInput(event.target.value)) {
       alert('영문키로 바꾸세요!');
 
       return;
     }
 
     startTimer();
-    setCurrentInput(e.target.value);
-    checkCorrectWords(e.target.value);
-    finishPractice(e.target.value);
+    setCurrentInput(event.target.value);
+    checkCorrectWords(event.target.value);
+    finishPractice(event.target.value);
   };
 
-  const handleKeyDown = (e) => {
-    if (checkKoreanInput(e.key)) {
+  const handleKeyDown = (event) => {
+    if (checkKoreanInput(event.key) || event.key === 'Process') {
       return;
-    } else if (prohibitedParagraphKeyCodeList.includes(e.keyCode)) {
-      e.preventDefault();
+    } else if (prohibitedParagraphKeyCodeList.includes(event.keyCode)) {
+      event.preventDefault();
 
       return;
-    } else if (e.keyCode === keyboardButton.tab) {
-      e.preventDefault();
+    } else if (event.keyCode === keyboardButton.tab) {
+      event.preventDefault();
 
-      setCurrentInput(e.target.value + '  ');
+      setCurrentInput(event.target.value + '  ');
       setCurrentInputIndex(currentInputIndex + 2);
-    } else if (e.keyCode === keyboardButton.enter) {
+    } else if (event.keyCode === keyboardButton.enter) {
       if (currentInputIndex === 0) {
-        e.preventDefault();
+        event.preventDefault();
 
         return;
       } else {
         setCurrentInputIndex(currentInputIndex + 1);
         currentQuestionId?.classList.add('current');
       }
-    } else if (e.keyCode === keyboardButton.backspace) {
+    } else if (event.keyCode === keyboardButton.backspace) {
       if (currentInputIndex === 0) {
-        e.preventDefault();
+        event.preventDefault();
         return;
       } else {
         setCurrentInputIndex(currentInputIndex - 1);
         currentQuestionId.classList.remove(cx('currentSpan'));
       }
-    } else if (e.keyCode === keyboardButton.shift) {
+    } else if (event.keyCode === keyboardButton.shift) {
       return;
     } else {
       setCurrentInputIndex(currentInputIndex + 1);
