@@ -63,10 +63,10 @@ export default function Topbar() {
               <Button onClick={handleLogoutButtonClick}>Sign Out</Button>
             </div>
           ) : (
-            <div>
+            <div className={topbar('topbar__right')}>
               <Button onClick={handleLoginButtonClick}>Google SignIn</Button>
               <Button onClick={handleAnonymousLoginButtonClick}>
-                익명 로그인하기
+                Guest SignIn
               </Button>
             </div>
           )}
