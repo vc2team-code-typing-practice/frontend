@@ -156,7 +156,7 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
   };
 
   const handleKeyDown = (event) => {
-    if (checkKoreanInput(event.key)) {
+    if (checkKoreanInput(event.key) || event.key === 'Process') {
       return;
     }
 

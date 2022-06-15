@@ -119,7 +119,7 @@ export default function WordPracticePage() {
   };
 
   const handleKeyDown = (event) => {
-    if (checkKoreanInput(event.key)) {
+    if (checkKoreanInput(event.key) || event.key === 'Process') {
       return;
     }
 
@@ -155,16 +155,16 @@ export default function WordPracticePage() {
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (event) => {
     if (checkKoreanInput(event.target.value)) {
       alert('영문키로 바꾸세요!');
       return;
     }
 
-    setCurrentInput(e.target.value);
+    setCurrentInput(event.target.value);
 
     if (currentInputIndex >= questionLength) {
-      checkAnswer(e.target.value);
+      checkAnswer(event.target.value);
     }
   };
 
