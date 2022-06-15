@@ -10,6 +10,7 @@ export const userSlice = createSlice({
     isLoggedIn: false,
     isPracticing: false,
     isAnonymousUser: false,
+    isColorWeaknessUser: false,
     name: null,
     email: null,
     uid: null,
@@ -38,6 +39,7 @@ export const userSlice = createSlice({
       state.selectedLanguage = action.payload?.selectedLanguage;
       state.hiscore = action.payload?.hiscore;
       state.numberProblems = action.payload?.numberProblems;
+      state.isColorWeaknessUser = action.payload?.isColorWeaknessUser;
     },
     logout: (state) => {
       state.isUserDataLoading = true;
@@ -52,6 +54,7 @@ export const userSlice = createSlice({
       state.soundEffects = null;
       state.selectedLanguage = null;
       state.numberProblems = null;
+      state.isColorWeaknessUser = null;
     },
     loginFailure: (state) => {
       state.isUserDataLoading = false;
@@ -61,6 +64,7 @@ export const userSlice = createSlice({
       state.soundEffects = action.payload?.soundEffectsSetting;
       state.selectedLanguage = action.payload?.selectedLanguageSetting;
       state.numberProblems = action.payload?.numberProblemsSetting;
+      state.isColorWeaknessUser = action.payload?.colorWeaknessSetting;
     },
     loadUserDbData: (state) => {
       state.isUserDataLoading = true;
@@ -75,6 +79,7 @@ export const userSlice = createSlice({
       state.selectedLanguage = action.payload?.selectedLanguage;
       state.hiscore = action.payload?.hiscore;
       state.numberProblems = action.payload?.numberProblems;
+      state.isColorWeaknessUser = action.payload?.isColorWeaknessUser;
     },
     startPractice: (state) => {
       state.isPracticing = true;

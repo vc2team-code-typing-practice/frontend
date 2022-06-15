@@ -33,16 +33,21 @@ export default function UserPage() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const numberProblems = useSelector((state) => state.user.numberProblems);
   const history = useSelector((state) => state.user.history);
+  const isColorWeaknessUser = useSelector(
+    (state) => state.user.isColorWeaknessUser,
+  );
 
   const [selectedLanguageSetting, setSelectedLanguageSetting] = useState(null);
   const [soundEffectsSetting, setSoundEffectsSetting] = useState(null);
   const [numberProblemsSetting, setNumberProblemsSetting] = useState(null);
+  const [colorWeaknessSetting, setColorWeaknessSetting] = useState(null);
 
   useEffect(() => {
     setSoundEffectsSetting(soundEffects);
     setSelectedLanguageSetting(selectedLanguage);
     setNumberProblemsSetting(numberProblems);
-  }, [soundEffects, selectedLanguage, numberProblems]);
+    setColorWeaknessSetting(isColorWeaknessUser);
+  }, [soundEffects, selectedLanguage, numberProblems, isColorWeaknessUser]);
 
   useMemo(() => {
     selectedLanguageSetting &&
@@ -61,6 +66,10 @@ export default function UserPage() {
     setNumberProblemsSetting(Number(e.target.value));
   };
 
+  const handleColorWeaknessRadioButtonClick = (e) => {
+    setColorWeaknessSetting(e.target.value === 'true');
+  };
+
   const handleSettingSaveButtonClick = async () => {
     dispatch(
       changeSetting({
@@ -68,6 +77,7 @@ export default function UserPage() {
         selectedLanguageSetting,
         soundEffectsSetting,
         numberProblemsSetting,
+        colorWeaknessSetting,
       }),
     );
   };
@@ -219,7 +229,6 @@ export default function UserPage() {
                 </span>
                 <span>문제 개수 설정</span>
               </div>
-
               <label>
                 <input
                   type="radio"
@@ -251,6 +260,33 @@ export default function UserPage() {
                 40개
               </label>
             </li>
+
+            <li className={cx('userpage__setting__item')}>
+              <div className={cx('userpage__setting__title')}>
+                <span>색약 모드 설정</span>
+              </div>
+              <label>
+                <input
+                  type="radio"
+                  name="colorWeakness"
+                  value="true"
+                  onChange={handleColorWeaknessRadioButtonClick}
+                  checked={colorWeaknessSetting === true}
+                />{' '}
+                켜기
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="colorWeakness"
+                  value="false"
+                  onChange={handleColorWeaknessRadioButtonClick}
+                  checked={colorWeaknessSetting === false}
+                />{' '}
+                끄기
+              </label>
+            </li>
+
             <li className={cx('userpage__setting__item')}>
               <button onClick={handleSettingSaveButtonClick}>
                 <div className={cx('save_btn')}>설정 저장하기</div>
