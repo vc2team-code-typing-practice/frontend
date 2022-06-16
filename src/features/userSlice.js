@@ -81,10 +81,10 @@ export const userSlice = createSlice({
       state.numberProblems = action.payload?.numberProblems;
       state.isColorWeaknessUser = action.payload?.isColorWeaknessUser;
     },
-    startPractice: (state) => {
+    setPracticeMode: (state) => {
       state.isPracticing = true;
     },
-    finishPractice: (state) => {
+    unsetPracticeMode: (state) => {
       state.isPracticing = false;
     },
     startRefresh: (state) => {
@@ -125,8 +125,8 @@ export const {
   changeSetting,
   loadUserDbData,
   loadUserDbDataSuccess,
-  startPractice,
-  finishPractice,
+  setPracticeMode,
+  unsetPracticeMode,
   startRefresh,
   finishRefresh,
   loadUserRecord,
