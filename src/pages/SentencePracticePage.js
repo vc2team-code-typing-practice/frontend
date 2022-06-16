@@ -145,15 +145,6 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
     setCurrentInput('');
     setCurrentInputIndex(0);
 
-    if (sentenceAccracy === 1) {
-      if (isTurnedOn) {
-        const correctSound = new Audio(correct);
-        correctSound.play();
-      }
-
-      setScore((prev) => prev + 3);
-    }
-
     setSentenceAccracySum((prev) => prev + sentenceAccracy);
     setTypingSpeedSum((prev) => prev + typingSpeed);
     setTypingSpeed(0);
@@ -225,6 +216,20 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
     setCurrentInput(event.target.value);
 
     if (currentInputIndex >= questionLength) {
+      if (sentenceAccracy === 1) {
+        if (isTurnedOn) {
+          const correctSound = new Audio(correct);
+          correctSound.play();
+        }
+
+        setScore((prev) => prev + 3);
+      } else {
+        if (isTurnedOn) {
+          const wrongSound = new Audio(wrong);
+          wrongSound.play();
+        }
+      }
+
       increaseAttemptCount();
       nextQuestion();
     }
