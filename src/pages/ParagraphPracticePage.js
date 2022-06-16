@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+  useLayoutEffect,
+} from 'react';
 
 import classNames from 'classnames/bind';
 import dayjs from 'dayjs';
@@ -8,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import Keyboard from '../components/Keyboard';
 import Modal from '../components/Modal';
-import { unsetPracticeMode, updateUserRecord } from '../features/userSlice';
+import { updateUserRecord } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
 import checkKoreanInput from '../utils/checkKoreanInput';
 import {
@@ -30,6 +36,9 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
   const numberProblems = useSelector((state) => state.user.numberProblems);
   const paragraphList = useSelector((state) => state.problem.paragraphList);
   const isAnonymousUser = useSelector((state) => state.user.isAnonymousUser);
+  const isColorWeaknessUser = useSelector(
+    (state) => state.user.isColorWeaknessUser,
+  );
 
   const [question, setQuestion] = useState('');
 
@@ -57,17 +66,20 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
   const lapsedTime = useRef(0);
   const correctkeyDownCount = useRef(0);
 
+  const currentSpanTag = isColorWeaknessUser
+    ? 'currentSpan_colorWeakness'
+    : 'currentSpan';
+
   let currentQuestionId = document.getElementById(currentInputIndex);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     currentQuestionId = document.getElementById(currentInputIndex);
 
-    currentQuestionId?.classList.add(cx('currentSpan'));
-
+    currentQuestionId?.classList.add(cx(currentSpanTag));
     return () => {
-      currentQuestionId?.classList.remove(cx('currentSpan'));
+      currentQuestionId?.classList.remove(cx(currentSpanTag));
     };
-  }, [currentInputIndex, currentQuestionId]);
+  });
 
   useEffect(() => {
     paragraphList?.length && nextQuestion();
@@ -248,7 +260,12 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
           <span
             key={index}
             id={index}
-            className={getCharacterClass(currentInput, index, character)}
+            className={getCharacterClass(
+              currentInput,
+              index,
+              character,
+              isColorWeaknessUser,
+            )}
           >
             {character}
           </span>

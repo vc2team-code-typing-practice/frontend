@@ -7,6 +7,7 @@ import {
   FaUserAlt,
   FaCaretRight,
   FaMedal,
+  FaEye,
 } from 'react-icons/fa';
 import { HiDocumentText } from 'react-icons/hi';
 import { IoSettings } from 'react-icons/io5';
@@ -160,7 +161,7 @@ export default function UserPage() {
                 <span className={cx('userpage__setting__logo')}>
                   <AiFillSound />
                 </span>
-                <span>효과음 출력</span>
+                <span> 효과음 출력</span>
               </div>
               <label>
                 <input
@@ -188,7 +189,7 @@ export default function UserPage() {
                 <span className={cx('userpage__setting__logo')}>
                   <RiCodeBoxFill />
                 </span>
-                <span>언어 설정</span>
+                <span> 언어 설정</span>
               </div>
               <label>
                 <input
@@ -227,7 +228,7 @@ export default function UserPage() {
                 <span className={cx('userpage__setting__logo')}>
                   <HiDocumentText />
                 </span>
-                <span>문제 개수 설정</span>
+                <span> 문제 개수 설정</span>
               </div>
               <label>
                 <input
@@ -263,7 +264,10 @@ export default function UserPage() {
 
             <li className={cx('userpage__setting__item')}>
               <div className={cx('userpage__setting__title')}>
-                <span>색약 모드 설정</span>
+                <span className={cx('userpage__setting__logo')}>
+                  <FaEye />
+                </span>
+                <span> 색약 모드 설정</span>
               </div>
               <label>
                 <input

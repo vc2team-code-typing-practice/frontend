@@ -1,7 +1,13 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useLayoutEffect,
+} from 'react';
 
 import classNames from 'classnames/bind';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import correct from '../audios/correct.mp3';
@@ -9,7 +15,6 @@ import wrong from '../audios/wrong.mp3';
 import Button from '../components/Button';
 import Keyboard from '../components/Keyboard';
 import Modal from '../components/Modal';
-import { unsetPracticeMode } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
 import checkKoreanInput from '../utils/checkKoreanInput';
 import { keyboardButton, prohibitedKeyCodeList } from '../utils/constants';
@@ -21,12 +26,14 @@ const cx = classNames.bind(styles);
 
 export default function WordPracticePage() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const wordList = useSelector((state) => state.problem.wordList);
   const isTurnedOn = useSelector((state) => state.user.soundEffects);
   const name = useSelector((state) => state.user.name);
   const numberProblems = useSelector((state) => state.user.numberProblems);
+  const isColorWeaknessUser = useSelector(
+    (state) => state.user.isColorWeaknessUser,
+  );
 
   const [question, setQuestion] = useState('');
   const [questionLength, setQuestionLength] = useState(0);
@@ -48,17 +55,20 @@ export default function WordPracticePage() {
   const lapsedTime = useRef(0);
   const interval = useRef(null);
 
+  const currentSpanTag = isColorWeaknessUser
+    ? 'currentSpan_colorWeakness'
+    : 'currentSpan';
+
   let currentQuestionId = document.getElementById(questionIndex);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     currentQuestionId = document.getElementById(questionIndex);
 
-    currentQuestionId?.classList.add(cx('currentSpan'));
-
+    currentQuestionId?.classList.add(cx(currentSpanTag));
     return () => {
-      currentQuestionId?.classList.remove(cx('currentSpan'));
+      currentQuestionId?.classList.remove(cx(currentSpanTag));
     };
-  }, [questionIndex]);
+  });
 
   useEffect(() => {
     nextQuestion();
@@ -140,7 +150,7 @@ export default function WordPracticePage() {
       setQuestionIndex((prev) => prev + 1);
       setCurrentInputIndex((prev) => prev + 1);
     } else if (event.keyCode === keyboardButton.backspace) {
-      currentQuestionId.classList.remove(cx('currentSpan'));
+      currentQuestionId.classList.remove(cx(currentSpanTag));
 
       if (questionIndex > 0) {
         setQuestionIndex((prev) => prev - 1);
@@ -151,7 +161,7 @@ export default function WordPracticePage() {
     } else {
       setQuestionIndex((prev) => prev + 1);
       setCurrentInputIndex((prev) => prev + 1);
-      currentQuestionId?.classList.add('current');
+      currentQuestionId?.classList.add(currentSpanTag);
     }
   };
 
@@ -209,7 +219,12 @@ export default function WordPracticePage() {
             <span
               key={index}
               id={index}
-              className={getCharacterClass(currentInput, index, character)}
+              className={getCharacterClass(
+                currentInput,
+                index,
+                character,
+                isColorWeaknessUser,
+              )}
             >
               {character}
             </span>
