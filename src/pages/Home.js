@@ -50,8 +50,8 @@ export default function Home() {
       </header>
       <section>
         <article
-          onClick={(e) => {
-            handleModalOpen('C', e);
+          onClick={(event) => {
+            handleModalOpen('C', event);
           }}
         >
           <div className={cx('home__content')}>
@@ -70,8 +70,8 @@ export default function Home() {
           </div>
         </article>
         <article
-          onClick={(e) => {
-            handleModalOpen('Python', e);
+          onClick={(event) => {
+            handleModalOpen('Python', event);
           }}
         >
           <div className={cx('home__content')}>
@@ -91,8 +91,8 @@ export default function Home() {
           </div>
         </article>
         <article
-          onClick={(e) => {
-            handleModalOpen('JavaScript', e);
+          onClick={(event) => {
+            handleModalOpen('JavaScript', event);
           }}
         >
           <div className={cx('home__content')}>

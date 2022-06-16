@@ -9,7 +9,7 @@ import wrong from '../audios/wrong.mp3';
 import Button from '../components/Button';
 import Keyboard from '../components/Keyboard';
 import Modal from '../components/Modal';
-import { finishPractice } from '../features/userSlice';
+import { unsetPracticeMode } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
 import checkKoreanInput from '../utils/checkKoreanInput';
 import { keyboardButton, prohibitedKeyCodeList } from '../utils/constants';
@@ -170,7 +170,6 @@ export default function WordPracticePage() {
 
   const handleButtonClick = () => {
     setIsShowingModal(false);
-    dispatch(finishPractice());
     navigate('/');
   };
 
@@ -260,6 +259,7 @@ export default function WordPracticePage() {
               </div>
             }
             onCloseModal={setIsShowingModal}
+            redirectLink="/"
           />
         </ModalPortal>
       )}

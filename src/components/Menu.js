@@ -6,7 +6,7 @@ import { FaKeyboard, FaHome } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { startPractice, finishPractice } from '../features/userSlice';
+import { setPracticeMode, unsetPracticeMode } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
 
 import Button from './Button';
@@ -44,12 +44,12 @@ export default function Menu() {
   ];
 
   const handleStartPracticeButtonClick = () => {
-    dispatch(startPractice());
+    dispatch(setPracticeMode());
   };
 
   const handleGoBackHomeButtonClick = () => {
     setIsShowing(false);
-    dispatch(finishPractice());
+    dispatch(unsetPracticeMode());
     navigate('/');
   };
 
@@ -108,7 +108,6 @@ export default function Menu() {
               <div className={cx('gameover')}>
                 <p>
                   정말로 연습을 종료하시겠습니까? <br />
-                  진행상황은 저장되지 않습니다.
                 </p>
                 <div className={cx('gameover__btn')}>
                   <Button onClick={handleGoBackHomeButtonClick}>Yes</Button>
