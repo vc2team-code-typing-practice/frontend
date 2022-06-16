@@ -34,6 +34,7 @@ export default function UserPage() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const numberProblems = useSelector((state) => state.user.numberProblems);
   const history = useSelector((state) => state.user.history);
+  const isGuestUser = useSelector((state) => state.user.isGuestUser);
   const isColorWeaknessUser = useSelector(
     (state) => state.user.isColorWeaknessUser,
   );
@@ -44,6 +45,8 @@ export default function UserPage() {
   const [colorWeaknessSetting, setColorWeaknessSetting] = useState(null);
 
   useEffect(() => {
+    document.title = 'My Page | Code Typing Practice';
+
     setSoundEffectsSetting(soundEffects);
     setSelectedLanguageSetting(selectedLanguage);
     setNumberProblemsSetting(numberProblems);
@@ -85,7 +88,7 @@ export default function UserPage() {
 
   return (
     <div>
-      {isLoggedIn ? (
+      {isLoggedIn && !isGuestUser ? (
         <div className={cx('userpage')}>
           <div className={cx('userpage__title')}>
             <span className={cx('userpage__title__logo')}>
