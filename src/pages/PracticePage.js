@@ -19,6 +19,8 @@ export default function PracticePage() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
   useEffect(() => {
+    document.title = `${languages} ${types} practice`;
+
     isLoggedIn &&
       types === 'word' &&
       dispatch(getWordList({ languages, types }));

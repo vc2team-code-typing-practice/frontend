@@ -20,6 +20,7 @@ export default function Home() {
   const [language, setLanguage] = useState('');
 
   useEffect(() => {
+    document.title = 'Code Typing Practice';
     dispatch(unsetPracticeMode());
   }, []);
 
