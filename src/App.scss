@@ -3,7 +3,6 @@
   padding: 0;
   box-sizing: border-box;
   list-style: none;
-  line-height: 1.5;
   user-select: none;
 }
 
@@ -40,4 +39,17 @@ body {
 
 .currentSpan {
   border-bottom: 5px solid lightseagreen;
+}
+
+.correct_colorWeakness {
+  color: blue;
+}
+
+.wrong_colorWeakness {
+  color: #ebeb24;
+  border-bottom: 5px solid #ebeb24;
+}
+
+.currentSpan_colorWeakness {
+  border-bottom: 5px solid blue;
 }

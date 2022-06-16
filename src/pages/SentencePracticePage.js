@@ -1,4 +1,10 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import classNames from 'classnames/bind';
 import dayjs from 'dayjs';
@@ -10,7 +16,7 @@ import wrong from '../audios/wrong.mp3';
 import Button from '../components/Button';
 import Keyboard from '../components/Keyboard';
 import Modal from '../components/Modal';
-import { unsetPracticeMode, updateUserRecord } from '../features/userSlice';
+import { updateUserRecord } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
 import checkKoreanInput from '../utils/checkKoreanInput';
 import { keyboardButton, prohibitedKeyCodeList } from '../utils/constants';
@@ -30,6 +36,9 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
   const isTurnedOn = useSelector((state) => state.user.soundEffects);
   const sentenceList = useSelector((state) => state.problem.sentenceList);
   const isAnonymousUser = useSelector((state) => state.user.isAnonymousUser);
+  const isColorWeaknessUser = useSelector(
+    (state) => state.user.isColorWeaknessUser,
+  );
 
   const [question, setQuestion] = useState('');
   const [questionLength, setQuestionLength] = useState(0);
@@ -58,17 +67,20 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
   const backSpaceKeyDownCount = useRef(0);
   const interval = useRef(null);
 
+  const currentSpanTag = isColorWeaknessUser
+    ? 'currentSpan_colorWeakness'
+    : 'currentSpan';
+
   let currentQuestionId = document.getElementById(questionIndex);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     currentQuestionId = document.getElementById(questionIndex);
 
-    currentQuestionId?.classList.add(cx('currentSpan'));
-
+    currentQuestionId?.classList.add(cx(currentSpanTag));
     return () => {
-      currentQuestionId?.classList.remove(cx('currentSpan'));
+      currentQuestionId?.classList.remove(cx(currentSpanTag));
     };
-  }, [questionIndex]);
+  });
 
   useEffect(() => {
     sentenceList.length && nextQuestion();
@@ -269,7 +281,12 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
             <span
               key={index}
               id={index}
-              className={getCharacterClass(currentInput, index, character)}
+              className={getCharacterClass(
+                currentInput,
+                index,
+                character,
+                isColorWeaknessUser,
+              )}
             >
               {character}
             </span>
