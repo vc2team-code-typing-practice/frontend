@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import classNames from 'classnames/bind';
 import { useDispatch } from 'react-redux';
@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from '../components/Button';
 import Modal from '../components/Modal';
-import { startPractice } from '../features/userSlice';
+import { unsetPracticeMode, setPracticeMode } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
 
 import styles from './Home.module.scss';
@@ -15,26 +15,31 @@ const cx = classNames.bind(styles);
 export default function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const [isShowing, setIsShowing] = useState(false);
   const [language, setLanguage] = useState('');
 
-  const handleModalOpen = (lang, e) => {
+  useEffect(() => {
+    dispatch(unsetPracticeMode());
+  }, []);
+
+  const handleModalOpen = (lang, event) => {
     setLanguage(lang);
     setIsShowing(true);
   };
 
   const handleWordButtnoCLick = () => {
-    dispatch(startPractice());
+    dispatch(setPracticeMode());
     navigate(`/practice/${language}/word`);
   };
 
   const handleSentenceButtnoCLick = () => {
-    dispatch(startPractice());
+    dispatch(setPracticeMode());
     navigate(`/practice/${language}/sentence`);
   };
 
   const handleParagraphButtnoCLick = () => {
-    dispatch(startPractice());
+    dispatch(setPracticeMode());
     navigate(`/practice/${language}/paragraph`);
   };
 
