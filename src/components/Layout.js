@@ -3,6 +3,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import Home from '../pages/Home';
+import NotFound from '../pages/NotFound';
 import PracticePage from '../pages/PracticePage';
 import Userpage from '../pages/UserPage';
 
@@ -25,6 +26,7 @@ export default function Layout() {
               path="/practice/:languages/:types"
               element={<PracticePage />}
             />
+            <Route path="/*" element={<NotFound />} />
           </Routes>
         </main>
       </div>

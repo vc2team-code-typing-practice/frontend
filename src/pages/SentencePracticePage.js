@@ -35,7 +35,7 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
   const numberProblems = useSelector((state) => state.user.numberProblems);
   const isTurnedOn = useSelector((state) => state.user.soundEffects);
   const sentenceList = useSelector((state) => state.problem.sentenceList);
-  const isAnonymousUser = useSelector((state) => state.user.isAnonymousUser);
+  const isGuestUser = useSelector((state) => state.user.isGuestUser);
   const isColorWeaknessUser = useSelector(
     (state) => state.user.isColorWeaknessUser,
   );
@@ -95,7 +95,7 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
 
   useMemo(() => {
     if (attemptCount === numberProblems) {
-      if (!isAnonymousUser) {
+      if (!isGuestUser) {
         dispatch(
           updateUserRecord({
             uid,
@@ -111,7 +111,7 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
       setIsShowingModal(true);
       setIsEnded(true);
     }
-  }, [attemptCount, isAnonymousUser]);
+  }, [attemptCount, isGuestUser]);
 
   useMemo(() => {
     if (currentInputIndex) {
