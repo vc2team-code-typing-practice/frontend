@@ -10,7 +10,7 @@ import wrong from '../audios/wrong.mp3';
 import Button from '../components/Button';
 import Keyboard from '../components/Keyboard';
 import Modal from '../components/Modal';
-import { finishPractice, updateUserRecord } from '../features/userSlice';
+import { unsetPracticeMode, updateUserRecord } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
 import checkKoreanInput from '../utils/checkKoreanInput';
 import { keyboardButton, prohibitedKeyCodeList } from '../utils/constants';
@@ -220,7 +220,6 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
 
   const handleButtonClick = () => {
     setIsShowingModal(false);
-    dispatch(finishPractice());
     navigate('/');
   };
 
@@ -315,7 +314,7 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
                     타수 : {Math.floor(typingSpeedSum / numberProblems)} 타
                   </p>
                   <p className={cx('practice_result__content__item')}>
-                    <p>획득점수 : {score} 점</p>
+                    획득점수 : {score} 점
                   </p>
                 </div>
                 <div className={cx('practice_result__button')}>
@@ -324,6 +323,7 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
               </div>
             }
             onCloseModal={setIsShowingModal}
+            redirectLink="/"
           />
         </ModalPortal>
       )}

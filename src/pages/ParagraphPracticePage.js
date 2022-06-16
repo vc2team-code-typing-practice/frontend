@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import Keyboard from '../components/Keyboard';
 import Modal from '../components/Modal';
-import { updateUserRecord } from '../features/userSlice';
+import { unsetPracticeMode, updateUserRecord } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
 import checkKoreanInput from '../utils/checkKoreanInput';
 import {
@@ -235,7 +235,6 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
 
   const handleButtonClick = () => {
     setIsShowingModal(false);
-    dispatch(finishPractice());
     navigate('/');
   };
 
@@ -321,6 +320,7 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
               </div>
             }
             onCloseModal={setIsShowingModal}
+            redirectLink="/"
           />
         </ModalPortal>
       )}
