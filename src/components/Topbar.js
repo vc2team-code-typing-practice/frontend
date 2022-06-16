@@ -31,7 +31,7 @@ export default function Topbar() {
     (state) => state.user.isUserDataLoading,
   );
   const isRefreshing = useSelector((state) => state.user.isRefreshing);
-  const isAnonymousUser = useSelector((state) => state.user.isAnonymousUser);
+  const isGuestUser = useSelector((state) => state.user.isGuestUser);
 
   const [isShowingModal, setIsShowingModal] = useState(false);
 
@@ -82,7 +82,7 @@ export default function Topbar() {
             <Spinner />
           ) : isLoggedIn ? (
             <div className={cx('topbar__right')}>
-              {!isPracticing && !isAnonymousUser && (
+              {!isPracticing && !isGuestUser && (
                 <Button onClick={handleMyPageButtonClick}>My Page</Button>
               )}
               <Button onClick={handleLogoutButtonClick}>Sign Out</Button>
