@@ -11,6 +11,8 @@ import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import correct from '../audios/correct.mp3';
+import wrong from '../audios/wrong.mp3';
 import Button from '../components/Button';
 import Keyboard from '../components/Keyboard';
 import Modal from '../components/Modal';
@@ -34,6 +36,7 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
   const uid = useSelector((state) => state.user.uid);
   const name = useSelector((state) => state.user.name);
   const numberProblems = useSelector((state) => state.user.numberProblems);
+  const isTurnedOn = useSelector((state) => state.user.soundEffects);
   const paragraphList = useSelector((state) => state.problem.paragraphList);
   const isAnonymousUser = useSelector((state) => state.user.isAnonymousUser);
   const isColorWeaknessUser = useSelector(
@@ -161,19 +164,25 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
     }
   };
 
-  const finishPractice = (userInput) => {
+  const checkOneSentence = (userInput) => {
     if (userInput.length === question.length) {
       if (paragraphAccuracy >= 100) {
-        setScore((prev) => prev + 10);
+        if (isTurnedOn) {
+          const correctSound = new Audio(correct);
+          correctSound.play();
+        }
 
-        clearInterval(interval.current);
-        increaseAttemptCount();
-        nextQuestion();
+        setScore((prev) => prev + 10);
       } else {
-        clearInterval(interval.current);
-        increaseAttemptCount();
-        nextQuestion();
+        if (isTurnedOn) {
+          const wrongSound = new Audio(wrong);
+          wrongSound.play();
+        }
       }
+
+      clearInterval(interval.current);
+      increaseAttemptCount();
+      nextQuestion();
     }
   };
 
@@ -205,7 +214,7 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
     startTimer();
     setCurrentInput(event.target.value);
     checkCorrectWords(event.target.value);
-    finishPractice(event.target.value);
+    checkOneSentence(event.target.value);
   };
 
   const handleKeyDown = (event) => {
