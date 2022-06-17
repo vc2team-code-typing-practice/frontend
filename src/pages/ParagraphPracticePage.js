@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import correct from '../audios/correct.mp3';
+import keyboard from '../audios/keyboard.mp3';
 import wrong from '../audios/wrong.mp3';
 import Button from '../components/Button';
 import Keyboard from '../components/Keyboard';
@@ -218,6 +219,12 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
   };
 
   const handleKeyDown = (event) => {
+    const sound = new Audio(keyboard);
+
+    if (!isEnded && isTurnedOn) {
+      sound.play();
+    }
+
     if (checkKoreanInput(event.key) || event.key === 'Process') {
       return;
     } else if (prohibitedParagraphKeyCodeList.includes(event.keyCode)) {
@@ -264,32 +271,6 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
       <div className={cx('container__title')}>
         <h3>긴 글 연습</h3>
       </div>
-      <div className={cx('question')}>
-        {question?.split('').map((character, index) => (
-          <span
-            key={index}
-            id={index}
-            className={getCharacterClass(
-              currentInput,
-              index,
-              character,
-              isColorWeaknessUser,
-            )}
-          >
-            {character}
-          </span>
-        ))}
-      </div>
-      <div className={cx('section')}>
-        <textarea
-          className={cx('section__textarea')}
-          ref={inputElement}
-          value={currentInput}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          readOnly={isEnded}
-        />
-      </div>
       <div className={cx('result')}>
         <p>
           <span className={cx('result__dataname')}>타수: </span>
@@ -325,9 +306,32 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
           {Math.floor((attemptCount / numberProblems) * 100)} %
         </p>
       </div>
-
-      <Keyboard />
-
+      <div className={cx('question')}>
+        {question?.split('').map((character, index) => (
+          <span
+            key={index}
+            id={index}
+            className={getCharacterClass(
+              currentInput,
+              index,
+              character,
+              isColorWeaknessUser,
+            )}
+          >
+            {character}
+          </span>
+        ))}
+      </div>
+      <div className={cx('section')}>
+        <textarea
+          className={cx('section__textarea')}
+          ref={inputElement}
+          value={currentInput}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          readOnly={isEnded}
+        />
+      </div>
       {isShowingModal && (
         <ModalPortal>
           <Modal
