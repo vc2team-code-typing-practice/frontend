@@ -1,0 +1,83 @@
+[
+  { "language": "C",
+    "content": "#include <stdio.h>"
+  },
+  { "language": "C",
+    "content": "int main(void)"
+  },
+  { "language": "C",
+    "content": "for (i = 0; i < 10; i++)"
+  },
+  { "language": "C",
+    "content": "printf(\"Hello world\");"
+  },
+  { "language": "C",
+    "content": "cpuReg1 = runningProc->saveReg1;"
+  },
+  { "language": "C",
+    "content": "#include <emscripten/emscripten.h>"
+  },
+  { "language": "C",
+    "content": "int main(int argc, char ** argv)"
+  },
+  { "language": "C",
+    "content": "if (you == 4) result = 3;"
+  },
+  { "language": "JavaScript",
+    "content": "while (true) {}"
+  },
+  { "language": "JavaScript",
+    "content": "const arr = [];"
+  },
+  { "language": "JavaScript",
+    "content": "const testArr = [1, 3, 2, 6];"
+  },
+  { "language": "JavaScript",
+    "content": "arr.push(test);"
+  },
+  { "language": "JavaScript",
+    "content": "console.log(arr);"
+  },
+  { "language": "JavaScript",
+    "content": "const hash = {};"
+  },
+  { "language": "JavaScript",
+    "content": "Math.floor((num - 1) / 2);"
+  },
+  { "language": "JavaScript",
+    "content": "for (let i = 0; i < array.length - 2; i++)"
+  },
+  { "language": "JavaScript",
+    "content": "if (index >= A.length) return false;"
+  },
+  { "language": "Python",
+    "content": "for i in range(1, len(nums)):"
+  },
+  { "language": "Python",
+    "content": "return [i, j]"
+  },
+  { "language": "Python",
+    "content": "print(30)"
+  },
+  { "language": "Python",
+    "content": "nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+  },
+  { "language": "Python",
+    "content": "def getSum(self, a, b):"
+  },
+  { "language": "Python",
+    "content": "elif sum3 > 0:"
+  },
+  { "language": "Python",
+    "content": "while left < right and nums[right] == nums[right - 1]:"
+  },
+  { "language": "Python",
+    "content": "return ans"
+  },
+  { "language": "Python",
+    "content": "if nums1[m - 1] >= nums2[n - 1]:"
+  },
+  { "language": "Python",
+    "content": "def merge(self, nums1, m, nums2, n):"
+  }
+]

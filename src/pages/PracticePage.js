@@ -7,7 +7,11 @@ import {
   getParagraphList,
   getSentenceList,
   getWordList,
+  getWordListSuccess,
+  getSentenceListSucces,
+  getParagraphListSuccess,
 } from '../features/problemSlice';
+import loadMockData from '../utils/loadMockData';
 
 import ParagraphPracticePage from './ParagraphPracticePage';
 import SentencePracticePage from './SentencePracticePage';
@@ -17,20 +21,31 @@ export default function PracticePage() {
   const dispatch = useDispatch();
   const { languages, types } = useParams();
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const isGuestUser = useSelector((state) => state.user.isGuestUser);
 
   useEffect(() => {
     document.title = `${languages} ${types} practice`;
 
-    isLoggedIn &&
-      types === 'word' &&
-      dispatch(getWordList({ languages, types }));
-    isLoggedIn &&
-      types === 'sentence' &&
-      dispatch(getSentenceList({ languages, types }));
-    isLoggedIn &&
-      types === 'paragraph' &&
-      dispatch(getParagraphList({ languages, types }));
-  }, [types, languages, isLoggedIn]);
+    if (isLoggedIn) {
+      if (isGuestUser) {
+        if (types === 'word') {
+          dispatch(getWordListSuccess(loadMockData(languages, types)));
+        } else if (types === 'sentence') {
+          dispatch(getSentenceListSucces(loadMockData(languages, types)));
+        } else if (types === 'paragraph') {
+          dispatch(getParagraphListSuccess(loadMockData(languages, types)));
+        }
+      } else {
+        if (types === 'word') {
+          dispatch(getWordList({ languages, types }));
+        } else if (types === 'sentence') {
+          dispatch(getSentenceList({ languages, types }));
+        } else if (types === 'paragraph') {
+          dispatch(getParagraphList({ languages, types }));
+        }
+      }
+    }
+  }, [types, languages, isLoggedIn, isGuestUser]);
 
   return (
     <div>

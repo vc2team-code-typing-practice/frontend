@@ -1,0 +1,191 @@
+[
+  { "language": "C",
+    "content": "#include"
+  },
+  { "language": "C",
+    "content": "int"
+  },
+  { "language": "C",
+    "content": "main"
+  },
+  { "language": "C",
+    "content": "char"
+  },
+  { "language": "C",
+    "content": "printf"
+  },
+  { "language": "C",
+    "content": "emscripten.h"
+  },
+  { "language": "C",
+    "content": "stdio.h"
+  },
+  { "language": "C",
+    "content": "stdlib.h"
+  },
+  { "language": "C",
+    "content": "return"
+  },
+  { "language": "C",
+    "content": "long"
+  },
+  { "language": "C",
+    "content": "auto"
+  },
+  { "language": "C",
+    "content": "break"
+  },
+  { "language": "C",
+    "content": "const"
+  },
+  { "language": "C",
+    "content": "default"
+  },
+  { "language": "C",
+    "content": "else"
+  },
+  { "language": "C",
+    "content": "for"
+  },
+  { "language": "C",
+    "content": "short"
+  },
+  { "language": "C",
+    "content": "double"
+  },
+  { "language": "C",
+    "content": "float"
+  },
+  { "language": "C",
+    "content": "void"
+  },
+  { "language": "C",
+    "content": "static"
+  },
+  { "language": "C",
+    "content": "switch"
+  },
+  { "language": "JavaScript",
+    "content": "for"
+  },
+  { "language": "JavaScript",
+    "content": "console.log"
+  },
+  { "language": "JavaScript",
+    "content": "const"
+  },
+  { "language": "JavaScript",
+    "content": "async"
+  },
+  { "language": "JavaScript",
+    "content": "await"
+  },
+  { "language": "JavaScript",
+    "content": "arguments"
+  },
+  { "language": "JavaScript",
+    "content": "function"
+  },
+  { "language": "JavaScript",
+    "content": "if"
+  },
+  { "language": "JavaScript",
+    "content": "let"
+  },
+  { "language": "JavaScript",
+    "content": "promise"
+  },
+  { "language": "JavaScript",
+    "content": "reduce"
+  },
+  { "language": "JavaScript",
+    "content": "map"
+  },
+  { "language": "JavaScript",
+    "content": "throttle"
+  },
+  { "language": "JavaScript",
+    "content": "getElementById"
+  },
+  { "language": "JavaScript",
+    "content": "var"
+  },
+  { "language": "JavaScript",
+    "content": "sort"
+  },
+  { "language": "JavaScript",
+    "content": "array.length"
+  },
+  { "language": "JavaScript",
+    "content": "key"
+  },
+  { "language": "JavaScript",
+    "content": "value"
+  },
+  { "language": "JavaScript",
+    "content": "forEach"
+  },
+  { "language": "JavaScript",
+    "content": "continue"
+  },
+  { "language": "JavaScript",
+    "content": "yield"
+  },
+  { "language": "Python",
+    "content": "def"
+  },
+  { "language": "Python",
+    "content": "while"
+  },
+  { "language": "Python",
+    "content": "print"
+  },
+  { "language": "Python",
+    "content": "if"
+  },
+  { "language": "Python",
+    "content": "import"
+  },
+  { "language": "Python",
+    "content": "from"
+  },
+  { "language": "Python",
+    "content": "else"
+  },
+  { "language": "Python",
+    "content": "bool(x)"
+  },
+  { "language": "Python",
+    "content": "class"
+  },
+  { "language": "Python",
+    "content": "return"
+  },
+  { "language": "Python",
+    "content": "lambda"
+  },
+  { "language": "Python",
+    "content": "del"
+  },
+  { "language": "Python",
+    "content": "with"
+  },
+  { "language": "Python",
+    "content": "continue"
+  },
+  { "language": "Python",
+    "content": "nonlocal"
+  },
+  { "language": "Python",
+    "content": "finally"
+  },
+  { "language": "Python",
+    "content": "global"
+  },
+  { "language": "Python",
+    "content": "except"
+  },
+  { "language": "Python",
+    "content": "assert"
+  }
+]
