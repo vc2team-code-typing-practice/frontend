@@ -1,0 +1,122 @@
+[
+  {
+    "language": "C",
+    "content": "#include <stdio.h>\n\nint main(void)\n{\n    int a, b;\n    int sum;\n\n    a = 10;\n    b = 20;\n\n  sum = a + b;\n  printf('sum = a', sum);\n  return 0;\n}"
+  },
+  {
+    "language": "C",
+    "content": "#include <stdio.h>\n\nint main(void)\n{\n    printf('Hello World');\n    return 0;\n}"
+  },
+  {
+    "language": "C",
+    "content": "int main(void)\n{\n    char word[] = {'this is A string'};\n    bool res = detectCapitalUse(word);\n    return 0;\n}"
+  },
+  {
+    "language": "C",
+    "content": "#include <stdio.h>\n\nint main(int argc, char ** argv)\n{\n    char buf[80];\n    while(fgets(buf, 80, stdin)!= NULL)\n    {\n        (atoi(buf) << 31)?printf('odd'):printf('even');\n    }\n}"
+  },
+  {
+    "language": "C",
+    "content": "int main() {\n    int len;\n    int max;\n    char line[MAXLINE];\n    char longest[MAXLINE];\n\n    max = 0;\n    while ((len = getline(line, MAXLINE)) > 0) {\n        if (len > max) {\n            max = len;\n            copy(longest, line);\n        }\n        }\n    if (max > 0)\n        printf('longestWord', longest, max-1);\n    return 0;\n}"
+  },
+  {
+    "language": "C",
+    "content": "void copy(char to[], char from[]) {\n    int i;\n\n    i = 0;\n    while ((to[i] = from[i]) != 'a')\n        ++i;\n}"
+  },
+  {
+    "language": "C",
+    "content": "int main(int argc, char **argv)\n{\n    int rc;\n    sqlite3 *mdb;\n    rc = sqlite3_open('test.db', &mdb);\n    if(rc != SQLITE_OK)\n    {\n        return 1;\n    }\n    rc = sqlite3_exec(mdb, 'select * from session', callback, 0, NULL);\n    if(rc != SQLITE_OK)\n    {\n        return 1;\n    }\n    sqlite3_close(mdb);\n}"
+  },
+  {
+    "language": "C",
+    "content": "#include <stdio.h>\n\nint main() {\n    return 0;\n}"
+  },
+  {
+    "language": "C",
+    "content": "#include <stdio.h>\n\nint main() {\n\n    int a;\n    a = 4;\n\n    int b = 7;\n    b = 8;\n\n    const int c = 1000;\n    c = 1;\n\n    char key = 'a';\n\n    return 0;\n\n}"
+  },
+  {
+    "language": "C",
+    "content": "#include <stdio.h>\n\nint main()\n{\n    int a, b;\n\n    scanf('%d%d', &a, &b);\n    printf('%d', a + b);\n\n    return 0;}"
+  },
+  {
+    "language": "JavaScript",
+    "content": "const plusOne = function(digits) {\n  for (let i = digits.length - 1; i >= 0; i--) {\n    if (++digits[i] > 9) {\n      digits[i] = 0;\n    } else {\n      return digits;\n    }\n  }\n  digits.unshift(1);\n\n  return digits;\n};"
+  },
+  {
+    "language": "JavaScript",
+    "content": "const mostWordsFound = (sentences) => {\n  let biggerNumber = sentences[0].split(' ').length;\n  for (let i = 1; i < sentences.length; i++) {\n    let nowNumber = sentences[i].split(' ').length;\n    biggerNumber = Math.max(nowNumber, biggerNumber);\n  }\n  return biggerNumber;\n};"
+  },
+  {
+    "language": "JavaScript",
+    "content": "const number = [1, 2, 3, 4];\n\nfor (let i = 0; i < array.length - 2; i++) {\n  return i;\n}"
+  },
+  {
+    "language": "JavaScript",
+    "content": "const sortedSquares = nums => {\n  const length = nums.length;\n  const result = [];\n\n  let left = 0;\n  let right = length - 1;\n\n  for (let i = length - 1; i >= 0; i--) {\n    if (Math.abs(nums[left]) < Math.abs(nums[right])) {\n      result[i] = nums[right] * nums[right];\n      right--;\n    } else {\n      result[i] = nums[left] * nums[left];\n      left++;\n    }\n  }\n\n  return result;\n}"
+  },
+  {
+    "language": "JavaScript",
+    "content": "async function logName() {\n  const user = await fetchUser('domain.com/users/1');\n  if (user.id === 1) {\n    console.log(user.name);\n  }\n}"
+  },
+  {
+    "language": "JavaScript",
+    "content": "function fetchItems() {\n  return new Promise(function(resolve, reject) {\n    setTimeout(function() {\n      const items = [1,2,3];\n      resolve(items)\n   }, 3000);\n  });\n}"
+  },
+  {
+    "language": "JavaScript",
+    "content": "const fruitList = ['apple', 'watermelon', 'grape'];\nconst hash = {};\n\nfruitList.forEach((fruit) => (\n  hash[fruit] ? hash[fruit] += 1 : hash[fruit] = 1)\n);\n\nconsole.log(hash);"
+  },
+  {
+    "language": "JavaScript",
+    "content": "let greeting = person => {\n  let name = person ? person.name : `stranger`\n  return `Howdy, ${name}`\n}"
+  },
+  {
+    "language": "JavaScript",
+    "content": "const userData = {age: 42, name: true};\nconst {age, name} = o;\n\nconsole.log(age);\nconsole.log(name);"
+  },
+  {
+    "language": "JavaScript",
+    "content": "const Student = function(name, age) {\n  this.name = name;\n  this.age = age;\n}\n\nconst studentData = new Student('John, 15);"
+  },
+  {
+    "language": "Python",
+    "content": "count=0\nsum1=0\nwhile count<=1000:\n    count+=1\n    if count%3==0:\n        sum1=(sum1+count)\n        #print('{}'.format(sum1))\nprint('{}'.format(sum1))"
+  },
+  {
+    "language": "Python",
+    "content": "def a():\n    code_1\n    code_2\n    code_3\ndef b():\n    code_1\n    code_5\n    code_3\n\ndef c(func):\n    def wrapper(*args, **kwargs):\n        code_1\n        result = func(*args, **kwargs)\n        code_3\n        return result\n\n    return wrapper\n"
+  },
+  {
+    "language": "Python",
+    "content": "def test2(num1, num2):\n  result = 0\n  for num in range(num1, num2+1):\n    result += num\n  return result\n"
+  },
+  {
+    "language": "Python",
+    "content": "from functools import reduce\n\ndef max(a, b):\n    if a > b:\n        return a\n    else:\n        return b\n\nnumbers = [10, 21, 421, 223, 52]\nmax_value = reduce(max, numbers)\nprint(f'max_value = {max_value}')"
+  },
+  {
+    "language": "Python",
+    "content": "def example(*args):\n    sum = 0\n    for i in args:\n        sum = sum - i\n    return sum\nexample(7, 8, 9)"
+  },
+  {
+    "language": "Python",
+    "content": "colors = ['red', 'blue', 'green', 'yellow']\nresult = ''.join(colors)\n\nprint(result)"
+  },
+  {
+    "language": "Python",
+    "content": "result = []\n\nfor i in range(10):\n    result.append(i)\n\nprint(result)"
+  },
+  {
+    "language": "Python",
+    "content": "def asterisk_test(a, *args):\n    print(a, args)\n    print(type(args))\n\nasterisk_test(1,2,3,4,5,6)"
+  },
+  {
+    "language": "Python",
+    "content": "for data in zip(*([1, 2], [3, 4], [5, 6])):\n    print(data)"
+  },
+  {
+    "language": "Python",
+    "content": "def process(data_dictionary, record_id):\n    try:\n        return data[dictionary[record_id]\n    except KeyError as e:\n        raise InternalDataError('Record not present') from e"
+  }
+]
