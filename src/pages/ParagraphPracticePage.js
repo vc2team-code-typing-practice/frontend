@@ -15,7 +15,6 @@ import correct from '../audios/correct.mp3';
 import keyboard from '../audios/keyboard.mp3';
 import wrong from '../audios/wrong.mp3';
 import Button from '../components/Button';
-import Keyboard from '../components/Keyboard';
 import Modal from '../components/Modal';
 import { updateUserRecord } from '../features/userSlice';
 import ModalPortal from '../ModalPortal';
@@ -336,17 +335,31 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
         <ModalPortal>
           <Modal
             message={
-              <div>
-                <h1>문장 연습 결과</h1>
-                <p>{name} 님의 연습 결과</p>
-                <p>
-                  정확도: {Math.floor(paragraphAccuracySum / numberProblems)} %
-                </p>
-                <p>
-                  타수: {Math.floor(typingSpeedSum / numberProblems)}타 / 분
-                </p>
-                <p>획득점수: {score} 점</p>
-                <Button onClick={handleButtonClick}>홈으로 이동하기</Button>
+              <div className={cx('practice_result')}>
+                <h1 className={cx('practice_result__title')}>문장 연습 결과</h1>
+                <div className={cx('practice_result__content')}>
+                  <p
+                    className={cx(
+                      'practice_result__content__item',
+                      'practice_result__content__user',
+                    )}
+                  >
+                    {name} 님의 기록은
+                  </p>
+                  <p className={cx('practice_result__content__item')}>
+                    정확도: {Math.floor(paragraphAccuracySum / numberProblems)}{' '}
+                    %
+                  </p>
+                  <p className={cx('practice_result__content__item')}>
+                    타수: {Math.floor(typingSpeedSum / numberProblems)}타 / 분
+                  </p>
+                  <p className={cx('practice_result__content__item')}>
+                    획득점수: {score} 점
+                  </p>
+                </div>
+                <div className={cx('practice_result__button')}>
+                  <Button onClick={handleButtonClick}>홈으로 이동하기</Button>
+                </div>
               </div>
             }
             onCloseModal={setIsShowingModal}
