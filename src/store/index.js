@@ -46,7 +46,7 @@ const createStore = () => {
       problem: problemSlice,
     },
     devTools: true,
-    middleware: [sagaMiddleware, logger],
+    middleware: [sagaMiddleware],
   });
 
   sagaMiddleware.run(rootSaga);
