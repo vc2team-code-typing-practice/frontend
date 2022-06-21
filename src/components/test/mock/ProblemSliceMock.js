@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const ProblemSliceMock = createSlice({
+export const problemsSliceMock = createSlice({
   name: 'problem',
 
   initialState: {
@@ -50,6 +50,6 @@ export const {
   getSentenceListSucces,
   getParagraphList,
   getParagraphListSuccess,
-} = ProblemSliceMock.actions;
+} = problemsSliceMock.actions;
 
-export default ProblemSliceMock.reducer;
+export default problemsSliceMock.reducer;
