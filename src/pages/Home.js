@@ -46,11 +46,12 @@ export default function Home() {
 
   return (
     <div className={cx('home')}>
-      <header className={cx('home__header')}>
+      <header className={cx('home__header')} data-testid="home-banner">
         Choose What You Want To Practice!
       </header>
       <section>
         <article
+          data-testid="article"
           onClick={(event) => {
             handleModalOpen('C', event);
           }}
@@ -80,7 +81,7 @@ export default function Home() {
               <h2>Python</h2>
             </div>
             <div className={cx('home__content__item')}>
-              <p>
+              <p data-testid="python">
                 파이썬은 1989년 귀도 반 로썸(Guido van Rossum)에 의해 개발된
                 고급 프로그래밍 언어로, 2018년 현재 실무와 교육 양쪽 모두에서
                 엄청난 인기를 끌고 있는 언어입니다. 배우기 쉬운 동시에 속도도

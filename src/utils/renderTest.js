@@ -4,15 +4,15 @@ import { configureStore } from '@reduxjs/toolkit';
 import { render as rltRender } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
-import problemSlice from './features/problemSlice';
-import userSlice from './features/userSlice';
+import ProblemSliceMock from '../components/test/mock/ProblemSliceMock';
+import UserSliceMock from '../components/test/mock/UserSliceMock';
 
 function renderTest(
   ui,
   {
     preloadedState,
     store = configureStore({
-      reducer: { user: userSlice, problem: problemSlice },
+      reducer: { user: UserSliceMock, problem: ProblemSliceMock },
       preloadedState,
     }),
     ...renderOptions
