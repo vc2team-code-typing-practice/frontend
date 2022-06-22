@@ -323,6 +323,7 @@ export default function ParagraphPracticePage({ selectedLanguage, type }) {
       </div>
       <div className={cx('section')}>
         <textarea
+          data-testid="paragraph-textarea"
           className={cx('section__textarea')}
           ref={inputElement}
           value={currentInput}

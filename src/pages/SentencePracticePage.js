@@ -301,6 +301,7 @@ export default function SentencePracticePage({ selectedLanguage, type }) {
 
       <div className={cx('section')}>
         <input
+          data-testid="test-input"
           ref={inputElement}
           className={cx('section__input')}
           onKeyDown={handleKeyDown}
