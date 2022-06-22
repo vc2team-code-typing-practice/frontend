@@ -193,7 +193,7 @@ export default function WordPracticePage() {
         <ul className={cx('result__data')}>
           <li className={cx('result__list')}>
             <span className={cx('data_name')}>정확도</span>
-            <span className={cx('data')}>
+            <span className={cx('data')} data-testid="accuracy">
               {correctCount / attemptCount
                 ? Math.floor((correctCount / attemptCount) * 100)
                 : 0}{' '}
@@ -213,7 +213,7 @@ export default function WordPracticePage() {
         </ul>
       </div>
 
-      <div className={cx('question')}>
+      <div className={cx('question')} data-testid="question">
         <span className={cx('question__character')}>
           {question?.split('').map((character, index) => (
             <span
@@ -234,6 +234,7 @@ export default function WordPracticePage() {
 
       <div className={cx('section')}>
         <input
+          data-testid="input"
           ref={inputElement}
           className={cx('section__input')}
           onKeyDown={handleKeyDown}

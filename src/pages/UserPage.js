@@ -94,7 +94,12 @@ export default function UserPage() {
             <span className={cx('userpage__title__logo')}>
               <FaUserAlt />
             </span>
-            <span className={cx('userpage__title__user')}>{name}</span>
+            <span
+              className={cx('userpage__title__user')}
+              data-testid="username"
+            >
+              {name}
+            </span>
             <span className={cx('userpage__title__content')}> 님의 정보</span>
           </div>
           {/* 유저 점수 정보 칸 */}
@@ -166,8 +171,9 @@ export default function UserPage() {
                 </span>
                 <span> 효과음 출력</span>
               </div>
-              <label>
+              <label htmlFor="soundOn-radio">
                 <input
+                  id="soundOn-radio"
                   type="radio"
                   name="soundEffects"
                   value="true"
@@ -301,7 +307,7 @@ export default function UserPage() {
             </li>
           </ul>
 
-          <div>
+          <div data-testid="record">
             <div className={cx('userpage__title')}>
               <span className={cx('userpage__title__logo')}>
                 <FaMedal />
