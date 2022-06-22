@@ -4,8 +4,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import { render as rltRender } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
-import problemsSliceMock from '../components/test/mock/ProblemSliceMock';
-import userSliceMock from '../components/test/mock/UserSliceMock';
+import problemsSliceMock from '../components/test/mock/problemSliceMock';
+import userSliceMock from '../components/test/mock/userSliceMock';
 
 function renderTest(
   ui,

@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import SentencePracticePage from '../../pages/SentencePracticePage';
 import { renderTest } from '../../utils/renderTest';
 
-import reducer, { getSentenceListSucces } from './mock/ProblemSliceMock';
+import reducer, { getSentenceListSucces } from './mock/problemSliceMock';
 
 test('짧은 글 타자 연습페이지로 이동했을 때, DB에서 가져온 짧은 글 문제를 redux에 저장해야 합니다.', () => {
   const previousState = {

@@ -9,8 +9,8 @@ import { renderTest } from '../../utils/renderTest';
 import reducer, {
   getParagraphListSuccess,
   getWordListSuccess,
-} from './mock/ProblemSliceMock';
-import { loadUserDbDataSuccess } from './mock/UserSliceMock';
+} from './mock/problemSliceMock';
+import { loadUserDbDataSuccess } from './mock/userSliceMock';
 
 beforeEach(() => {
   renderTest(
