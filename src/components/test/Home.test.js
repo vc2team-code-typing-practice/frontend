@@ -12,25 +12,22 @@ const modalRoot = document.createElement('div');
 modalRoot.setAttribute('id', 'modal-root');
 document.body.appendChild(modalRoot);
 
-test('홈페이지에 배너가 보여야 합니다.', () => {
+beforeEach(() => {
+  // eslint-disable-next-line testing-library/no-render-in-setup
   renderTest(
     <BrowserRouter>
       <Home />
     </BrowserRouter>,
   );
+});
 
+test('홈페이지에 배너가 보여야 합니다.', () => {
   const headerElement = screen.getByTestId('home-banner');
 
   expect(headerElement).toHaveTextContent('Choose What You Want To Practice!');
 });
 
 test('Python언어를 눌렀을 경우, 모달창이 보여야 합니다.', () => {
-  renderTest(
-    <BrowserRouter>
-      <Home />
-    </BrowserRouter>,
-  );
-
   userEvent.click(screen.getByTestId('python'));
 
   const sentencePractice = screen.getByText(/긴 글 연습/i);
