@@ -13,7 +13,6 @@ modalRoot.setAttribute('id', 'modal-root');
 document.body.appendChild(modalRoot);
 
 beforeEach(() => {
-  // eslint-disable-next-line testing-library/no-render-in-setup
   renderTest(
     <BrowserRouter>
       <Home />

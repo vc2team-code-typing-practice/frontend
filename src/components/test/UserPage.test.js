@@ -8,7 +8,6 @@ import UserPage from '../../pages/UserPage';
 import { renderTest } from '../../utils/renderTest';
 
 beforeEach(() => {
-  // eslint-disable-next-line testing-library/no-render-in-setup
   renderTest(
     <BrowserRouter>
       <UserPage />
